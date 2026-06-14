@@ -141,29 +141,9 @@ export async function getAllPointHistory() {
 
 export async function deletePointEntry(id) {
     if (!isFirebaseConfigured()) return;
-    const { doc, getDoc, runTransaction } = await getFirestore();
-    
+    const { doc, deleteDoc } = await getFirestore();
     const entryRef = doc(db, 'pointHistory', id);
-    const entrySnap = await getDoc(entryRef);
-    if (!entrySnap.exists()) {
-        throw new Error("Log entry does not exist");
-    }
-    
-    const entryData = entrySnap.data();
-    const memberTag = entryData.memberTag;
-    const amount = entryData.amount || 0;
-    
-    const memberRef = doc(db, 'members', memberTag);
-    await runTransaction(db, async (transaction) => {
-        const memberSnap = await transaction.get(memberRef);
-        if (memberSnap.exists()) {
-            let newPoints = (memberSnap.data().totalPoints || 0) - amount;
-            if (newPoints > 1500) newPoints = 1500;
-            if (newPoints < 0) newPoints = 0;
-            transaction.update(memberRef, { totalPoints: newPoints });
-        }
-        transaction.delete(entryRef);
-    });
+    await deleteDoc(entryRef);
 }
 
 // ==================== PROMOTIONS ====================

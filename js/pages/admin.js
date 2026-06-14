@@ -474,7 +474,7 @@ async function loadAdminPointLogs(user) {
                         <span class="px-3 py-1 rounded-full text-xs font-bold ${badgeClass}" style="font-family: 'Lilita One', cursive;">
                             ${isPositive ? '+' : ''}${l.amount} Poin
                         </span>
-                        <button onclick="window.__deleteLogEntry('${l.id}')" class="p-2 text-red-400 hover:text-red-300 hover:bg-white/10 rounded-lg transition-colors shrink-0" title="Hapus & Revert Poin">
+                        <button onclick="window.__deleteLogEntry('${l.id}')" class="p-2 text-red-400 hover:text-red-300 hover:bg-white/10 rounded-lg transition-colors shrink-0" title="Hapus Log Poin">
                             🗑️
                         </button>
                     </div>
@@ -489,12 +489,12 @@ async function loadAdminPointLogs(user) {
 
 async function deleteLogEntryHandler(id, user) {
     modal.confirm({
-        title: 'Hapus & Revert Poin',
-        message: 'Apakah Anda yakin ingin menghapus log poin ini? Poin anggota bersangkutan akan **dikembalikan (revert)** secara otomatis.',
+        title: 'Hapus Log Poin',
+        message: 'Apakah Anda yakin ingin menghapus log poin ini?',
         onConfirm: async () => {
             try {
                 await deletePointEntry(id);
-                toast.success('Log poin berhasil dihapus dan nilai poin telah di-revert!');
+                toast.success('Log poin berhasil dihapus!');
                 // Reload logs
                 loadAdminPointLogs(user);
             } catch (e) {
