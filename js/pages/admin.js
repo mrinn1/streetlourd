@@ -474,6 +474,17 @@ async function submitPoints(user) {
     }
 
     const targetMembers = targetTags.map(tag => members.find(m => m.tag === tag)).filter(Boolean);
+
+    // Validasi: tidak boleh melebihi 1500 poin pada halaman kelola poin utama
+    if (amount > 0) {
+        const exceedingMembers = targetMembers.filter(m => (m.totalPoints || 0) + amount > 1500);
+        if (exceedingMembers.length > 0) {
+            const names = exceedingMembers.map(m => m.name).join(', ');
+            toast.warning(`Gagal: Penambahan poin akan membuat poin ${names} melebihi batas maksimal 1500. Silakan gunakan menu Kelola Side Points.`);
+            return;
+        }
+    }
+
     const memberNames = targetMembers.map(m => m.name).join(', ');
 
     modal.confirm({
