@@ -19,6 +19,7 @@ import { renderAdminSidePoints } from './pages/adminSidePoints.js';
 import { initAuthListener, signInWithGoogle, signOut, getCurrentUser, getUserRole } from './services/auth.js';
 import { initScrollAnimations, initParallax, pageTransition } from './utils/animations.js';
 import { toast } from './components/toast.js';
+import { initMusicPlayer } from './components/musicPlayer.js';
 
 // ---- App State ----
 let particles = null;
@@ -49,6 +50,9 @@ async function initApp() {
     // Start particle system
     particles = new ParticleSystem('particles-canvas');
     particles.start();
+
+    // Initialize background music player
+    initMusicPlayer();
 
     // Init auth listener
     initAuthListener((user, role) => {
