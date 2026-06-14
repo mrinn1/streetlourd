@@ -155,7 +155,7 @@ async function sync() {
             if (mappedRole === 'leader' || mappedRole === 'coLeader') {
                 totalPoints = 1500;
             } else if (mappedRole === 'admin') {
-                totalPoints = 1000;
+                totalPoints = 1250;
             }
 
             // Jika player sudah terdaftar di Firestore, pertahankan datanya

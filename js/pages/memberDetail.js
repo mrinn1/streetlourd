@@ -50,13 +50,13 @@ export async function renderMemberDetail(tag) {
         const progressPercent = Math.max(0, Math.min(100, (points / 1500) * 100));
         let statusHtml = '';
 
-        if (points < 1500) {
+        if (points < 1250) {
             statusHtml = `
                 <div class="flex items-center gap-4 p-5 rounded-2xl bg-red-500/10 border border-red-500/20">
                     <div class="text-3xl shrink-0">⚠️</div>
                     <div>
                         <p class="text-white font-bold text-lg mb-1" style="font-family: 'Lilita One', cursive;">Rekomendasi Turun Jabatan</p>
-                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${points}</strong>) di bawah batas minimal Co-Leader (1500). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Elder</strong>.</p>
+                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${points}</strong>) di bawah batas minimal Co-Leader (1250). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Elder</strong>.</p>
                     </div>
                 </div>
             `;
@@ -94,13 +94,13 @@ export async function renderMemberDetail(tag) {
             </div>
         `;
     } else if (member.role === 'admin') { // Elder
-        if (points < 1250) {
+        if (points < 1000) {
             promotionSectionHtml = `
                 <div class="flex items-center gap-4 p-5 rounded-2xl bg-red-500/10 border border-red-500/20">
                     <div class="text-3xl shrink-0">⚠️</div>
                     <div>
                         <p class="text-white font-bold text-lg mb-1" style="font-family: 'Lilita One', cursive;">Rekomendasi Turun Jabatan</p>
-                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${points}</strong>) di bawah batas minimal Elder (1250). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Member</strong>.</p>
+                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${points}</strong>) di bawah batas minimal Elder (1000). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Member</strong>.</p>
                     </div>
                 </div>
             `;
@@ -144,9 +144,30 @@ export async function renderMemberDetail(tag) {
         const threshold = 1250;
         const progressPercent = Math.max(0, Math.min(100, ((points - 500) / 750) * 100));
         const needed = threshold - points;
-        const statusText = needed <= 0 
-            ? `🎉 Persyaratan poin tercapai! Poin saat ini (${points}) telah mencukupi untuk dipromosikan menjadi Elder.`
-            : `Dibutuhkan <strong>${needed}</strong> poin lagi untuk naik jabatan menjadi <strong>Elder</strong>.`;
+        
+        let statusHtml = '';
+        if (points < 300) {
+            statusHtml = `
+                <div class="flex items-center gap-4 p-5 rounded-2xl bg-red-500/10 border border-red-500/20">
+                    <div class="text-3xl shrink-0">🚨</div>
+                    <div>
+                        <p class="text-white font-bold text-lg mb-1" style="font-family: 'Lilita One', cursive;">Rekomendasi Kick</p>
+                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${points}</strong>) di bawah batas minimal Member (300). Anggota ini direkomendasikan untuk <strong>dikeluarkan (kick) dari klan</strong>.</p>
+                    </div>
+                </div>
+            `;
+        } else {
+            const statusText = needed <= 0 
+                ? `🎉 Persyaratan poin tercapai! Poin saat ini (${points}) telah mencukupi untuk dipromosikan menjadi Elder.`
+                : `Dibutuhkan <strong>${needed}</strong> poin lagi untuk naik jabatan menjadi <strong>Elder</strong>.`;
+            
+            statusHtml = `
+                <div class="flex items-start gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                    <span class="text-amber-400">💡</span>
+                    <p class="text-gray-300 text-sm leading-relaxed">${statusText}</p>
+                </div>
+            `;
+        }
         
         promotionSectionHtml = `
             <div class="space-y-6">
@@ -168,11 +189,8 @@ export async function renderMemberDetail(tag) {
                     </div>
                 </div>
                 
-                <!-- Status Info -->
-                <div class="flex items-start gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                    <span class="text-amber-400">💡</span>
-                    <p class="text-gray-300 text-sm leading-relaxed">${statusText}</p>
-                </div>
+                <!-- Status/Kick Info -->
+                ${statusHtml}
             </div>
         `;
     }
