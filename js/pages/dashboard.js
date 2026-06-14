@@ -69,7 +69,7 @@ export async function renderDashboard() {
                 </div>
 
                 <!-- Recent Wars -->
-                <div class="mb-12 animate-on-scroll">
+                <div class="mb-12 animate-on-scroll" data-stagger="true">
                     <div class="flex items-center justify-between mb-6">
                         <h2 class="text-xl font-bold text-white" style="font-family: 'Lilita One', cursive;">Recent Wars</h2>
                         <a href="#/wars" class="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1">
@@ -77,7 +77,7 @@ export async function renderDashboard() {
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-stagger="true">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         ${wars.slice(0, 3).map(w => recentWarCard(w)).join('')}
                         ${wars.length === 0 ? `
                             <div class="col-span-full text-center py-12 text-gray-500">
@@ -89,7 +89,7 @@ export async function renderDashboard() {
                 </div>
 
                 <!-- Top Members Quick View -->
-                <div class="animate-on-scroll">
+                <div class="animate-on-scroll" data-stagger="true">
                     <div class="flex items-center justify-between mb-6">
                         <h2 class="text-xl font-bold text-white" style="font-family: 'Lilita One', cursive;">Top Members</h2>
                         <a href="#/leaderboard" class="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1">
@@ -97,7 +97,7 @@ export async function renderDashboard() {
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4" data-stagger="true">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         ${members.filter(m => m.role !== 'leader').slice(0, 3).map((m, i) => topMemberCard(m, i + 1)).join('')}
                     </div>
                 </div>

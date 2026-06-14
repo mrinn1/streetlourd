@@ -11,14 +11,23 @@ export function initScrollAnimations() {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animate-visible');
-                    // Stagger children if the parent has data-stagger
+                    
+                    // Find all containers that need staggering (either the entry itself or descendants)
+                    const staggerContainers = [];
                     if (entry.target.dataset.stagger) {
-                        const children = entry.target.querySelectorAll('.animate-item');
+                        staggerContainers.push(entry.target);
+                    }
+                    entry.target.querySelectorAll('[data-stagger="true"]').forEach((el) => {
+                        staggerContainers.push(el);
+                    });
+
+                    staggerContainers.forEach((container) => {
+                        const children = container.querySelectorAll('.animate-item');
                         children.forEach((child, i) => {
                             child.style.transitionDelay = `${Math.min(i, 8) * 100}ms`;
                             child.classList.add('animate-visible');
                         });
-                    }
+                    });
                 }
             });
         },
