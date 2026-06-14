@@ -11,6 +11,7 @@
     "build": "npm run build:css && npm run build:js"
   },
   "dependencies": {
+    "@google-cloud/firestore": "^8.6.0",
     "firebase-admin": "^11.8.0"
   },
   "devDependencies": {
