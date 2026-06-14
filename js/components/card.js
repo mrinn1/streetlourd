@@ -73,26 +73,26 @@ export function memberCard({ name, tag, role, townHallLevel, trophies, donations
 
     return `
         <div class="group relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm 
-                    p-5 transition-all duration-300 hover:bg-white/10 hover:border-white/20 
+                    p-4 sm:p-5 transition-all duration-300 hover:bg-white/10 hover:border-white/20 
                     hover:shadow-lg hover:shadow-purple-500/10 cursor-pointer animate-item"
              onclick="${onClick || ''}">
-            <div class="flex items-center gap-4">
-                <div class="w-14 h-14 rounded-xl flex items-center justify-center text-sm font-bold text-white shrink-0"
+            <div class="flex items-center gap-3 sm:gap-4">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center text-sm font-bold text-white shrink-0"
                      style="background: linear-gradient(135deg, ${thColor}, ${thColor}99); box-shadow: 0 0 15px ${thColor}40;">
                     TH${townHallLevel || '?'}
                 </div>
                 <div class="flex-1 min-w-0">
-                    <div class="flex items-center gap-2 mb-1">
-                        <h3 class="text-white font-bold truncate">${name}</h3>
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold text-white bg-gradient-to-r ${roleColors[role] || roleColors.member}">
+                    <div class="flex items-center gap-2 mb-1 min-w-0">
+                        <h3 class="text-white font-bold truncate flex-1 min-w-0">${name}</h3>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold text-white bg-gradient-to-r ${roleColors[role] || roleColors.member} shrink-0">
                             ${roleLabels[role] || 'Member'}
                         </span>
                     </div>
                     <p class="text-xs text-gray-500 mb-2">${tag}</p>
-                    <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-400">
-                        <span class="flex items-center gap-1">🏆 ${(trophies || 0).toLocaleString()}</span>
-                        <span class="flex items-center gap-1">🎁 ${(donations || 0).toLocaleString()}</span>
-                        <span class="flex items-center gap-1">🏰 ${(clanCapital || 0).toLocaleString()}</span>
+                    <div class="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-400">
+                        <span class="flex items-center gap-1 shrink-0">🏆 ${(trophies || 0).toLocaleString()}</span>
+                        <span class="flex items-center gap-1 shrink-0">🎁 ${(donations || 0).toLocaleString()}</span>
+                        <span class="flex items-center gap-1 shrink-0">🏰 ${(clanCapital || 0).toLocaleString()}</span>
                     </div>
                 </div>
                 <div class="text-right shrink-0">
