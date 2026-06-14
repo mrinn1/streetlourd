@@ -96,6 +96,20 @@ export async function renderAdmin() {
                                     </div>
                                 </div>
                             </div>
+                            <!-- Target Selection -->
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1.5 font-medium">Target Penerima Poin</label>
+                                <div class="flex flex-wrap gap-4 p-3 rounded-xl border border-white/5 bg-white/[0.01]">
+                                    <label class="flex items-center gap-2 text-xs text-white cursor-pointer">
+                                        <input type="radio" name="point-target" value="selected" checked class="w-4 h-4 text-amber-500 border-white/10 bg-white/5 focus:ring-amber-500/50">
+                                        Anggota Terpilih (Daftar Kanan)
+                                    </label>
+                                    <label class="flex items-center gap-2 text-xs text-white cursor-pointer">
+                                        <input type="radio" name="point-target" value="unselected" class="w-4 h-4 text-amber-500 border-white/10 bg-white/5 focus:ring-amber-500/50">
+                                        Anggota Belum Terpilih (Daftar Kiri)
+                                    </label>
+                                </div>
+                            </div>
                             <div>
                                 <label class="block text-xs text-gray-400 mb-1.5">Jenis</label>
                                 <select id="point-type" class="admin-select" onchange="window.__updatePointPresets()">
@@ -395,6 +409,10 @@ function resetSelectedMembers() {
     if (searchInput) {
         searchInput.value = '';
     }
+    const radioSelected = document.querySelector('input[name="point-target"][value="selected"]');
+    if (radioSelected) {
+        radioSelected.checked = true;
+    }
     updateMemberLists();
 }
 
@@ -427,14 +445,21 @@ function fillPointPreset() {
 }
 
 async function submitPoints(user) {
-    const selectedTags = Array.from(selectedMemberTags);
+    const target = document.querySelector('input[name="point-target"]:checked')?.value || 'selected';
     
+    let targetTags = [];
+    if (target === 'selected') {
+        targetTags = Array.from(selectedMemberTags);
+    } else {
+        targetTags = members.filter(m => !selectedMemberTags.has(m.tag)).map(m => m.tag);
+    }
+
     const amount = parseInt(document.getElementById('point-amount')?.value);
     const reason = document.getElementById('point-reason')?.value;
     const category = document.getElementById('point-category')?.value;
 
-    if (selectedTags.length === 0) {
-        toast.warning('Mohon pilih minimal satu anggota.');
+    if (targetTags.length === 0) {
+        toast.warning(target === 'selected' ? 'Mohon pilih minimal satu anggota di daftar kanan.' : 'Tidak ada anggota tersisa di daftar kiri.');
         return;
     }
 
@@ -443,15 +468,15 @@ async function submitPoints(user) {
         return;
     }
 
-    const selectedMembers = selectedTags.map(tag => members.find(m => m.tag === tag)).filter(Boolean);
-    const memberNames = selectedMembers.map(m => m.name).join(', ');
+    const targetMembers = targetTags.map(tag => members.find(m => m.tag === tag)).filter(Boolean);
+    const memberNames = targetMembers.map(m => m.name).join(', ');
 
     modal.confirm({
         title: 'Konfirmasi Kelola Poin',
-        message: `${amount > 0 ? 'Tambah' : 'Kurangi'} <strong>${Math.abs(amount)}</strong> poin untuk <strong>${selectedMembers.length} anggota</strong>?<br><br>Anggota: <i>${memberNames}</i><br><br>Alasan: ${reason}`,
+        message: `${amount > 0 ? 'Tambah' : 'Kurangi'} <strong>${Math.abs(amount)}</strong> poin untuk <strong>${targetMembers.length} anggota</strong> (${target === 'selected' ? 'Daftar Kanan' : 'Daftar Kiri'})?<br><br>Anggota: <i>${memberNames}</i><br><br>Alasan: ${reason}`,
         onConfirm: async () => {
             try {
-                for (const member of selectedMembers) {
+                for (const member of targetMembers) {
                     await addPointEntry({
                         memberTag: member.tag,
                         memberName: member.name,
@@ -461,7 +486,7 @@ async function submitPoints(user) {
                         adminName: user?.displayName || 'Admin',
                     });
                 }
-                toast.success(`Poin berhasil ${amount > 0 ? 'ditambahkan' : 'dikurangi'} untuk ${selectedMembers.length} anggota!`);
+                toast.success(`Poin berhasil ${amount > 0 ? 'ditambahkan' : 'dikurangi'} untuk ${targetMembers.length} anggota!`);
                 // Reset form
                 document.getElementById('point-amount').value = '';
                 document.getElementById('point-reason').value = '';
