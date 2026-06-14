@@ -56,7 +56,7 @@ export function statCard({ icon, label, value, color = 'blue', subtitle = '', gl
 /**
  * Member card (horizontal, Supercell Store product style)
  */
-export function memberCard({ name, tag, role, townHallLevel, trophies, donations, clanCapital, totalPoints, onClick }) {
+export function memberCard({ name, tag, role, townHallLevel, trophies, donations, clanCapital, totalPoints, sidePoints, onClick }) {
     const roleColors = {
         leader:   'from-amber-500 to-yellow-600',
         coLeader: 'from-purple-500 to-violet-600',
@@ -99,6 +99,11 @@ export function memberCard({ name, tag, role, townHallLevel, trophies, donations
                         ${role === 'leader' ? '👑' : (totalPoints || 0)}
                     </div>
                     <div class="text-[10px] text-gray-500 uppercase">${role === 'leader' ? 'Leader' : 'Points'}</div>
+                    ${(sidePoints && role !== 'leader') ? `
+                        <div class="text-[10px] text-blue-400 font-bold" style="font-family: 'Lilita One', cursive;">
+                            +${sidePoints} SP
+                        </div>
+                    ` : ''}
                 </div>
                 <svg class="w-5 h-5 text-white/30 group-hover:text-white/60 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -152,7 +157,7 @@ export function warCard({ date, opponent, warSize, result, clanStars, opponentSt
 /**
  * Rank card for leaderboard (top 3 special styling)
  */
-export function rankCard({ rank, name, tag, townHallLevel, totalPoints, totalWars, totalStars, donations }) {
+export function rankCard({ rank, name, tag, townHallLevel, totalPoints, sidePoints, totalWars, totalStars, donations }) {
     const isTop3 = rank <= 3;
     const rankStyles = {
         1: { medal: '🥇', border: 'border-amber-400/50', bg: 'from-amber-500/20 to-yellow-600/10', glow: 'shadow-amber-500/30', textColor: 'text-amber-400' },
@@ -175,6 +180,9 @@ export function rankCard({ rank, name, tag, townHallLevel, totalPoints, totalWar
                     <div class="text-right">
                         <p class="text-2xl font-bold ${style.textColor}" style="font-family: 'Lilita One', cursive;">${(totalPoints || 0).toLocaleString()}</p>
                         <p class="text-[10px] text-gray-500 uppercase">Points</p>
+                        ${sidePoints ? `
+                            <p class="text-xs font-bold text-blue-400" style="font-family: 'Lilita One', cursive;">+${sidePoints} SP</p>
+                        ` : ''}
                     </div>
                 </div>
                 <div class="flex gap-4 mt-4 text-xs text-gray-400 border-t border-white/10 pt-3">
@@ -199,6 +207,9 @@ export function rankCard({ rank, name, tag, townHallLevel, totalPoints, totalWar
             </div>
             <div class="text-right shrink-0">
                 <span class="text-amber-400 font-bold" style="font-family: 'Lilita One', cursive;">${(totalPoints || 0).toLocaleString()}</span>
+                ${sidePoints ? `
+                    <span class="text-[10px] text-blue-400 font-bold block" style="font-family: 'Lilita One', cursive;">+${sidePoints} SP</span>
+                ` : ''}
             </div>
         </div>
     `;

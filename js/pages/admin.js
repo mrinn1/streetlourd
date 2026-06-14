@@ -53,6 +53,9 @@ export async function renderAdmin() {
                         <a href="#/admin/landing" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-white border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 backdrop-blur-sm transition-all text-sm shadow-lg">
                             ✨ Edit Landing Page
                         </a>
+                        <a href="#/admin/sidepoints" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-white border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 backdrop-blur-sm transition-all text-sm shadow-lg">
+                            💎 Kelola Side Points
+                        </a>
                         <a href="#/admin/rules" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-black bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 transition-all shadow-lg shadow-amber-500/20 text-sm">
                             📜 Pengaturan Rules
                         </a>
@@ -338,6 +341,7 @@ function updateMemberLists() {
                 </div>
                 <div class="text-right shrink-0">
                     <span class="text-xs text-amber-400 font-bold" style="font-family: 'Lilita One', cursive;">${m.totalPoints || 0}</span>
+                    ${m.sidePoints ? `<span class="block text-[9px] text-blue-400 font-bold" style="font-family: 'Lilita One', cursive;">+${m.sidePoints} SP</span>` : ''}
                 </div>
             </label>
         `;
@@ -359,6 +363,7 @@ function updateMemberLists() {
                 </div>
                 <div class="text-right shrink-0">
                     <span class="text-xs text-amber-400 font-bold" style="font-family: 'Lilita One', cursive;">${m.totalPoints || 0}</span>
+                    ${m.sidePoints ? `<span class="block text-[9px] text-blue-400/80 font-bold" style="font-family: 'Lilita One', cursive;">+${m.sidePoints} SP</span>` : ''}
                 </div>
             </label>
         `;
@@ -621,9 +626,18 @@ async function loadAdminPointLogs(user) {
         logsContainer.innerHTML = logs.map(l => {
             const dateStr = formatDateTime(parseTimestamp(l.date));
             const isPositive = (l.amount || 0) >= 0;
-            const badgeClass = isPositive 
-                ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
-                : 'bg-red-500/20 text-red-400 border border-red-500/30';
+            let badgeClass = '';
+            let labelSuffix = ' Poin';
+            if (l.category === 'side_point') {
+                badgeClass = isPositive 
+                    ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+                    : 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30';
+                labelSuffix = ' Side Point';
+            } else {
+                badgeClass = isPositive 
+                    ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                    : 'bg-red-500/20 text-red-400 border border-red-500/30';
+            }
                 
             return `
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-200">
@@ -637,7 +651,7 @@ async function loadAdminPointLogs(user) {
                     </div>
                     <div class="flex items-center gap-4 shrink-0">
                         <span class="px-3 py-1 rounded-full text-xs font-bold ${badgeClass}" style="font-family: 'Lilita One', cursive;">
-                            ${isPositive ? '+' : ''}${l.amount} Poin
+                            ${isPositive ? '+' : ''}${l.amount}${labelSuffix}
                         </span>
                         <button onclick="window.__deleteLogEntry('${l.id}')" class="p-2 text-red-400 hover:text-red-300 hover:bg-white/10 rounded-lg transition-colors shrink-0" title="Hapus Log Poin">
                             🗑️

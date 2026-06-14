@@ -229,6 +229,11 @@ export async function renderMemberDetail(tag) {
                                 ${formatNumber(member.totalPoints || 0)}
                             </p>
                             <p class="text-xs text-gray-500 uppercase tracking-wider">Total Points</p>
+                            ${member.sidePoints ? `
+                                <p class="text-xs font-bold text-blue-400 mt-1" style="font-family: 'Lilita One', cursive;">
+                                    +${member.sidePoints} Side Points
+                                </p>
+                            ` : ''}
                         </div>
                     </div>
                 </div>

@@ -15,6 +15,7 @@ import { renderClanRules } from './pages/clanRules.js';
 import { renderAdmin } from './pages/admin.js';
 import { renderAdminRules } from './pages/adminRules.js';
 import { renderAdminLanding } from './pages/adminLanding.js';
+import { renderAdminSidePoints } from './pages/adminSidePoints.js';
 import { initAuthListener, signInWithGoogle, signOut, getCurrentUser, getUserRole } from './services/auth.js';
 import { initScrollAnimations, initParallax, pageTransition } from './utils/animations.js';
 import { toast } from './components/toast.js';
@@ -35,6 +36,7 @@ const routes = {
     '/admin':       { render: renderAdminPage, title: 'Admin Panel' },
     '/admin/rules': { render: renderAdminRulesPage, title: 'Rules Settings' },
     '/admin/landing': { render: renderAdminLandingPage, title: 'Landing Settings' },
+    '/admin/sidepoints': { render: renderAdminSidePointsPage, title: 'Manage Side Points' },
     '/login':       { render: renderLoginPage, title: 'Login' },
 };
 
@@ -203,6 +205,11 @@ async function renderAdminRulesPage() {
 async function renderAdminLandingPage() {
     const pageContent = document.getElementById('page-content');
     await pageTransition(pageContent, () => renderAdminLanding());
+}
+
+async function renderAdminSidePointsPage() {
+    const pageContent = document.getElementById('page-content');
+    await pageTransition(pageContent, () => renderAdminSidePoints());
 }
 
 function renderLoginPage() {

@@ -115,11 +115,65 @@ export async function addPointEntry(data) {
         if (!sfDoc.exists()) {
             throw "Document does not exist!";
         }
-        let newPoints = (sfDoc.data().totalPoints || 0) + data.amount;
-        if (newPoints > 1500) {
-            newPoints = 1500;
+        const memberData = sfDoc.data();
+        let currentPoints = memberData.totalPoints !== undefined ? memberData.totalPoints : 500;
+        let currentSidePoints = memberData.sidePoints || 0;
+
+        let newPoints = currentPoints;
+        let newSidePoints = currentSidePoints;
+
+        if (data.amount > 0) {
+            let spaceLeft = 1500 - currentPoints;
+            if (spaceLeft > 0) {
+                if (data.amount > spaceLeft) {
+                    newPoints = 1500;
+                    newSidePoints += (data.amount - spaceLeft);
+                } else {
+                    newPoints += data.amount;
+                }
+            } else {
+                newSidePoints += data.amount;
+            }
+        } else if (data.amount < 0) {
+            let deduction = Math.abs(data.amount);
+            if (currentSidePoints >= deduction) {
+                newSidePoints -= deduction;
+            } else {
+                let remainingDeduction = deduction - currentSidePoints;
+                newSidePoints = 0;
+                newPoints -= remainingDeduction;
+            }
+            if (newPoints < 0) {
+                newPoints = 0;
+            }
         }
-        transaction.update(memberRef, { totalPoints: newPoints });
+        transaction.update(memberRef, { 
+            totalPoints: newPoints,
+            sidePoints: newSidePoints
+        });
+    });
+
+    // Add to history
+    await addDoc(collection(db, 'pointHistory'), { ...data, date: serverTimestamp() });
+}
+
+export async function addSidePointEntry(data) {
+    if (!isFirebaseConfigured()) return;
+    const { collection, addDoc, serverTimestamp, doc, runTransaction } = await getFirestore();
+    
+    const memberRef = doc(db, 'members', data.memberTag);
+    await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(memberRef);
+        if (!sfDoc.exists()) {
+            throw "Document does not exist!";
+        }
+        const memberData = sfDoc.data();
+        let currentSidePoints = memberData.sidePoints || 0;
+        let newSidePoints = currentSidePoints + data.amount;
+        if (newSidePoints < 0) {
+            newSidePoints = 0;
+        }
+        transaction.update(memberRef, { sidePoints: newSidePoints });
     });
 
     // Add to history

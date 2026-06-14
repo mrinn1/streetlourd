@@ -99,6 +99,7 @@ function renderMembersPage(container) {
                             donations: m.donations,
                             clanCapital: m.clanCapitalContributions,
                             totalPoints: m.totalPoints,
+                            sidePoints: m.sidePoints,
                             onClick: `location.hash='#/member/${encodeURIComponent(m.tag)}'`,
                         })).join('')
                         : emptyState('👥', 'Tidak ada member ditemukan', 'Coba ubah filter pencarian')
