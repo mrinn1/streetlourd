@@ -32,6 +32,7 @@ function loadEnv() {
 const env = loadEnv();
 const cocApiKey = env.COC_API_KEY;
 let clanTag = env.CLAN_TAG || process.argv[2];
+const cocApiBase = env.COC_API_BASE || 'https://api.clashofclans.com/v1';
 
 if (!cocApiKey || cocApiKey.includes('PASTE_API_KEY')) {
     console.error('❌ COC_API_KEY belum dikonfigurasi di functions/.env!');
@@ -111,7 +112,7 @@ async function sync() {
 
         // Fetch Clan Info
         console.log('📡 Menghubungi API Clash of Clans (Info Clan)...');
-        const clanResponse = await fetch(`https://api.clashofclans.com/v1/clans/${encodeURIComponent(clanTag)}`, {
+        const clanResponse = await fetch(`${cocApiBase}/clans/${encodeURIComponent(clanTag)}`, {
             headers: { 'Authorization': `Bearer ${cocApiKey}` }
         });
 
@@ -133,7 +134,7 @@ async function sync() {
 
         // Fetch Members List
         console.log('📡 Menghubungi API Clash of Clans (Anggota Clan)...');
-        const membersResponse = await fetch(`https://api.clashofclans.com/v1/clans/${encodeURIComponent(clanTag)}/members`, {
+        const membersResponse = await fetch(`${cocApiBase}/clans/${encodeURIComponent(clanTag)}/members`, {
             headers: { 'Authorization': `Bearer ${cocApiKey}` }
         });
 
@@ -182,7 +183,7 @@ async function sync() {
         for (const member of apiMembers) {
             // Ambil data detil tambahan (seperti Town Hall Level) dari endpoint /players
             console.log(`   - Mengambil info detil player: ${member.name} (${member.tag})`);
-            const playerResponse = await fetch(`https://api.clashofclans.com/v1/players/${encodeURIComponent(member.tag)}`, {
+            const playerResponse = await fetch(`${cocApiBase}/players/${encodeURIComponent(member.tag)}`, {
                 headers: { 'Authorization': `Bearer ${cocApiKey}` }
             });
             

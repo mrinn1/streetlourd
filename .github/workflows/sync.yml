@@ -21,14 +21,23 @@ jobs:
         run: npm install
 
       - name: Create service-account.json
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
-          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > service-account.json
+          echo "$FIREBASE_SERVICE_ACCOUNT" > service-account.json
 
       - name: Create functions/.env
+        env:
+          COC_API_KEY: ${{ secrets.COC_API_KEY }}
+          CLAN_TAG: ${{ secrets.CLAN_TAG }}
+          COC_API_BASE: ${{ secrets.COC_API_BASE }}
         run: |
           mkdir -p functions
-          echo "COC_API_KEY=${{ secrets.COC_API_KEY }}" > functions/.env
-          echo "CLAN_TAG=${{ secrets.CLAN_TAG }}" >> functions/.env
+          echo "COC_API_KEY=$COC_API_KEY" > functions/.env
+          echo "CLAN_TAG=$CLAN_TAG" >> functions/.env
+          if [ ! -z "$COC_API_BASE" ]; then
+            echo "COC_API_BASE=$COC_API_BASE" >> functions/.env
+          fi
 
       - name: Run sync script
         run: node sync.js
