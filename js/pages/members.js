@@ -8,6 +8,7 @@ import { renderFooter } from '../components/footer.js';
 import { getMembers } from '../services/firestore.js';
 import { debounce } from '../utils/helpers.js';
 import { TOWN_HALL_DATA } from '../utils/constants.js';
+import { initScrollAnimations } from '../utils/animations.js';
 
 let allMembers = [];
 let filteredMembers = [];
@@ -155,6 +156,9 @@ function renderMembersPage(container) {
         renderMembersPage(container);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
+
+    // Re-initialize scroll animations to fade-in newly rendered elements
+    setTimeout(() => initScrollAnimations(), 50);
 }
 
 function generatePageNumbers(current, total) {
