@@ -92,7 +92,6 @@ export function memberCard({ name, tag, role, townHallLevel, trophies, donations
                     <div class="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-400">
                         <span class="flex items-center gap-1 shrink-0">🏆 ${(trophies || 0).toLocaleString()}</span>
                         <span class="flex items-center gap-1 shrink-0">🎁 ${(donations || 0).toLocaleString()}</span>
-                        <span class="flex items-center gap-1 shrink-0">🏰 ${(clanCapital || 0).toLocaleString()}</span>
                     </div>
                 </div>
                 <div class="text-right shrink-0">
@@ -179,8 +178,6 @@ export function rankCard({ rank, name, tag, townHallLevel, totalPoints, totalWar
                     </div>
                 </div>
                 <div class="flex gap-4 mt-4 text-xs text-gray-400 border-t border-white/10 pt-3">
-                    <span>⚔️ ${totalWars || 0} Wars</span>
-                    <span>⭐ ${totalStars || 0} Stars</span>
                     <span>🎁 ${(donations || 0).toLocaleString()} Donated</span>
                 </div>
             </div>
@@ -198,8 +195,6 @@ export function rankCard({ rank, name, tag, townHallLevel, totalPoints, totalWar
                 </div>
             </div>
             <div class="flex gap-4 text-xs text-gray-500 shrink-0">
-                <span>⚔️ ${totalWars || 0}</span>
-                <span>⭐ ${totalStars || 0}</span>
                 <span>🎁 ${(donations || 0).toLocaleString()}</span>
             </div>
             <div class="text-right shrink-0">

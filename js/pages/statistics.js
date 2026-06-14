@@ -51,22 +51,10 @@ export async function renderStatistics() {
                         <div class="h-64"><canvas id="chart-points"></canvas></div>
                     </div>
 
-                    <!-- Clan Capital -->
-                    <div class="rounded-2xl border border-white/5 bg-white/[0.03] backdrop-blur-sm p-6 animate-on-scroll">
-                        <h3 class="text-lg font-bold text-white mb-4" style="font-family: 'Lilita One', cursive;">🏰 Clan Capital Contributions</h3>
-                        <div class="h-64"><canvas id="chart-capital"></canvas></div>
-                    </div>
-
                     <!-- TH Distribution -->
                     <div class="rounded-2xl border border-white/5 bg-white/[0.03] backdrop-blur-sm p-6 animate-on-scroll">
                         <h3 class="text-lg font-bold text-white mb-4" style="font-family: 'Lilita One', cursive;">🏠 Town Hall Distribution</h3>
                         <div class="h-64"><canvas id="chart-th"></canvas></div>
-                    </div>
-
-                    <!-- Member Activity -->
-                    <div class="rounded-2xl border border-white/5 bg-white/[0.03] backdrop-blur-sm p-6 animate-on-scroll">
-                        <h3 class="text-lg font-bold text-white mb-4" style="font-family: 'Lilita One', cursive;">🔥 Member Activity (Wars)</h3>
-                        <div class="h-64"><canvas id="chart-activity"></canvas></div>
                     </div>
                 </div>
             </div>
@@ -81,9 +69,7 @@ export async function renderStatistics() {
     createDonationsChart(members);
     createWarsChart(wars);
     createPointsChart(members);
-    createCapitalChart(members);
     createTHChart(members);
-    createActivityChart(members);
 }
 
 function waitForChartJs() {
@@ -151,25 +137,6 @@ function createPointsChart(members) {
     charts.push(chart);
 }
 
-function createCapitalChart(members) {
-    const canvas = document.getElementById('chart-capital');
-    if (!canvas || !window.Chart) return;
-    const top10 = [...members].sort((a, b) => (b.clanCapitalContributions || 0) - (a.clanCapitalContributions || 0)).slice(0, 10);
-    const ctx = canvas.getContext('2d');
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, 'rgba(6,182,212,0.4)');
-    gradient.addColorStop(1, 'rgba(6,182,212,0)');
-    const chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: top10.map(m => m.name.substring(0, 10)),
-            datasets: [{ label: 'Capital', data: top10.map(m => m.clanCapitalContributions || 0),
-                backgroundColor: gradient, borderColor: CHART_COLORS.cyan, borderWidth: 2, fill: true, tension: 0.4, pointRadius: 4, pointBackgroundColor: CHART_COLORS.cyan }]
-        },
-        options: chartOptions()
-    });
-    charts.push(chart);
-}
 
 function createTHChart(members) {
     const canvas = document.getElementById('chart-th');
@@ -189,21 +156,6 @@ function createTHChart(members) {
     charts.push(chart);
 }
 
-function createActivityChart(members) {
-    const canvas = document.getElementById('chart-activity');
-    if (!canvas || !window.Chart) return;
-    const top10 = [...members].sort((a, b) => (b.totalWars || 0) - (a.totalWars || 0)).slice(0, 10);
-    const chart = new Chart(canvas.getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: top10.map(m => m.name.substring(0, 10)),
-            datasets: [{ label: 'Wars Participated', data: top10.map(m => m.totalWars || 0),
-                backgroundColor: CHART_COLORS.blueAlpha, borderColor: CHART_COLORS.blue, borderWidth: 1, borderRadius: 8 }]
-        },
-        options: chartOptions()
-    });
-    charts.push(chart);
-}
 
 function chartOptions() {
     return {

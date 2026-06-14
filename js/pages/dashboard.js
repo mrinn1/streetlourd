@@ -21,7 +21,7 @@ export async function renderDashboard() {
                     <div class="h-4 bg-white/10 rounded w-72 animate-pulse"></div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    ${skeleton.repeat('statCard', 8)}
+                    ${skeleton.repeat('statCard', 4)}
                 </div>
             </div>
         </div>
@@ -32,17 +32,9 @@ export async function renderDashboard() {
 
     // Calculate stats
     const totalMembers = members.length;
-    const totalPoints = members.reduce((sum, m) => sum + (m.totalPoints || 0), 0);
-    const totalWars = wars.length;
-    const warWins = wars.filter(w => w.result === 'win').length;
-    const winRate = calcWinRate(warWins, totalWars);
-    
     const topDonator = [...members].sort((a, b) => (b.donations || 0) - (a.donations || 0))[0];
     const topPlayer = [...members].sort((a, b) => (b.trophies || 0) - (a.trophies || 0))[0];
     const mostActive = [...members].sort((a, b) => (b.totalWars || 0) - (a.totalWars || 0))[0];
-    const eligibleForPromotion = members.filter(m => 
-        m.role === 'member' && (m.totalPoints || 0) >= PROMOTION_THRESHOLDS.member_to_senior
-    );
 
     // Render dashboard
     container.innerHTML = `
@@ -59,13 +51,6 @@ export async function renderDashboard() {
                 <!-- Stat Cards Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 animate-on-scroll" data-stagger="true">
                     ${statCard({ icon: '👥', label: 'Total Members', value: formatNumber(totalMembers), color: 'blue' })}
-                    ${statCard({ icon: '💎', label: 'Total Clan Points', value: formatNumber(totalPoints), color: 'gold', glow: true })}
-                    ${statCard({ icon: '⚔️', label: 'Total Wars', value: formatNumber(totalWars), color: 'red' })}
-                    ${statCard({ icon: '📈', label: 'War Win Rate', value: winRate + '%', color: 'green', subtitle: `${warWins}W / ${totalWars - warWins}L` })}
-                </div>
-
-                <!-- Featured Players -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 animate-on-scroll" data-stagger="true">
                     ${statCard({ 
                         icon: '🎁', label: 'Top Donator', 
                         value: topDonator?.name || '-', color: 'purple',
@@ -80,11 +65,6 @@ export async function renderDashboard() {
                         icon: '🔥', label: 'Most Active', 
                         value: mostActive?.name || '-', color: 'red',
                         subtitle: `${mostActive?.totalWars || 0} wars joined`
-                    })}
-                    ${statCard({ 
-                        icon: '⬆️', label: 'Eligible Promotion', 
-                        value: eligibleForPromotion.length.toString(), color: 'cyan',
-                        subtitle: `≥ ${PROMOTION_THRESHOLDS.member_to_senior} points`
                     })}
                 </div>
 
