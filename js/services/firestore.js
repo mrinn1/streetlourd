@@ -106,12 +106,24 @@ export async function getPointHistory(memberTag) {
 
 export async function addPointEntry(data) {
     if (!isFirebaseConfigured()) return;
-    const { collection, addDoc, serverTimestamp, doc, updateDoc, increment } = await getFirestore();
+    const { collection, addDoc, serverTimestamp, doc, runTransaction } = await getFirestore();
+    
+    // Update member's total points with transaction to cap at 1500
+    const memberRef = doc(db, 'members', data.memberTag);
+    await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(memberRef);
+        if (!sfDoc.exists()) {
+            throw "Document does not exist!";
+        }
+        let newPoints = (sfDoc.data().totalPoints || 0) + data.amount;
+        if (newPoints > 1500) {
+            newPoints = 1500;
+        }
+        transaction.update(memberRef, { totalPoints: newPoints });
+    });
+
     // Add to history
     await addDoc(collection(db, 'pointHistory'), { ...data, date: serverTimestamp() });
-    // Update member's total points
-    const memberRef = doc(db, 'members', data.memberTag);
-    await updateDoc(memberRef, { totalPoints: increment(data.amount) });
 }
 
 // ==================== PROMOTIONS ====================

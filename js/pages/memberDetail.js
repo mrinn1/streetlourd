@@ -35,39 +35,118 @@ export async function renderMemberDetail(tag) {
     };
     const thColor = thColors[member.townHallLevel] || '#6b7280';
 
-    // Promotion thresholds & logic
-    let nextRoleLabel = '';
-    let threshold = 0;
-    let progressPercent = 0;
-    let statusText = '';
-    let isMaxRole = false;
-
+    // Dynamic Promotion & Demotion Logic based on new point rules
+    let promotionSectionHtml = '';
     const points = member.totalPoints || 0;
 
-    if (member.role === 'member') {
-        nextRoleLabel = 'Elder (Elder/Admin)';
-        threshold = 100;
-        progressPercent = Math.min(100, (points / threshold) * 100);
-        if (points >= threshold) {
-            statusText = `🎉 Persyaratan poin tercapai! Poin saat ini (${points}) telah mencukupi untuk dipromosikan menjadi ${nextRoleLabel}.`;
-        } else {
-            statusText = `Dibutuhkan <strong>${threshold - points}</strong> poin lagi untuk naik jabatan menjadi <strong>${nextRoleLabel}</strong>.`;
-        }
-    } else if (member.role === 'admin') {
-        nextRoleLabel = 'Co-Leader';
-        threshold = 300;
-        progressPercent = Math.min(100, (points / threshold) * 100);
-        if (points >= threshold) {
-            statusText = `🎉 Persyaratan poin tercapai! Poin saat ini (${points}) telah mencukupi untuk dipromosikan menjadi ${nextRoleLabel}.`;
-        } else {
-            statusText = `Dibutuhkan <strong>${threshold - points}</strong> poin lagi untuk naik jabatan menjadi <strong>${nextRoleLabel}</strong>.`;
-        }
+    if (member.role === 'leader') {
+        promotionSectionHtml = `
+            <div class="flex items-center gap-4 p-5 rounded-2xl bg-amber-500/10 border border-amber-500/20">
+                <div class="text-3xl">👑</div>
+                <p class="text-gray-300 text-sm leading-relaxed">👑 Anggota ini adalah <strong>Leader Utama</strong> klan.</p>
+            </div>
+        `;
     } else if (member.role === 'coLeader') {
-        isMaxRole = true;
-        statusText = '✨ Anggota ini telah mencapai pangkat <strong>Co-Leader</strong> (Jabatan kehormatan tertinggi sebelum Leader).';
-    } else if (member.role === 'leader') {
-        isMaxRole = true;
-        statusText = '👑 Anggota ini adalah <strong>Leader Utama</strong> klan.';
+        if (points < 1500) {
+            promotionSectionHtml = `
+                <div class="flex items-center gap-4 p-5 rounded-2xl bg-red-500/10 border border-red-500/20">
+                    <div class="text-3xl">⚠️</div>
+                    <div>
+                        <p class="text-white font-bold text-lg mb-1" style="font-family: 'Lilita One', cursive;">Rekomendasi Turun Jabatan</p>
+                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${points}</strong>) di bawah batas minimal Co-Leader (1500). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Elder</strong>.</p>
+                    </div>
+                </div>
+            `;
+        } else {
+            promotionSectionHtml = `
+                <div class="flex items-center gap-4 p-5 rounded-2xl bg-green-500/10 border border-green-500/20">
+                    <div class="text-3xl">⚜️</div>
+                    <p class="text-gray-300 text-sm leading-relaxed">✨ Anggota ini telah mencapai pangkat <strong>Co-Leader</strong> dengan poin maksimal (1500).</p>
+                </div>
+            `;
+        }
+    } else if (member.role === 'admin') { // Elder
+        if (points < 1000) {
+            promotionSectionHtml = `
+                <div class="flex items-center gap-4 p-5 rounded-2xl bg-red-500/10 border border-red-500/20">
+                    <div class="text-3xl">⚠️</div>
+                    <div>
+                        <p class="text-white font-bold text-lg mb-1" style="font-family: 'Lilita One', cursive;">Rekomendasi Turun Jabatan</p>
+                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${points}</strong>) di bawah batas minimal Elder (1000). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Member</strong>.</p>
+                    </div>
+                </div>
+            `;
+        } else {
+            const threshold = 1500;
+            const progressPercent = Math.max(0, Math.min(100, ((points - 1000) / 500) * 100));
+            const needed = threshold - points;
+            const statusText = needed <= 0 
+                ? `🎉 Persyaratan poin tercapai! Poin saat ini (${points}) telah mencukupi untuk dipromosikan menjadi Co-Leader.`
+                : `Dibutuhkan <strong>${needed}</strong> poin lagi untuk naik jabatan menjadi <strong>Co-Leader</strong>.`;
+            
+            promotionSectionHtml = `
+                <div class="space-y-6">
+                    <div class="flex justify-between items-end text-sm">
+                        <div>
+                            <p class="text-gray-500 text-xs mb-1">Target Jabatan Berikutnya</p>
+                            <p class="text-white font-bold text-lg">Co-Leader</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-gray-500 text-xs mb-1">Kemajuan Poin</p>
+                            <p class="text-amber-400 font-bold text-lg">${points} / 1500 Poin</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div class="w-full h-4 rounded-full bg-white/5 border border-white/10 overflow-hidden relative">
+                        <div class="h-full bg-gradient-to-r from-amber-500 to-yellow-500 rounded-full transition-all duration-1000"
+                             style="width: ${progressPercent}%">
+                        </div>
+                    </div>
+                    
+                    <!-- Status Info -->
+                    <div class="flex items-start gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                        <span class="text-amber-400">💡</span>
+                        <p class="text-gray-300 text-sm leading-relaxed">${statusText}</p>
+                    </div>
+                </div>
+            `;
+        }
+    } else { // Regular Member
+        const threshold = 1000;
+        const progressPercent = Math.max(0, Math.min(100, ((points - 500) / 500) * 100));
+        const needed = threshold - points;
+        const statusText = needed <= 0 
+            ? `🎉 Persyaratan poin tercapai! Poin saat ini (${points}) telah mencukupi untuk dipromosikan menjadi Elder.`
+            : `Dibutuhkan <strong>${needed}</strong> poin lagi untuk naik jabatan menjadi <strong>Elder</strong>.`;
+        
+        promotionSectionHtml = `
+            <div class="space-y-6">
+                <div class="flex justify-between items-end text-sm">
+                    <div>
+                        <p class="text-gray-500 text-xs mb-1">Target Jabatan Berikutnya</p>
+                        <p class="text-white font-bold text-lg">Elder (Elder/Admin)</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-gray-500 text-xs mb-1">Kemajuan Poin</p>
+                        <p class="text-amber-400 font-bold text-lg">${points} / 1000 Poin</p>
+                    </div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="w-full h-4 rounded-full bg-white/5 border border-white/10 overflow-hidden relative">
+                    <div class="h-full bg-gradient-to-r from-amber-500 to-yellow-500 rounded-full transition-all duration-1000"
+                         style="width: ${progressPercent}%">
+                    </div>
+                </div>
+                
+                <!-- Status Info -->
+                <div class="flex items-start gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                    <span class="text-amber-400">💡</span>
+                    <p class="text-gray-300 text-sm leading-relaxed">${statusText}</p>
+                </div>
+            </div>
+        `;
     }
 
     container.innerHTML = `
@@ -97,7 +176,6 @@ export async function renderMemberDetail(tag) {
                             <div class="flex flex-wrap gap-4 text-sm text-gray-400">
                                 <span class="flex items-center gap-1.5">🏆 ${formatNumber(member.trophies)} trophies</span>
                                 <span class="flex items-center gap-1.5">🎁 ${formatNumber(member.donations)} donated</span>
-                                <span class="flex items-center gap-1.5">🏰 ${formatNumber(member.clanCapitalContributions)} capital</span>
                             </div>
                         </div>
                         <div class="text-center md:text-right">
@@ -115,38 +193,7 @@ export async function renderMemberDetail(tag) {
                         ⬆️ Keterangan Naik Jabatan
                     </h2>
                     
-                    ${isMaxRole ? `
-                        <div class="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/10">
-                            <div class="text-3xl">${member.role === 'leader' ? '👑' : '⚜️'}</div>
-                            <p class="text-gray-300 text-sm leading-relaxed">${statusText}</p>
-                        </div>
-                    ` : `
-                        <div class="space-y-6">
-                            <div class="flex justify-between items-end text-sm">
-                                <div>
-                                    <p class="text-gray-500 text-xs mb-1">Target Jabatan Berikutnya</p>
-                                    <p class="text-white font-bold text-lg">${nextRoleLabel}</p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-gray-500 text-xs mb-1">Kemajuan Poin</p>
-                                    <p class="text-amber-400 font-bold text-lg">${points} / ${threshold} Poin</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Progress Bar -->
-                            <div class="w-full h-4 rounded-full bg-white/5 border border-white/10 overflow-hidden relative">
-                                <div class="h-full bg-gradient-to-r from-amber-500 to-yellow-500 rounded-full transition-all duration-1000"
-                                     style="width: ${progressPercent}%">
-                                </div>
-                            </div>
-                            
-                            <!-- Status Info -->
-                            <div class="flex items-start gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                                <span class="text-amber-400">💡</span>
-                                <p class="text-gray-300 text-sm leading-relaxed">${statusText}</p>
-                            </div>
-                        </div>
-                    `}
+                    ${promotionSectionHtml}
                 </div>
             </div>
         </div>

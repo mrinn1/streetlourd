@@ -150,15 +150,18 @@ async function sync() {
             const memberRef = db.collection('members').doc(member.tag);
             const docSnap = await memberRef.get();
 
-            let totalPoints = 0;
-            let totalWars = 0;
-            let totalStars = 0;
-            let avgDestruction = 0;
+            const mappedRole = member.role === 'admin' ? 'admin' : (member.role === 'coLeader' ? 'coLeader' : (member.role === 'leader' ? 'leader' : 'member'));
+            let totalPoints = 500;
+            if (mappedRole === 'leader' || mappedRole === 'coLeader') {
+                totalPoints = 1500;
+            } else if (mappedRole === 'admin') {
+                totalPoints = 1000;
+            }
 
             // Jika player sudah terdaftar di Firestore, pertahankan datanya
             if (docSnap.exists) {
                 const existing = docSnap.data();
-                totalPoints = existing.totalPoints || 0;
+                totalPoints = existing.totalPoints !== undefined ? existing.totalPoints : totalPoints;
                 totalWars = existing.totalWars || 0;
                 totalStars = existing.totalStars || 0;
                 avgDestruction = existing.avgDestruction || 0;
@@ -167,7 +170,7 @@ async function sync() {
             const dataToSet = {
                 tag: member.tag,
                 name: member.name,
-                role: member.role === 'admin' ? 'admin' : (member.role === 'coLeader' ? 'coLeader' : (member.role === 'leader' ? 'leader' : 'member')),
+                role: mappedRole,
                 expLevel: member.expLevel || 1,
                 trophies: member.trophies || 0,
                 donations: member.donations || 0,
