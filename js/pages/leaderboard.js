@@ -17,7 +17,10 @@ export async function renderLeaderboard() {
     `;
 
     const members = await getMembers();
-    const sorted = [...members].sort((a, b) => (b.totalPoints || 0) - (a.totalPoints || 0)).slice(0, 100);
+    const sorted = members
+        .filter(m => m.role !== 'leader')
+        .sort((a, b) => (b.totalPoints || 0) - (a.totalPoints || 0))
+        .slice(0, 100);
 
     if (sorted.length === 0) {
         container.innerHTML = `

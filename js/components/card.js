@@ -96,9 +96,9 @@ export function memberCard({ name, tag, role, townHallLevel, trophies, donations
                 </div>
                 <div class="text-right shrink-0">
                     <div class="text-lg font-bold text-amber-400" style="font-family: 'Lilita One', cursive;">
-                        ${totalPoints || 0}
+                        ${role === 'leader' ? '👑' : (totalPoints || 0)}
                     </div>
-                    <div class="text-[10px] text-gray-500 uppercase">Points</div>
+                    <div class="text-[10px] text-gray-500 uppercase">${role === 'leader' ? 'Leader' : 'Points'}</div>
                 </div>
                 <svg class="w-5 h-5 text-white/30 group-hover:text-white/60 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>

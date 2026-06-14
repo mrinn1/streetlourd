@@ -98,7 +98,7 @@ export async function renderDashboard() {
                         </a>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4" data-stagger="true">
-                        ${members.slice(0, 3).map((m, i) => topMemberCard(m, i + 1)).join('')}
+                        ${members.filter(m => m.role !== 'leader').slice(0, 3).map((m, i) => topMemberCard(m, i + 1)).join('')}
                     </div>
                 </div>
             </div>
