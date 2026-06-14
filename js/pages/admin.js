@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Admin Panel Page
+// StreetLourd — Admin Panel Page
 // ============================================================
 
 import { renderFooter } from '../components/footer.js';

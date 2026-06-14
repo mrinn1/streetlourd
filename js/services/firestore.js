@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Firestore Service
+// StreetLourd — Firestore Service
 // ============================================================
 
 import { db, isFirebaseConfigured } from '../config/firebase.js';
@@ -153,7 +153,7 @@ export async function getViolations(memberTag) {
 // ==================== SETTINGS ====================
 
 export async function getSettings() {
-    if (!isFirebaseConfigured()) return { clanTag: '#2ABC123', clanName: 'Victory Clan' };
+    if (!isFirebaseConfigured()) return { clanTag: '#2ABC123', clanName: 'StreetLourd' };
     try {
         const { doc, getDoc } = await getFirestore();
         const snap = await getDoc(doc(db, 'settings', 'general'));

@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Dashboard Home Page
+// StreetLourd — Dashboard Home Page
 // ============================================================
 
 import { statCard } from '../components/card.js';

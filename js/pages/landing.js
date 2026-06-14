@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Landing Page
+// StreetLourd — Landing Page
 // ============================================================
 
 import { renderFooter } from '../components/footer.js';
@@ -151,7 +151,7 @@ export function renderLanding() {
                             Ready to Lead?
                         </h2>
                         <p class="text-gray-400 mb-8 max-w-lg mx-auto">
-                            Mulai kelola clan kamu sekarang dengan VictoryToClan
+                            Mulai kelola clan kamu sekarang dengan StreetLourd
                         </p>
                         <a href="#/dashboard" class="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-lg font-bold text-black 
                                                     bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 

@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Clash of Clans API Client
+// StreetLourd — Clash of Clans API Client
 // ============================================================
 
 import { API_BASE_URL } from '../utils/constants.js';

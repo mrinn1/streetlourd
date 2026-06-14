@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Particle Effects Canvas
+// StreetLourd — Particle Effects Canvas
 // ============================================================
 
 export class ParticleSystem {

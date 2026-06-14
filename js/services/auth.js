@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Auth Service
+// StreetLourd — Auth Service
 // ============================================================
 
 import { auth, db, isFirebaseConfigured } from '../config/firebase.js';

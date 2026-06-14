@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Reusable Card Components
+// StreetLourd — Reusable Card Components
 // ============================================================
 
 /**

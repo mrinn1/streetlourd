@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Clan Rules Page
+// StreetLourd — Clan Rules Page
 // ============================================================
 
 import { renderFooter } from '../components/footer.js';

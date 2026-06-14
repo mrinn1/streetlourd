@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Toast Notification System
+// StreetLourd — Toast Notification System
 // ============================================================
 
 class ToastManager {

@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Modal Dialog System
+// StreetLourd — Modal Dialog System
 // ============================================================
 
 class ModalManager {

@@ -1,6 +1,6 @@
-# ⚔️ VictoryToClan — Clash of Clans Clan Management System
+# ⚔️ StreetLourd — Clash of Clans Clan Management System
 
-VictoryToClan adalah website manajemen clan Clash of Clans (CoC) premium dengan tampilan moderen, interaktif, dan terinspirasi dari website resmi **Supercell Store**. Website ini dibangun sebagai Single Page Application (SPA) yang ringan, dapat di-host di GitHub Pages secara gratis, dan menggunakan Firebase sebagai backend (Auth & Firestore).
+StreetLourd adalah website manajemen clan Clash of Clans (CoC) premium dengan tampilan moderen, interaktif, dan terinspirasi dari website resmi **Supercell Store**. Website ini dibangun sebagai Single Page Application (SPA) yang ringan, dapat di-host di GitHub Pages secara gratis, dan menggunakan Firebase sebagai backend (Auth & Firestore).
 
 ---
 
@@ -21,7 +21,7 @@ VictoryToClan adalah website manajemen clan Clash of Clans (CoC) premium dengan 
 ## 📂 Struktur Folder
 
 ```
-VictoryToClan/
+StreetLourd/
 ├── index.html                    # Main SPA entry point (Tailwind v4 Play CDN)
 ├── css/
 │   └── styles.css                # Visual effects, animations, transitions, scrollbars
@@ -125,7 +125,7 @@ Karena Clash of Clans API membatasi request langsung dari browser (CORS policy),
 ## 📦 Panduan Deployment ke Production
 
 ### 1. Deploy Firebase Backend (Rules, Indexes & Cloud Functions)
-Kembali ke root directory `VictoryToClan` dan jalankan perintah:
+Kembali ke root directory `StreetLourd` dan jalankan perintah:
 
 ```bash
 # Login ke akun Firebase Anda
@@ -148,7 +148,7 @@ Karena website ini merupakan static web SPA, Anda dapat meng-host-nya secara gra
    ```bash
    git init
    git add .
-   git commit -m "Initial commit VictoryToClan"
+   git commit -m "Initial commit StreetLourd"
    git remote add origin https://github.com/USERNAME/REPO_NAME.git
    git branch -M main
    git push -u origin main

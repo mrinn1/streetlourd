@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Member Detail Page
+// StreetLourd — Member Detail Page
 // ============================================================
 
 import { skeleton } from '../components/skeleton.js';

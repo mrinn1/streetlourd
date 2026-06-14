@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Leaderboard Page
+// StreetLourd — Leaderboard Page
 // ============================================================
 
 import { rankCard } from '../components/card.js';

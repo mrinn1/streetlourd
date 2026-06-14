@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Chart.js Wrapper Components
+// StreetLourd — Chart.js Wrapper Components
 // ============================================================
 
 import { CHART_COLORS } from '../utils/constants.js';

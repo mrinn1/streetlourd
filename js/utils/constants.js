@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Constants & Configuration
+// StreetLourd — Constants & Configuration
 // ============================================================
 
 // --- Point System Rules ---

@@ -1,7 +1,7 @@
 {
-  "name": "victorytoclan-sync",
+  "name": "streetlourd-sync",
   "version": "1.0.0",
-  "description": "Local sync utility for VictoryToClan Clash of Clans dashboard",
+  "description": "Local sync utility for StreetLourd Clash of Clans dashboard",
   "main": "sync.js",
   "scripts": {
     "sync": "node sync.js"

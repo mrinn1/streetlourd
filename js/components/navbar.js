@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Navigation Bar Component
+// StreetLourd — Navigation Bar Component
 // ============================================================
 
 import { NAV_LINKS } from '../utils/constants.js';
@@ -26,7 +26,7 @@ export function renderNavbar(currentHash = '#/', user = null, userRole = null) {
                                 <span class="text-lg">⚔️</span>
                             </div>
                             <span class="text-white font-bold text-lg hidden sm:block tracking-tight" style="font-family: 'Lilita One', cursive;">
-                                Victory<span class="text-amber-400">To</span>Clan
+                                Street<span class="text-amber-400">Lourd</span>
                             </span>
                         </a>
 

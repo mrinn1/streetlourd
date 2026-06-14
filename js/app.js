@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Main App Router & Initialization
+// StreetLourd — Main App Router & Initialization
 // ============================================================
 
 import { renderNavbar, initNavbar } from './components/navbar.js';
@@ -59,7 +59,7 @@ async function initApp() {
     // Listen for hash changes
     window.addEventListener('hashchange', handleRoute);
 
-    console.log('⚔️ VictoryToClan initialized!');
+    console.log('⚔️ StreetLourd initialized!');
 }
 
 // ---- Routing ----
@@ -75,7 +75,7 @@ function handleRoute() {
     if (hash.startsWith('/member/')) {
         const tag = hash.replace('/member/', '');
         currentRoute = '/member/:tag';
-        document.title = `Member Detail — VictoryToClan`;
+        document.title = `Member Detail — StreetLourd`;
         renderMemberDetailPage(tag);
         updateNavbar();
         return;
@@ -84,7 +84,7 @@ function handleRoute() {
     const route = routes[hash];
     if (route) {
         currentRoute = hash;
-        document.title = `${route.title} — VictoryToClan`;
+        document.title = `${route.title} — StreetLourd`;
         route.render();
     } else {
         // 404 — redirect to home
@@ -208,7 +208,7 @@ function renderLoginPage() {
                         ⚔️
                     </div>
                     <h2 class="text-2xl font-bold text-white mb-3" style="font-family: 'Lilita One', cursive;">
-                        Login to VictoryToClan
+                        Login to StreetLourd
                     </h2>
                     <p class="text-gray-400 text-sm mb-8">Login dengan akun Google untuk mengakses semua fitur</p>
                     <button id="google-login-btn" class="w-full flex items-center justify-center gap-3 px-6 py-4 rounded-xl text-sm font-bold 

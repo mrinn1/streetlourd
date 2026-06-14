@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Statistics Page
+// StreetLourd — Statistics Page
 // ============================================================
 
 import { skeleton } from '../components/skeleton.js';

@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — War History Page
+// StreetLourd — War History Page
 // ============================================================
 
 import { warCard } from '../components/card.js';

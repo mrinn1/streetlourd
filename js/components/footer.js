@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Footer Component
+// StreetLourd — Footer Component
 // ============================================================
 
 export function renderFooter() {
@@ -14,7 +14,7 @@ export function renderFooter() {
                                 <span class="text-xl">⚔️</span>
                             </div>
                             <span class="text-white font-bold text-xl" style="font-family: 'Lilita One', cursive;">
-                                Victory<span class="text-amber-400">To</span>Clan
+                                Street<span class="text-amber-400">Lourd</span>
                             </span>
                         </div>
                         <p class="text-gray-500 text-sm leading-relaxed">
@@ -71,7 +71,7 @@ export function renderFooter() {
                 <!-- Divider -->
                 <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
                     <p class="text-gray-600 text-xs text-center md:text-left">
-                        © ${new Date().getFullYear()} VictoryToClan. Not affiliated with Supercell. 
+                        © ${new Date().getFullYear()} StreetLourd. Not affiliated with Supercell. 
                         Clash of Clans is a trademark of Supercell Oy.
                     </p>
                     <p class="text-gray-700 text-xs">

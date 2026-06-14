@@ -1,5 +1,5 @@
 // ============================================================
-// VictoryToClan — Members Page
+// StreetLourd — Members Page
 // ============================================================
 
 import { memberCard } from '../components/card.js';
