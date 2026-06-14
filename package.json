@@ -4,9 +4,15 @@
   "description": "Local sync utility for StreetLourd Clash of Clans dashboard",
   "main": "sync.js",
   "scripts": {
-    "sync": "node sync.js"
+    "sync": "node sync.js",
+    "build:css": "tailwindcss -i css/input.css -o css/styles.css --minify",
+    "watch:css": "tailwindcss -i css/input.css -o css/styles.css --watch"
   },
   "dependencies": {
     "firebase-admin": "^11.8.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.1",
+    "tailwindcss": "^4.3.1"
   }
 }

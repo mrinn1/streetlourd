@@ -1,0 +1,277 @@
+@import "tailwindcss";
+
+@theme {
+    --font-display: 'Lilita One', cursive;
+    --font-sans: 'Inter', sans-serif;
+    
+    --color-bg-primary: #0a0e17;
+    --color-bg-secondary: #111827;
+    --color-bg-card: #1a1f2e;
+    
+    --color-brand-gold-start: #f5a623;
+    --color-brand-gold-end: #ffd700;
+    --color-brand-purple-start: #7c3aed;
+    --color-brand-purple-end: #a855f7;
+    --color-brand-blue-start: #3b82f6;
+    --color-brand-blue-end: #60a5fa;
+    
+    --animate-shimmer: shimmer 2.5s infinite linear;
+    --animate-float: float 6s ease-in-out infinite;
+    --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+}
+
+/* Direct utility extensions */
+.hero-title-gradient {
+    @apply bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent filter drop-shadow-[0_2px_8px_rgba(245,166,35,0.3)];
+}
+.hero-title-gradient-2 {
+    @apply bg-gradient-to-r from-yellow-400 via-orange-400 to-amber-400 bg-clip-text text-transparent filter drop-shadow-[0_2px_8px_rgba(251,191,36,0.3)];
+}
+.glass-panel {
+    @apply bg-white/[0.03] border border-white/10 backdrop-blur-xl shadow-2xl;
+}
+.glass-card {
+    @apply bg-white/[0.02] border border-white/5 backdrop-blur-lg hover:border-white/10 transition-all duration-300;
+}
+
+/* ============================================================
+   StreetLourd — Custom Styling & Visual Effects
+   ============================================================ */
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #0a0e17;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 9999px;
+    border: 2px solid #0a0e17;
+    transition: background 0.3s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(245, 166, 35, 0.4); /* Gold hover tint */
+}
+
+/* Base Body Styles */
+body {
+    background-color: #0a0e17;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Floating Particle Canvas */
+#particles-canvas {
+    background: transparent;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Navbar Classes */
+.navbar-glass {
+    background: rgba(10, 14, 23, 0.2);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.navbar-solid {
+    background: rgba(10, 14, 23, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+}
+
+/* Floating Lights (Hero Section blur background) */
+.floating-light {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.12;
+    pointer-events: none;
+    will-change: transform;
+}
+.floating-light-1 {
+    width: 350px;
+    height: 350px;
+    background: #f5a623;
+    top: 15%;
+    left: 10%;
+    animation: float-around-1 25s infinite ease-in-out;
+}
+.floating-light-2 {
+    width: 450px;
+    height: 450px;
+    background: #7c3aed;
+    bottom: 10%;
+    right: 15%;
+    animation: float-around-2 30s infinite ease-in-out;
+}
+.floating-light-3 {
+    width: 300px;
+    height: 300px;
+    background: #3b82f6;
+    top: 35%;
+    left: 45%;
+    animation: float-around-3 20s infinite ease-in-out;
+}
+
+@keyframes float-around-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(60px, 40px) scale(1.15); }
+}
+@keyframes float-around-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-80px, -60px) scale(0.9); }
+}
+@keyframes float-around-3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-30px, 70px) scale(1.2); }
+}
+
+/* Scroll-triggered animations classes */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+.animate-on-scroll.animate-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.animate-item {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+.animate-item.animate-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Gold Shimmer effect for Rank 1 Cards/Podiums */
+.gold-shimmer {
+    position: relative;
+    overflow: hidden;
+}
+.gold-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 215, 0, 0.1) 25%,
+        rgba(255, 255, 255, 0.7) 50%,
+        rgba(255, 215, 0, 0.1) 75%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    animation: gold-shimmer-anim 6s infinite;
+}
+@keyframes gold-shimmer-anim {
+    0% { left: -150%; }
+    25% { left: 150%; }
+    100% { left: 150%; }
+}
+
+/* Toast Notification Animation Classes */
+.toast-enter {
+    transform: translateX(120%);
+    opacity: 0;
+}
+.toast-visible {
+    transform: translateX(0);
+    opacity: 1;
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                opacity 0.3s ease;
+}
+.toast-exit {
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.25s cubic-bezier(0.6, -0.28, 0.735, 0.045), 
+                opacity 0.25s ease;
+}
+
+/* Skeleton Loading Shimmer Animation */
+.skeleton-shimmer {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.03) 25%,
+        rgba(255, 255, 255, 0.08) 37%,
+        rgba(255, 255, 255, 0.03) 63%
+    );
+    background-size: 400% 100%;
+    animation: skeleton-shimmer-anim 1.4s ease infinite;
+}
+@keyframes skeleton-shimmer-anim {
+    0% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Button Ripple Effect */
+.ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(0);
+    animation: ripple-anim 0.6s linear;
+    pointer-events: none;
+}
+@keyframes ripple-anim {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Admin Form Controls (Select & Inputs) */
+.admin-select, .admin-input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.admin-select:focus, .admin-input:focus {
+    outline: none;
+    border-color: rgba(245, 166, 35, 0.5); /* Gold outline */
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
+}
+
+/* Explicit styling for dropdown options to fix invisible text on white browser backgrounds */
+select option, .admin-select option {
+    background-color: #1a1f2e; /* Slate dark background */
+    color: #ffffff;            /* White text */
+    padding: 12px;
+}
