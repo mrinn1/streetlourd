@@ -1041,12 +1041,12 @@ var M=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 </div>
 
                 <!-- Rewards Section -->
-                <div class="mb-12 animate-on-scroll">
+                <div class="mb-12 animate-on-scroll" data-stagger="true">
                     <div class="flex items-center gap-3 mb-6">
                         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-xl shadow-lg">\u{1F381}</div>
                         <h2 class="text-2xl font-bold text-white" style="font-family: 'Lilita One', cursive;">Rewards</h2>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" data-stagger="true">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         ${t.map(o=>`
                             <div class="animate-item group flex items-center gap-4 p-5 rounded-2xl border border-green-500/20 
                                         bg-gradient-to-br from-green-500/10 to-emerald-600/5 backdrop-blur-sm
@@ -1066,12 +1066,12 @@ var M=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 </div>
 
                 <!-- Punishments Section -->
-                <div class="mb-12 animate-on-scroll">
+                <div class="mb-12 animate-on-scroll" data-stagger="true">
                     <div class="flex items-center gap-3 mb-6">
                         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center text-xl shadow-lg">\u26D4</div>
                         <h2 class="text-2xl font-bold text-white" style="font-family: 'Lilita One', cursive;">Punishments</h2>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" data-stagger="true">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         ${a.map(o=>`
                             <div class="animate-item group flex items-center gap-4 p-5 rounded-2xl border border-red-500/20 
                                         bg-gradient-to-br from-red-500/10 to-rose-600/5 backdrop-blur-sm
