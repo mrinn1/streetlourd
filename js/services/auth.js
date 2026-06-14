@@ -67,14 +67,20 @@ export function initAuthListener(callback) {
         onAuth(auth, async (user) => {
             currentUser = user;
             if (user) {
-                currentUserRole = await fetchUserRole(user.uid);
+                try {
+                    await user.reload();
+                    currentUser = auth.currentUser;
+                } catch (e) {
+                    console.warn('Failed to reload auth profile:', e);
+                }
+                currentUserRole = await fetchUserRole(currentUser.uid);
                 // Ensure user document exists in Firestore
-                await ensureUserDoc(user);
+                await ensureUserDoc(currentUser);
             } else {
                 currentUserRole = null;
             }
-            callback(user, currentUserRole);
-            authStateListeners.forEach(fn => fn(user, currentUserRole));
+            callback(currentUser, currentUserRole);
+            authStateListeners.forEach(fn => fn(currentUser, currentUserRole));
         });
     });
 }
@@ -127,9 +133,13 @@ async function ensureUserDoc(user) {
                 lastLogin: serverTimestamp(),
             });
         } else {
-            // Update last login
+            // Update last login & sync name/photo
             const { updateDoc } = await import('https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js');
-            await updateDoc(userRef, { lastLogin: serverTimestamp() });
+            await updateDoc(userRef, { 
+                displayName: user.displayName,
+                photoURL: user.photoURL,
+                lastLogin: serverTimestamp() 
+            });
         }
     } catch (error) {
         console.warn('Error ensuring user doc:', error);
