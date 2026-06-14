@@ -86,7 +86,7 @@ export async function renderLeaderboard() {
                     <div class="px-6 py-4 border-b border-white/5">
                         <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider">📜 Riwayat Aktivitas Poin Klan</h3>
                     </div>
-                    <div class="p-4 space-y-2">
+                    <div class="p-4 space-y-2 max-h-[500px] overflow-y-auto pr-2">
                         ${logs.length > 0 ? logs.map(l => {
                             const dateStr = formatDateTime(parseTimestamp(l.date));
                             const isPositive = (l.amount || 0) >= 0;

@@ -68,7 +68,7 @@ export async function renderWarHistory() {
                 </div>
 
                 <!-- Timeline -->
-                <div class="relative animate-on-scroll" data-stagger="true">
+                <div class="relative max-h-[600px] overflow-y-auto pr-2 animate-on-scroll" data-stagger="true">
                     <!-- Timeline Line -->
                     <div class="absolute left-6 md:left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-amber-500/50 via-purple-500/30 to-transparent"></div>
 
