@@ -6,12 +6,12 @@ const TRACKS = [
     {
         id: 'theme_war',
         name: 'Combat Planning (War)',
-        url: 'https://static.wikia.nocookie.net/clashofclans/images/7/78/Combat_Planning_Music.mp3/revision/latest?cb=20250406085929'
+        url: 'assets/audio/theme_war.mp3'
     },
     {
         id: 'theme_classic',
         name: 'Classic Clash Theme',
-        url: 'https://static.wikia.nocookie.net/clashofclans/images/4/4c/Classic_Clash_Scenery_Music.ogg/revision/latest?cb=20250406092623'
+        url: 'assets/audio/theme_classic.mp3'
     }
 ];
 
