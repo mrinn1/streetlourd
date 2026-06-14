@@ -4,7 +4,7 @@
 
 import { skeleton } from '../components/skeleton.js';
 import { renderFooter } from '../components/footer.js';
-import { getMember } from '../services/firestore.js';
+import { getMember, getPointHistory } from '../services/firestore.js';
 import { formatNumber, getRoleBadge } from '../utils/helpers.js';
 
 export async function renderMemberDetail(tag) {
@@ -12,7 +12,10 @@ export async function renderMemberDetail(tag) {
     container.innerHTML = `<div class="pt-24 pb-8 px-4"><div class="max-w-5xl mx-auto">${skeleton.profile()}</div></div>`;
 
     const decodedTag = decodeURIComponent(tag);
-    const member = await getMember(decodedTag);
+    const [member, pointHistory] = await Promise.all([
+        getMember(decodedTag),
+        getPointHistory(decodedTag)
+    ]);
 
     if (!member) {
         container.innerHTML = `
@@ -195,6 +198,9 @@ export async function renderMemberDetail(tag) {
         `;
     }
 
+    // Build Point History Log
+    const pointLogHtml = buildPointLogSection(pointHistory);
+
     container.innerHTML = `
         <div class="pt-24 pb-8 px-4">
             <div class="max-w-5xl mx-auto">
@@ -239,16 +245,95 @@ export async function renderMemberDetail(tag) {
                 </div>
 
                 <!-- Promotion Requirements Progress Section -->
-                <div class="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm p-8 mb-12 animate-on-scroll">
+                <div class="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm p-8 mb-8 animate-on-scroll">
                     <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2" style="font-family: 'Lilita One', cursive;">
                         ⬆️ Keterangan Naik Jabatan
                     </h2>
                     
                     ${promotionSectionHtml}
                 </div>
+
+                <!-- Point History Log Section -->
+                ${pointLogHtml}
             </div>
         </div>
         ${renderFooter()}
+    `;
+}
+
+function buildPointLogSection(pointHistory) {
+    if (!pointHistory || pointHistory.length === 0) {
+        return `
+            <div class="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm p-8 mb-12 animate-on-scroll">
+                <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2" style="font-family: 'Lilita One', cursive;">
+                    📋 Log Poin
+                </h2>
+                <div class="text-center py-10">
+                    <p class="text-4xl mb-3">📭</p>
+                    <p class="text-gray-500 text-sm">Belum ada riwayat poin untuk anggota ini.</p>
+                </div>
+            </div>
+        `;
+    }
+
+    const entries = pointHistory.map(entry => {
+        const isPositive = entry.amount >= 0;
+        const amountColor = isPositive ? 'text-green-400' : 'text-red-400';
+        const amountPrefix = isPositive ? '+' : '';
+        const bgClass = isPositive ? 'bg-green-500/5 border-green-500/10' : 'bg-red-500/5 border-red-500/10';
+        const iconClass = isPositive ? '▲' : '▼';
+        
+        let dateStr = '-';
+        if (entry.date) {
+            const d = entry.date.toDate ? entry.date.toDate() : new Date(entry.date);
+            dateStr = d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) + 
+                      ' ' + d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        const categoryIcons = {
+            'war': '⚔️',
+            'donation': '🎁',
+            'clan_games': '🎮',
+            'cwl': '🏅',
+            'penalty': '⛔',
+            'bonus': '🌟',
+            'other': '📌'
+        };
+        const catIcon = categoryIcons[entry.category] || '📌';
+
+        return `
+            <div class="flex items-center gap-4 p-4 rounded-xl border ${bgClass} transition-all duration-200 hover:bg-white/5">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${isPositive ? 'bg-green-500/10' : 'bg-red-500/10'}">
+                    ${catIcon}
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-white text-sm font-medium truncate">${entry.reason || 'Tidak ada keterangan'}</p>
+                    <div class="flex items-center gap-2 mt-1">
+                        <p class="text-gray-500 text-xs">${dateStr}</p>
+                        ${entry.adminName ? `<span class="text-gray-600 text-xs">• oleh ${entry.adminName}</span>` : ''}
+                    </div>
+                </div>
+                <div class="text-right shrink-0">
+                    <p class="${amountColor} font-bold text-lg" style="font-family: 'Lilita One', cursive;">
+                        <span class="text-xs">${iconClass}</span> ${amountPrefix}${entry.amount}
+                    </p>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    return `
+        <div class="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm p-8 mb-12 animate-on-scroll">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold text-white flex items-center gap-2" style="font-family: 'Lilita One', cursive;">
+                    📋 Log Poin
+                </h2>
+                <span class="text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full">${pointHistory.length} entri</span>
+            </div>
+            <div class="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+                ${entries}
+            </div>
+        </div>
     `;
 }
 

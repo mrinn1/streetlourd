@@ -5,7 +5,7 @@
 import { statCard } from '../components/card.js';
 import { skeleton } from '../components/skeleton.js';
 import { renderFooter } from '../components/footer.js';
-import { getMembers, getWars } from '../services/firestore.js';
+import { getMembers, getWars, getAllPointHistory } from '../services/firestore.js';
 import { formatNumber, calcWinRate } from '../utils/helpers.js';
 import { PROMOTION_THRESHOLDS } from '../utils/constants.js';
 
@@ -28,13 +28,52 @@ export async function renderDashboard() {
     `;
 
     // Fetch data
-    const [members, wars] = await Promise.all([getMembers(), getWars()]);
+    const [members, wars, pointHistory] = await Promise.all([
+        getMembers(),
+        getWars(),
+        getAllPointHistory()
+    ]);
 
     // Calculate stats
     const totalMembers = members.length;
     const topDonator = [...members].sort((a, b) => (b.donations || 0) - (a.donations || 0))[0];
     const topPlayer = [...members].sort((a, b) => (b.trophies || 0) - (a.trophies || 0))[0];
-    const mostActive = [...members].sort((a, b) => (b.totalWars || 0) - (a.totalWars || 0))[0];
+
+    // Calculate 3-star attacks count for each member from point history
+    const member3StarCounts = {};
+    members.forEach(m => {
+        member3StarCounts[m.tag] = 0;
+    });
+
+    if (pointHistory && Array.isArray(pointHistory)) {
+        pointHistory.forEach(entry => {
+            const isThreeStars = (entry.reason && (
+                entry.reason.toLowerCase().includes('3 bintang') ||
+                entry.reason.toLowerCase().includes('three star') ||
+                entry.reason.toLowerCase().includes('three_stars') ||
+                entry.reason.toLowerCase().includes('3-bintang')
+            )) || (entry.category === 'war' && entry.amount === 15);
+
+            if (isThreeStars && entry.memberTag && member3StarCounts[entry.memberTag] !== undefined) {
+                member3StarCounts[entry.memberTag]++;
+            }
+        });
+    }
+
+    let mostActive = null;
+    const sortedByThreeStars = [...members].map(m => ({
+        ...m,
+        threeStarCount: member3StarCounts[m.tag] || 0
+    })).sort((a, b) => b.threeStarCount - a.threeStarCount);
+
+    if (sortedByThreeStars[0] && sortedByThreeStars[0].threeStarCount > 0) {
+        mostActive = sortedByThreeStars[0];
+    } else {
+        mostActive = [...members].sort((a, b) => (b.totalStars || 0) - (a.totalStars || 0))[0];
+        if (mostActive) {
+            mostActive.threeStarCount = mostActive.totalStars || 0;
+        }
+    }
 
     // Render dashboard
     container.innerHTML = `
@@ -64,7 +103,7 @@ export async function renderDashboard() {
                     ${statCard({ 
                         icon: '🔥', label: 'Most Active', 
                         value: mostActive?.name || '-', color: 'red',
-                        subtitle: `${mostActive?.totalWars || 0} wars joined`
+                        subtitle: `${mostActive?.threeStarCount || 0} 3-star attacks`
                     })}
                 </div>
 
