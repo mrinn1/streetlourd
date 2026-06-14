@@ -32,7 +32,12 @@ function loadEnv() {
 const env = loadEnv();
 const cocApiKey = env.COC_API_KEY;
 let clanTag = env.CLAN_TAG || process.argv[2];
-const cocApiBase = env.COC_API_BASE || 'https://api.clashofclans.com/v1';
+
+const defaultApiBase = process.env.GITHUB_ACTIONS === 'true'
+    ? 'https://cocproxy.royaleapi.dev/v1'
+    : 'https://api.clashofclans.com/v1';
+
+const cocApiBase = env.COC_API_BASE || defaultApiBase;
 
 if (!cocApiKey || cocApiKey.includes('PASTE_API_KEY')) {
     console.error('❌ COC_API_KEY belum dikonfigurasi di functions/.env!');
@@ -255,6 +260,7 @@ async function sync() {
 
     } catch (error) {
         console.error('❌ Terjadi kesalahan saat sinkronisasi:', error.message);
+        console.error(error);
         process.exit(1);
     }
 }
