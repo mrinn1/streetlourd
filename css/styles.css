@@ -225,7 +225,7 @@ body {
 }
 
 /* Explicit styling for dropdown options to fix invisible text on white browser backgrounds */
-.admin-select option {
+select option, .admin-select option {
     background-color: #1a1f2e; /* Slate dark background */
     color: #ffffff;            /* White text */
     padding: 12px;
