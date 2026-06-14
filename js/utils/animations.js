@@ -15,7 +15,7 @@ export function initScrollAnimations() {
                     if (entry.target.dataset.stagger) {
                         const children = entry.target.querySelectorAll('.animate-item');
                         children.forEach((child, i) => {
-                            child.style.transitionDelay = `${i * 100}ms`;
+                            child.style.transitionDelay = `${Math.min(i, 8) * 100}ms`;
                             child.classList.add('animate-visible');
                         });
                     }

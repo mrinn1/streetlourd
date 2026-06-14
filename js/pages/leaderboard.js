@@ -5,7 +5,8 @@
 import { rankCard } from '../components/card.js';
 import { skeleton, emptyState } from '../components/skeleton.js';
 import { renderFooter } from '../components/footer.js';
-import { getMembers } from '../services/firestore.js';
+import { getMembers, getAllPointHistory } from '../services/firestore.js';
+import { formatDateTime, parseTimestamp } from '../utils/helpers.js';
 
 export async function renderLeaderboard() {
     const container = document.getElementById('page-content');
@@ -17,6 +18,7 @@ export async function renderLeaderboard() {
     `;
 
     const members = await getMembers();
+    const logs = await getAllPointHistory();
     const sorted = members
         .filter(m => m.role !== 'leader')
         .sort((a, b) => (b.totalPoints || 0) - (a.totalPoints || 0))
@@ -69,15 +71,51 @@ export async function renderLeaderboard() {
 
                 <!-- Rest of Rankings -->
                 ${rest.length > 0 ? `
-                <div class="rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm overflow-hidden animate-on-scroll">
+                <div class="rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm overflow-hidden animate-on-scroll" data-stagger="true">
                     <div class="px-6 py-4 border-b border-white/5">
                         <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider">Rankings #4 - #${sorted.length}</h3>
                     </div>
-                    <div class="p-4 space-y-2" data-stagger="true">
+                    <div class="p-4 space-y-2">
                         ${rest.map((m, i) => rankCard({ rank: i + 4, ...m })).join('')}
                     </div>
                 </div>
                 ` : ''}
+
+                <!-- Global Point Log Section -->
+                <div class="mt-12 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm overflow-hidden animate-on-scroll" data-stagger="true">
+                    <div class="px-6 py-4 border-b border-white/5">
+                        <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider">📜 Riwayat Aktivitas Poin Klan</h3>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        ${logs.length > 0 ? logs.map(l => {
+                            const dateStr = formatDateTime(parseTimestamp(l.date));
+                            const isPositive = (l.amount || 0) >= 0;
+                            const badgeClass = isPositive 
+                                ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                                : 'bg-red-500/20 text-red-400 border border-red-500/30';
+                            return `
+                            <div class="animate-item flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-200">
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <span class="text-white font-medium">${l.memberName || 'Unknown'}</span>
+                                        <span class="text-[10px] text-gray-500">${l.memberTag || ''}</span>
+                                        <span class="text-xs text-gray-500">— ${l.reason || ''}</span>
+                                    </div>
+                                    <p class="text-[10px] text-gray-500 mt-1">Oleh: ${l.adminName || 'Admin'} • ${dateStr}</p>
+                                </div>
+                                <div class="shrink-0 text-right">
+                                    <span class="px-3 py-1 rounded-full text-xs font-bold ${badgeClass}" style="font-family: 'Lilita One', cursive;">
+                                        ${isPositive ? '+' : ''}${l.amount} Poin
+                                    </span>
+                                </div>
+                            </div>
+                            `;
+                        }).join('') : `
+                            <p class="text-center text-gray-500 text-sm py-6">Belum ada riwayat perubahan poin.</p>
+                        `}
+                    </div>
+                </div>
+
             </div>
         </div>
         ${renderFooter()}

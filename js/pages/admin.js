@@ -5,10 +5,10 @@
 import { renderFooter } from '../components/footer.js';
 import { toast } from '../components/toast.js';
 import { modal } from '../components/modal.js';
-import { getMembers, getWars, addPointEntry, saveWar, saveWarHistory, addViolation, addPromotion, getAllUsers, updateUserRole, getRules } from '../services/firestore.js';
+import { getMembers, getWars, addPointEntry, saveWar, saveWarHistory, addViolation, addPromotion, getAllUsers, updateUserRole, getRules, getAllPointHistory, deletePointEntry } from '../services/firestore.js';
 import { getCurrentUser, getUserRole, isAdmin } from '../services/auth.js';
 import { POINT_REWARDS, POINT_PUNISHMENTS, WAR_STATUS } from '../utils/constants.js';
-import { formatNumber } from '../utils/helpers.js';
+import { formatNumber, formatDateTime, parseTimestamp } from '../utils/helpers.js';
 
 let members = [];
 let activeRules = null;
@@ -223,6 +223,24 @@ export async function renderAdmin() {
                         </div>
                     </div>
                 </div>
+
+                <!-- Point History Log List (Admin Manage) -->
+                <div class="mt-10 animate-on-scroll">
+                    <div class="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+                        <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2" style="font-family: 'Lilita One', cursive;">
+                            📜 Kelola Log Poin
+                        </h3>
+                        
+                        <div id="admin-point-logs" class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
+                            <!-- Loader -->
+                            <div class="text-center py-8">
+                                <span class="animate-spin text-2xl inline-block">⏳</span>
+                                <p class="text-xs text-gray-500 mt-2">Memuat data log poin...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
         ${renderFooter()}
@@ -235,6 +253,13 @@ export async function renderAdmin() {
     window.__submitWar = () => submitWar(user);
     window.__submitViolation = () => submitViolation(user);
     window.__submitRole = () => submitRole(user);
+    window.__loadAdminPointLogs = () => loadAdminPointLogs(user);
+    window.__deleteLogEntry = (id) => deleteLogEntryHandler(id, user);
+
+    // Initial load of logs
+    setTimeout(() => {
+        loadAdminPointLogs(user);
+    }, 100);
 }
 
 function memberOptions() {
@@ -412,4 +437,67 @@ async function submitRole(user) {
         toast.error('Gagal mengubah role.');
         console.error(e);
     }
+}
+
+async function loadAdminPointLogs(user) {
+    const logsContainer = document.getElementById('admin-point-logs');
+    if (!logsContainer) return;
+    
+    try {
+        const logs = await getAllPointHistory();
+        if (logs.length === 0) {
+            logsContainer.innerHTML = `<p class="text-center text-gray-500 text-sm py-6">Belum ada riwayat perubahan poin.</p>`;
+            return;
+        }
+        
+        logsContainer.innerHTML = logs.map(l => {
+            const dateStr = formatDateTime(parseTimestamp(l.date));
+            const isPositive = (l.amount || 0) >= 0;
+            const badgeClass = isPositive 
+                ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                : 'bg-red-500/20 text-red-400 border border-red-500/30';
+                
+            return `
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-200">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-white font-medium">${l.memberName || 'Unknown'}</span>
+                            <span class="text-[10px] text-gray-500">${l.memberTag || ''}</span>
+                            <span class="text-xs text-gray-400">— ${l.reason || ''}</span>
+                        </div>
+                        <p class="text-[10px] text-gray-500 mt-1">Oleh: ${l.adminName || 'Admin'} • ${dateStr}</p>
+                    </div>
+                    <div class="flex items-center gap-4 shrink-0">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold ${badgeClass}" style="font-family: 'Lilita One', cursive;">
+                            ${isPositive ? '+' : ''}${l.amount} Poin
+                        </span>
+                        <button onclick="window.__deleteLogEntry('${l.id}')" class="p-2 text-red-400 hover:text-red-300 hover:bg-white/10 rounded-lg transition-colors shrink-0" title="Hapus & Revert Poin">
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    } catch (e) {
+        console.error(e);
+        logsContainer.innerHTML = `<p class="text-center text-red-400 text-sm py-6">Gagal memuat log poin.</p>`;
+    }
+}
+
+async function deleteLogEntryHandler(id, user) {
+    modal.confirm({
+        title: 'Hapus & Revert Poin',
+        message: 'Apakah Anda yakin ingin menghapus log poin ini? Poin anggota bersangkutan akan **dikembalikan (revert)** secara otomatis.',
+        onConfirm: async () => {
+            try {
+                await deletePointEntry(id);
+                toast.success('Log poin berhasil dihapus dan nilai poin telah di-revert!');
+                // Reload logs
+                loadAdminPointLogs(user);
+            } catch (e) {
+                console.error(e);
+                toast.error('Gagal menghapus log poin.');
+            }
+        }
+    });
 }
