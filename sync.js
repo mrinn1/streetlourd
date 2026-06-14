@@ -44,16 +44,36 @@ if (!cocApiKey || cocApiKey.includes('PASTE_API_KEY')) {
 const serviceAccountPath = path.join(__dirname, 'service-account.json');
 if (!fs.existsSync(serviceAccountPath)) {
     console.log('\n❌ File service-account.json tidak ditemukan di root directory!');
-    console.log('Silakan ikuti petunjuk berikut untuk mendownloadnya secara gratis:');
-    console.log('1. Buka Firebase Console -> Project Settings -> Service Accounts.');
-    console.log('2. Klik tombol "Generate New Private Key" (Buat Kunci Privat Baru).');
-    console.log('3. Rename file .json yang terdownload menjadi "service-account.json".');
-    console.log('4. Pindahkan ke folder: ' + __dirname);
+    if (process.env.GITHUB_ACTIONS === 'true') {
+        console.log('Pastikan GitHub Secret "FIREBASE_SERVICE_ACCOUNT" telah diset dengan benar.');
+    } else {
+        console.log('Silakan ikuti petunjuk berikut untuk mendownloadnya secara gratis:');
+        console.log('1. Buka Firebase Console -> Project Settings -> Service Accounts.');
+        console.log('2. Klik tombol "Generate New Private Key" (Buat Kunci Privat Baru).');
+        console.log('3. Rename file .json yang terdownload menjadi "service-account.json".');
+        console.log('4. Pindahkan ke folder: ' + __dirname);
+    }
     console.log('');
     process.exit(1);
 }
 
-const serviceAccount = require(serviceAccountPath);
+let serviceAccount;
+try {
+    serviceAccount = require(serviceAccountPath);
+    if (!serviceAccount || Object.keys(serviceAccount).length === 0) {
+        throw new Error('File service-account.json kosong atau tidak valid.');
+    }
+} catch (err) {
+    console.error('\n❌ Gagal membaca service-account.json:', err.message);
+    console.error('Kemungkinan besar kunci privat Firebase Service Account belum dikonfigurasi di GitHub Secrets repository dengan benar.');
+    console.error('Silakan periksa kembali:');
+    console.error('1. Buka repositori GitHub Anda -> Settings -> Secrets and variables -> Actions.');
+    console.error('2. Pastikan Secret bernama "FIREBASE_SERVICE_ACCOUNT" sudah ditambahkan dan berisi isi lengkap dari berkas json service-account.');
+    console.error('3. Pastikan juga Secret "COC_API_KEY" dan "CLAN_TAG" sudah dikonfigurasi.');
+    console.error('');
+    process.exit(1);
+}
+
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
@@ -184,6 +204,10 @@ async function sync() {
             } else if (mappedRole === 'admin') {
                 totalPoints = 1250;
             }
+
+            let totalWars = 0;
+            let totalStars = 0;
+            let avgDestruction = 0;
 
             // Jika player sudah terdaftar di Firestore, pertahankan datanya
             if (docSnap.exists) {
