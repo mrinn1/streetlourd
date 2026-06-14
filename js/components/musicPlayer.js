@@ -4,14 +4,14 @@
 
 const TRACKS = [
     {
-        id: 'theme_2012',
-        name: 'Clash Theme (Classic)',
-        url: 'https://static.wikia.nocookie.net/clashofclans/images/4/40/Combat_Planning_Music_2012.mp3/revision/latest?cb=20250414051929'
+        id: 'theme_war',
+        name: 'Combat Planning (War)',
+        url: 'https://static.wikia.nocookie.net/clashofclans/images/7/78/Combat_Planning_Music.mp3/revision/latest?cb=20250406085929'
     },
     {
-        id: 'theme_modern',
-        name: 'Clash Theme (Modern)',
-        url: 'https://static.wikia.nocookie.net/clashofclans/images/7/78/Combat_Planning_Music.mp3/revision/latest?cb=20250406085929'
+        id: 'theme_classic',
+        name: 'Classic Clash Theme',
+        url: 'https://static.wikia.nocookie.net/clashofclans/images/4/4c/Classic_Clash_Scenery_Music.ogg/revision/latest?cb=20250406092623'
     }
 ];
 
@@ -22,7 +22,9 @@ export function initMusicPlayer() {
     // Load saved preferences
     let currentTrackId = localStorage.getItem('sl_music_track') || TRACKS[0].id;
     let volume = parseFloat(localStorage.getItem('sl_music_volume') ?? '0.4');
-    let isPlaying = localStorage.getItem('sl_music_playing') === 'true'; // Default to false initially due to autoplay restrictions
+    
+    // Default to true (auto-play) unless user explicitly muted/paused it
+    let isPlaying = localStorage.getItem('sl_music_playing') !== 'false'; 
 
     // Find active track
     let activeTrack = TRACKS.find(t => t.id === currentTrackId) || TRACKS[0];
@@ -105,7 +107,7 @@ export function initMusicPlayer() {
         
         <!-- Welcome Tooltip (Autoplay Helper) -->
         <div id="music-tooltip" class="absolute -top-12 left-0 right-0 mx-auto w-max px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 text-black text-[11px] font-bold shadow-lg pointer-events-none opacity-0 translate-y-2 transition-all duration-500">
-            🔊 Putar Musik Latar!
+            🔊 Musik Latar Siap Bermain!
             <div class="absolute bottom-[-4px] left-1/2 -translate-x-1/2 w-2 h-2 rotate-45 bg-yellow-600"></div>
         </div>
     `;
@@ -133,8 +135,7 @@ export function initMusicPlayer() {
         localStorage.setItem('sl_music_playing', playing);
         if (playing) {
             audio.play().catch(err => {
-                console.log("Autoplay blocked by browser. User interaction required.");
-                updatePlayState(false);
+                console.log("Autoplay blocked by browser. Waiting for interaction.");
             });
             playIcon.classList.add('hidden');
             pauseIcon.classList.remove('hidden');
@@ -244,33 +245,28 @@ export function initMusicPlayer() {
         });
     });
 
-    // Show autoplay help tooltip after a short delay if not playing yet
-    setTimeout(() => {
-        if (!isPlaying) {
-            tooltip.classList.remove('opacity-0', 'translate-y-2');
-            tooltip.classList.add('opacity-100', 'translate-y-0');
-
-            // Automatically hide after 6 seconds
-            setTimeout(() => {
-                tooltip.classList.remove('opacity-100', 'translate-y-0');
-                tooltip.classList.add('opacity-0', 'translate-y-2');
-            }, 6000);
-        }
-    }, 2000);
-
-    // Initial setup states
+    // Setup initial volume
     updateVolume(volume);
-    
-    // Auto-resume logic if it was playing when refreshed (most browsers block this unless interacted, but we try)
+
+    // Bypassing browser autoplay policy on first user interaction
+    const triggerAutoplay = () => {
+        if (isPlaying && audio.paused) {
+            audio.play().then(() => {
+                updatePlayState(true);
+            }).catch(e => {
+                console.log("Autoplay check:", e);
+            });
+        }
+    };
+
+    // Listen to user interaction to start playing
+    ['click', 'scroll', 'mousemove', 'keydown', 'touchstart'].forEach(event => {
+        document.addEventListener(event, triggerAutoplay, { once: true, passive: true });
+    });
+
+    // Try to play immediately
     if (isPlaying) {
-        // Try playing on DOM click / first interact
-        const playOnInteraction = () => {
-            updatePlayState(true);
-            document.removeEventListener('click', playOnInteraction);
-            document.removeEventListener('keydown', playOnInteraction);
-        };
-        document.addEventListener('click', playOnInteraction);
-        document.addEventListener('keydown', playOnInteraction);
+        updatePlayState(true);
     }
 }
 
