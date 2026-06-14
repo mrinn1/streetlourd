@@ -278,11 +278,20 @@ function buildPointLogSection(pointHistory) {
 
     const entries = pointHistory.map(entry => {
         const isPositive = entry.amount >= 0;
-        const amountColor = isPositive ? 'text-green-400' : 'text-red-400';
+        let amountColor = isPositive ? 'text-green-400' : 'text-red-400';
+        let bgClass = isPositive ? 'bg-green-500/5 border-green-500/10' : 'bg-red-500/5 border-red-500/10';
+        let amountSuffix = ' Poin';
+        let iconBg = isPositive ? 'bg-green-500/10' : 'bg-red-500/10';
         const amountPrefix = isPositive ? '+' : '';
-        const bgClass = isPositive ? 'bg-green-500/5 border-green-500/10' : 'bg-red-500/5 border-red-500/10';
         const iconClass = isPositive ? '▲' : '▼';
         
+        if (entry.category === 'side_point') {
+            amountColor = isPositive ? 'text-blue-400' : 'text-indigo-400';
+            bgClass = isPositive ? 'bg-blue-500/5 border-blue-500/10' : 'bg-indigo-500/5 border-indigo-500/10';
+            amountSuffix = ' SP';
+            iconBg = isPositive ? 'bg-blue-500/10' : 'bg-indigo-500/10';
+        }
+
         let dateStr = '-';
         if (entry.date) {
             const d = entry.date.toDate ? entry.date.toDate() : new Date(entry.date);
@@ -297,13 +306,14 @@ function buildPointLogSection(pointHistory) {
             'cwl': '🏅',
             'penalty': '⛔',
             'bonus': '🌟',
+            'side_point': '💎',
             'other': '📌'
         };
         const catIcon = categoryIcons[entry.category] || '📌';
 
         return `
             <div class="flex items-center gap-4 p-4 rounded-xl border ${bgClass} transition-all duration-200 hover:bg-white/5">
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${isPositive ? 'bg-green-500/10' : 'bg-red-500/10'}">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${iconBg}">
                     ${catIcon}
                 </div>
                 <div class="flex-1 min-w-0">
@@ -315,7 +325,7 @@ function buildPointLogSection(pointHistory) {
                 </div>
                 <div class="text-right shrink-0">
                     <p class="${amountColor} font-bold text-lg" style="font-family: 'Lilita One', cursive;">
-                        <span class="text-xs">${iconClass}</span> ${amountPrefix}${entry.amount}
+                        <span class="text-xs">${iconClass}</span> ${amountPrefix}${entry.amount}${amountSuffix}
                     </p>
                 </div>
             </div>
@@ -330,7 +340,7 @@ function buildPointLogSection(pointHistory) {
                 </h2>
                 <span class="text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full">${pointHistory.length} entri</span>
             </div>
-            <div class="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+            <div class="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar" style="max-height: 500px; overflow-y: auto;">
                 ${entries}
             </div>
         </div>

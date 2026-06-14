@@ -79,10 +79,16 @@ export async function getWarHistory(warId) {
 export async function getMemberWarHistory(memberTag) {
     if (!isFirebaseConfigured()) return getDemoWarHistory();
     try {
-        const { collection, getDocs, query, where, orderBy } = await getFirestore();
-        const q = query(collection(db, 'warHistory'), where('memberTag', '==', memberTag), orderBy('date', 'desc'));
+        const { collection, getDocs, query, where } = await getFirestore();
+        const q = query(collection(db, 'warHistory'), where('memberTag', '==', memberTag));
         const snap = await getDocs(q);
-        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        docs.sort((a, b) => {
+            const dateA = a.date ? (a.date.toDate ? a.date.toDate() : new Date(a.date)) : 0;
+            const dateB = b.date ? (b.date.toDate ? b.date.toDate() : new Date(b.date)) : 0;
+            return dateB - dateA;
+        });
+        return docs;
     } catch (e) { console.error('getMemberWarHistory:', e); return getDemoWarHistory(); }
 }
 
@@ -97,10 +103,16 @@ export async function saveWarHistory(data) {
 export async function getPointHistory(memberTag) {
     if (!isFirebaseConfigured()) return getDemoPointHistory();
     try {
-        const { collection, getDocs, query, where, orderBy } = await getFirestore();
-        const q = query(collection(db, 'pointHistory'), where('memberTag', '==', memberTag), orderBy('date', 'desc'));
+        const { collection, getDocs, query, where } = await getFirestore();
+        const q = query(collection(db, 'pointHistory'), where('memberTag', '==', memberTag));
         const snap = await getDocs(q);
-        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        docs.sort((a, b) => {
+            const dateA = a.date ? (a.date.toDate ? a.date.toDate() : new Date(a.date)) : 0;
+            const dateB = b.date ? (b.date.toDate ? b.date.toDate() : new Date(b.date)) : 0;
+            return dateB - dateA;
+        });
+        return docs;
     } catch (e) { console.error('getPointHistory:', e); return getDemoPointHistory(); }
 }
 
@@ -202,10 +214,16 @@ export async function deletePointEntry(id) {
 export async function getPromotions(memberTag) {
     if (!isFirebaseConfigured()) return [];
     try {
-        const { collection, getDocs, query, where, orderBy } = await getFirestore();
-        const q = query(collection(db, 'promotions'), where('memberTag', '==', memberTag), orderBy('date', 'desc'));
+        const { collection, getDocs, query, where } = await getFirestore();
+        const q = query(collection(db, 'promotions'), where('memberTag', '==', memberTag));
         const snap = await getDocs(q);
-        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        docs.sort((a, b) => {
+            const dateA = a.date ? (a.date.toDate ? a.date.toDate() : new Date(a.date)) : 0;
+            const dateB = b.date ? (b.date.toDate ? b.date.toDate() : new Date(b.date)) : 0;
+            return dateB - dateA;
+        });
+        return docs;
     } catch (e) { console.error('getPromotions:', e); return []; }
 }
 
@@ -226,10 +244,16 @@ export async function addViolation(data) {
 export async function getViolations(memberTag) {
     if (!isFirebaseConfigured()) return [];
     try {
-        const { collection, getDocs, query, where, orderBy } = await getFirestore();
-        const q = query(collection(db, 'violations'), where('memberTag', '==', memberTag), orderBy('date', 'desc'));
+        const { collection, getDocs, query, where } = await getFirestore();
+        const q = query(collection(db, 'violations'), where('memberTag', '==', memberTag));
         const snap = await getDocs(q);
-        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        docs.sort((a, b) => {
+            const dateA = a.date ? (a.date.toDate ? a.date.toDate() : new Date(a.date)) : 0;
+            const dateB = b.date ? (b.date.toDate ? b.date.toDate() : new Date(b.date)) : 0;
+            return dateB - dateA;
+        });
+        return docs;
     } catch (e) { console.error('getViolations:', e); return []; }
 }
 
