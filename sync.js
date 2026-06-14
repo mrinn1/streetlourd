@@ -117,12 +117,7 @@ async function sync() {
 
         // Fetch Clan Info
         console.log('📡 Menghubungi API Clash of Clans (Info Clan)...');
-        const fullUrl = `${cocApiBase}/clans/${encodeURIComponent(clanTag)}`;
-        console.log(`🔍 [DEBUG] API Base: ${cocApiBase}`);
-        console.log(`🔍 [DEBUG] Clan Tag length: ${clanTag.length}, starts with #: ${clanTag.startsWith('#')}`);
-        console.log(`🔍 [DEBUG] Clan Tag value: "${clanTag}"`);
-        console.log(`🔍 [DEBUG] Full URL: ${fullUrl}`);
-        const clanResponse = await fetch(fullUrl, {
+        const clanResponse = await fetch(`${cocApiBase}/clans/${encodeURIComponent(clanTag)}`, {
             headers: { 'Authorization': `Bearer ${cocApiKey}` }
         });
 
