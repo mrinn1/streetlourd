@@ -37,40 +37,40 @@ export function initMusicPlayer() {
     // Create UI container
     const container = document.createElement('div');
     container.id = 'music-player-container';
-    container.className = 'fixed bottom-6 left-6 z-50 flex items-center gap-3 bg-[#111827]/90 border border-white/10 backdrop-blur-md px-4 py-2.5 rounded-full shadow-2xl transition-all duration-300 hover:border-amber-500/30 group';
+    container.className = 'fixed bottom-4 left-4 md:bottom-6 md:left-6 z-50 flex items-center gap-2 sm:gap-3 bg-[#111827]/90 border border-white/10 backdrop-blur-md px-3 py-2 sm:px-4 sm:py-2.5 rounded-full shadow-2xl transition-all duration-300 hover:border-amber-500/30 group';
     
     container.innerHTML = `
         <!-- Spinning Disc/Visualizer -->
-        <div id="music-disc" class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center shadow-lg relative cursor-pointer transition-transform duration-300 hover:scale-110">
-            <span class="text-sm">🎵</span>
+        <div id="music-disc" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center shadow-lg relative cursor-pointer transition-transform duration-300 hover:scale-110">
+            <span class="text-xs sm:text-sm">🎵</span>
             <!-- Bouncing equalizer bars (visible only when playing) -->
             <div id="music-eq" class="absolute inset-0 flex items-end justify-center gap-[2px] p-2 bg-black/40 rounded-full opacity-0 transition-opacity duration-300">
-                <span class="w-[3px] bg-amber-400 rounded-t eq-bar eq-bar-1" style="height: 40%"></span>
-                <span class="w-[3px] bg-amber-400 rounded-t eq-bar eq-bar-2" style="height: 70%"></span>
-                <span class="w-[3px] bg-amber-400 rounded-t eq-bar eq-bar-3" style="height: 50%"></span>
+                <span class="w-[2px] sm:w-[3px] bg-amber-400 rounded-t eq-bar eq-bar-1" style="height: 40%"></span>
+                <span class="w-[2px] sm:w-[3px] bg-amber-400 rounded-t eq-bar eq-bar-2" style="height: 70%"></span>
+                <span class="w-[2px] sm:w-[3px] bg-amber-400 rounded-t eq-bar eq-bar-3" style="height: 50%"></span>
             </div>
         </div>
 
-        <!-- Info & Controls -->
-        <div class="flex flex-col min-w-[120px] max-w-[160px]">
+        <!-- Info & Controls (Hidden on mobile) -->
+        <div class="hidden sm:flex flex-col min-w-[80px] sm:min-w-[120px] max-w-[160px]">
             <span id="track-name" class="text-[10px] font-bold text-amber-400 uppercase tracking-wider truncate">${activeTrack.name}</span>
             <span class="text-[10px] text-gray-400 truncate">Background Music</span>
         </div>
 
         <!-- Controls Section -->
-        <div class="flex items-center gap-2 border-l border-white/10 pl-3">
+        <div class="flex items-center gap-1.5 sm:gap-2 sm:border-l sm:border-white/10 sm:pl-3">
             <!-- Play/Pause -->
-            <button id="music-play-btn" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all hover:scale-105">
-                <svg id="play-icon" class="w-4 h-4 text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button id="music-play-btn" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all hover:scale-105">
+                <svg id="play-icon" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
                 </svg>
-                <svg id="pause-icon" class="w-4 h-4 text-gray-200 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg id="pause-icon" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-200 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6"/>
                 </svg>
             </button>
 
-            <!-- Volume Control Container (Slides out on hover) -->
-            <div class="flex items-center gap-1.5 relative overflow-hidden w-6 hover:w-24 transition-all duration-300 ease-out group/volume h-8">
+            <!-- Volume Control Container (Slides out on hover - Desktop Only) -->
+            <div class="hidden md:flex items-center gap-1.5 relative overflow-hidden w-6 hover:w-24 transition-all duration-300 ease-out group/volume h-8">
                 <!-- Volume Icon -->
                 <button id="music-volume-btn" class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white shrink-0">
                     <svg id="volume-icon" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -87,13 +87,13 @@ export function initMusicPlayer() {
 
             <!-- Track Switcher -->
             <div class="relative">
-                <button id="music-track-btn" class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white transition-colors" title="Change Track">
+                <button id="music-track-btn" class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-400 hover:text-white transition-colors" title="Change Track">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
                     </svg>
                 </button>
                 <!-- Track Dropdown Menu -->
-                <div id="music-track-dropdown" class="absolute bottom-10 right-0 hidden bg-[#1a1f2e] border border-white/10 rounded-xl shadow-xl p-2 w-48 text-left transition-all duration-300">
+                <div id="music-track-dropdown" class="absolute bottom-12 left-0 sm:left-auto sm:right-0 hidden bg-[#1a1f2e] border border-white/10 rounded-xl shadow-xl p-2 w-48 text-left transition-all duration-300 z-[60]">
                     <p class="text-[9px] font-bold text-gray-500 uppercase tracking-wider px-2 py-1 border-b border-white/5 mb-1">Pilih Musik Latar</p>
                     ${TRACKS.map(t => `
                         <button data-track-id="${t.id}" class="w-full text-left px-2 py-1.5 rounded-lg text-xs transition-all flex items-center justify-between text-gray-300 hover:bg-white/5 hover:text-white ${t.id === currentTrackId ? 'text-amber-400 font-bold bg-white/5' : ''}">
