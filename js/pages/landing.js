@@ -3,8 +3,18 @@
 // ============================================================
 
 import { renderFooter } from '../components/footer.js';
+import { rankCard } from '../components/card.js';
+import { getMembers, getLandingSettings } from '../services/firestore.js';
 
-export function renderLanding() {
+export async function renderLanding() {
+    const settings = await getLandingSettings();
+    const members = await getMembers();
+    
+    const sorted = members
+        .filter(m => m.role !== 'leader')
+        .sort((a, b) => (b.totalPoints || 0) - (a.totalPoints || 0))
+        .slice(0, 3);
+
     return `
         <!-- Hero Section -->
         <section class="relative min-h-screen flex items-center justify-center overflow-hidden" id="hero-section">
@@ -34,23 +44,21 @@ export function renderLanding() {
                     <!-- Title -->
                     <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight" 
                         style="font-family: 'Lilita One', cursive;">
-                        <span class="hero-title-gradient">Lead Your Clan</span>
-                        <br>
-                        <span class="hero-title-gradient-2">To Victory</span>
+                        ${settings.heroTitle}
                     </h1>
 
                     <!-- Subtitle -->
                     <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
-                        Pantau kontribusi anggota, statistik war, sistem poin, dan rekomendasi kenaikan pangkat secara otomatis.
+                        ${settings.heroDescription}
                     </p>
 
                     <!-- CTA Buttons -->
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <a href="#/login" class="group relative px-8 py-4 rounded-2xl text-lg font-bold text-black 
-                                              bg-gradient-to-r from-amber-400 to-yellow-500 
-                                              hover:from-amber-300 hover:to-yellow-400 
-                                              shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 
-                                              transition-all duration-300 hover:scale-105 w-full sm:w-auto"
+                                               bg-gradient-to-r from-amber-400 to-yellow-500 
+                                               hover:from-amber-300 hover:to-yellow-400 
+                                               shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 
+                                               transition-all duration-300 hover:scale-105 w-full sm:w-auto"
                            style="font-family: 'Lilita One', cursive;">
                             <span class="flex items-center justify-center gap-2">
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
@@ -59,9 +67,9 @@ export function renderLanding() {
                             <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         </a>
                         <a href="#/leaderboard" class="group px-8 py-4 rounded-2xl text-lg font-bold text-white 
-                                                      border-2 border-white/20 hover:border-amber-400/50 
-                                                      bg-white/5 hover:bg-white/10 backdrop-blur-sm
-                                                      transition-all duration-300 hover:scale-105 w-full sm:w-auto"
+                                                       border-2 border-white/20 hover:border-amber-400/50 
+                                                       bg-white/5 hover:bg-white/10 backdrop-blur-sm
+                                                       transition-all duration-300 hover:scale-105 w-full sm:w-auto"
                            style="font-family: 'Lilita One', cursive;">
                             <span class="flex items-center justify-center gap-2">
                                 🏆 View Leaderboard
@@ -109,34 +117,41 @@ export function renderLanding() {
             </div>
         </section>
 
-        <!-- Stats Preview Section -->
-        <section class="relative py-20 px-4 overflow-hidden" id="stats-preview">
+        <!-- Top 3 Members Section -->
+        <section class="relative py-20 px-4 overflow-hidden" id="top-3-members">
             <div class="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-transparent to-amber-500/5"></div>
-            <div class="max-w-7xl mx-auto relative">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 animate-on-scroll" data-stagger="true">
-                    ${quickStat('👥', '50+', 'Active Members')}
-                    ${quickStat('⚔️', '200+', 'Wars Fought')}
-                    ${quickStat('⭐', '1,500+', 'Total Stars')}
-                    ${quickStat('🏆', '85%', 'Win Rate')}
-                </div>
-            </div>
-        </section>
-
-        <!-- How It Works Section -->
-        <section class="relative py-20 px-4">
-            <div class="max-w-5xl mx-auto">
-                <div class="text-center mb-16 animate-on-scroll">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4" style="font-family: 'Lilita One', cursive;">
-                        How It Works
+            <div class="max-w-4xl mx-auto relative">
+                <!-- Header -->
+                <div class="text-center mb-12 animate-on-scroll">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-3" style="font-family: 'Lilita One', cursive;">
+                        🏆 Top 3 Members
                     </h2>
-                    <p class="text-gray-400">Mulai kelola clan dalam 3 langkah mudah</p>
+                    <p class="text-gray-400">Anggota dengan kontribusi poin tertinggi saat ini</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 animate-on-scroll" data-stagger="true">
-                    ${stepCard('1', 'Login & Connect', 'Login dengan Google dan hubungkan akun Clash of Clans kamu.', 'from-amber-500 to-yellow-600')}
-                    ${stepCard('2', 'Sync Members', 'Data anggota clan akan otomatis tersinkronisasi dari CoC API.', 'from-purple-500 to-violet-600')}
-                    ${stepCard('3', 'Manage & Track', 'Input war, kelola poin, dan pantau statistik clan secara real-time.', 'from-blue-500 to-cyan-600')}
+                <!-- Top 3 Podium -->
+                ${sorted.length >= 3 ? `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-on-scroll" data-stagger="true">
+                    <!-- 2nd Place -->
+                    <div class="md:mt-8 order-2 md:order-1">
+                        ${rankCard({ rank: 2, ...sorted[1] })}
+                    </div>
+                    <!-- 1st Place -->
+                    <div class="order-1 md:order-2">
+                        ${rankCard({ rank: 1, ...sorted[0] })}
+                    </div>
+                    <!-- 3rd Place -->
+                    <div class="md:mt-12 order-3">
+                        ${rankCard({ rank: 3, ...sorted[2] })}
+                    </div>
                 </div>
+                ` : sorted.length > 0 ? `
+                <div class="grid gap-4 animate-on-scroll" data-stagger="true">
+                    ${sorted.map((m, i) => rankCard({ rank: i + 1, ...m })).join('')}
+                </div>
+                ` : `
+                <p class="text-center text-gray-500 text-sm py-6">Belum ada data kontribusi anggota.</p>
+                `}
             </div>
         </section>
 
@@ -175,31 +190,6 @@ function featureCard(icon, title, desc, bgGradient, borderColor) {
             <div class="text-4xl mb-4">${icon}</div>
             <h3 class="text-white font-bold text-lg mb-2" style="font-family: 'Lilita One', cursive;">${title}</h3>
             <p class="text-gray-400 text-sm leading-relaxed">${desc}</p>
-        </div>
-    `;
-}
-
-function quickStat(icon, value, label) {
-    return `
-        <div class="animate-item text-center p-6 rounded-2xl border border-white/5 bg-white/5 backdrop-blur-sm 
-                    hover:bg-white/10 transition-all duration-300">
-            <div class="text-3xl mb-2">${icon}</div>
-            <p class="text-2xl md:text-3xl font-bold text-white" style="font-family: 'Lilita One', cursive;">${value}</p>
-            <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">${label}</p>
-        </div>
-    `;
-}
-
-function stepCard(num, title, desc, gradient) {
-    return `
-        <div class="animate-item text-center">
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center 
-                        text-2xl font-bold text-white mx-auto mb-4 shadow-lg" 
-                 style="font-family: 'Lilita One', cursive;">
-                ${num}
-            </div>
-            <h3 class="text-white font-bold text-lg mb-2" style="font-family: 'Lilita One', cursive;">${title}</h3>
-            <p class="text-gray-400 text-sm">${desc}</p>
         </div>
     `;
 }

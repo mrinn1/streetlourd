@@ -14,6 +14,7 @@ import { renderStatistics } from './pages/statistics.js';
 import { renderClanRules } from './pages/clanRules.js';
 import { renderAdmin } from './pages/admin.js';
 import { renderAdminRules } from './pages/adminRules.js';
+import { renderAdminLanding } from './pages/adminLanding.js';
 import { initAuthListener, signInWithGoogle, signOut, getCurrentUser, getUserRole } from './services/auth.js';
 import { initScrollAnimations, initParallax, pageTransition } from './utils/animations.js';
 import { toast } from './components/toast.js';
@@ -33,6 +34,7 @@ const routes = {
     '/rules':       { render: renderRulesPage, title: 'Clan Rules' },
     '/admin':       { render: renderAdminPage, title: 'Admin Panel' },
     '/admin/rules': { render: renderAdminRulesPage, title: 'Rules Settings' },
+    '/admin/landing': { render: renderAdminLandingPage, title: 'Landing Settings' },
     '/login':       { render: renderLoginPage, title: 'Login' },
 };
 
@@ -136,7 +138,7 @@ function updateNavbar() {
 async function renderLandingPage() {
     const pageContent = document.getElementById('page-content');
     pageContent.style.opacity = '0';
-    pageContent.innerHTML = renderLanding();
+    pageContent.innerHTML = await renderLanding();
     requestAnimationFrame(() => {
         pageContent.style.transition = 'opacity 0.5s ease';
         pageContent.style.opacity = '1';
@@ -196,6 +198,11 @@ async function renderAdminPage() {
 async function renderAdminRulesPage() {
     const pageContent = document.getElementById('page-content');
     await pageTransition(pageContent, () => renderAdminRules());
+}
+
+async function renderAdminLandingPage() {
+    const pageContent = document.getElementById('page-content');
+    await pageTransition(pageContent, () => renderAdminLanding());
 }
 
 function renderLoginPage() {

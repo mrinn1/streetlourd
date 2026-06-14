@@ -47,7 +47,10 @@ export async function renderAdmin() {
                         </h1>
                         <p class="text-gray-400 text-sm">Kelola poin, war, dan anggota clan</p>
                     </div>
-                    <div>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="#/admin/landing" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-white border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 backdrop-blur-sm transition-all text-sm shadow-lg">
+                            ✨ Edit Landing Page
+                        </a>
                         <a href="#/admin/rules" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-black bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 transition-all shadow-lg shadow-amber-500/20 text-sm">
                             📜 Pengaturan Rules
                         </a>

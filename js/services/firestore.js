@@ -323,3 +323,31 @@ export async function saveRules(rulesData) {
     await setDoc(doc(db, 'settings', 'rules'), rulesData);
 }
 
+export async function getLandingSettings() {
+    if (!isFirebaseConfigured()) return {
+        heroTitle: `<span class="hero-title-gradient">Lead Your Clan</span>\n<br>\n<span class="hero-title-gradient-2">To Victory</span>`,
+        heroDescription: `Pantau kontribusi anggota, statistik war, sistem poin, dan rekomendasi kenaikan pangkat secara otomatis.`
+    };
+    try {
+        const { doc, getDoc } = await getFirestore();
+        const snap = await getDoc(doc(db, 'settings', 'landing'));
+        return snap.exists() ? snap.data() : {
+            heroTitle: `<span class="hero-title-gradient">Lead Your Clan</span>\n<br>\n<span class="hero-title-gradient-2">To Victory</span>`,
+            heroDescription: `Pantau kontribusi anggota, statistik war, sistem poin, dan rekomendasi kenaikan pangkat secara otomatis.`
+        };
+    } catch (e) {
+        console.error('getLandingSettings:', e);
+        return {
+            heroTitle: `<span class="hero-title-gradient">Lead Your Clan</span>\n<br>\n<span class="hero-title-gradient-2">To Victory</span>`,
+            heroDescription: `Pantau kontribusi anggota, statistik war, sistem poin, dan rekomendasi kenaikan pangkat secara otomatis.`
+        };
+    }
+}
+
+export async function saveLandingSettings(data) {
+    if (!isFirebaseConfigured()) return;
+    const { doc, setDoc } = await getFirestore();
+    await setDoc(doc(db, 'settings', 'landing'), data, { merge: true });
+}
+
+
