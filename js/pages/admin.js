@@ -12,6 +12,7 @@ import { formatNumber, formatDateTime, parseTimestamp } from '../utils/helpers.j
 
 let members = [];
 let activeRules = null;
+let selectedMemberTags = new Set();
 
 export async function renderAdmin() {
     const container = document.getElementById('page-content');
@@ -33,6 +34,7 @@ export async function renderAdmin() {
 
     members = await getMembers();
     activeRules = await getRules();
+    selectedMemberTags.clear();
     const rewards = activeRules && activeRules.rewards ? activeRules.rewards : POINT_REWARDS;
     const user = getCurrentUser();
 
@@ -61,22 +63,37 @@ export async function renderAdmin() {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-on-scroll" data-stagger="true">
                     
                     <!-- Add/Deduct Points -->
-                    <div class="animate-item rounded-2xl border border-amber-500/20 bg-gradient-to-br from-amber-500/10 to-yellow-600/5 p-6">
+                    <div class="animate-item md:col-span-2 rounded-2xl border border-amber-500/20 bg-gradient-to-br from-amber-500/10 to-yellow-600/5 p-6">
                         <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2" style="font-family: 'Lilita One', cursive;">
                             💎 Kelola Poin
                         </h3>
                         <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs text-gray-400 mb-1.5 font-medium">Pilih Anggota (Bisa Pilih Banyak)</label>
-                                <input type="text" id="point-member-search" oninput="window.__filterPointMembers()" 
-                                       class="admin-input text-xs py-2 px-3 mb-2" placeholder="Cari nama anggota atau tag...">
-                                <div id="point-members-container" class="max-h-[220px] overflow-y-auto border border-white/5 rounded-xl bg-white/[0.02] p-2 space-y-1">
-                                    ${memberCheckboxes()}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Left Column: Roster List -->
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1.5 font-medium">Daftar Anggota</label>
+                                    <input type="text" id="point-member-search" oninput="window.__filterPointMembers()" 
+                                           class="admin-input text-xs py-2 px-3 mb-2" placeholder="Cari nama anggota atau tag...">
+                                    <div id="point-members-container" class="max-h-[220px] overflow-y-auto border border-white/5 rounded-xl bg-white/[0.02] p-2 space-y-1">
+                                        <!-- Rendered dynamically -->
+                                    </div>
+                                    <div class="flex gap-3 mt-2">
+                                        <button type="button" onclick="window.__selectAllPointMembers(true)" class="text-[10px] text-amber-400 hover:text-amber-300 font-medium">Pilih Semua</button>
+                                    </div>
                                 </div>
-                                <div class="flex gap-3 mt-2">
-                                    <button type="button" onclick="window.__selectAllPointMembers(true)" class="text-[10px] text-amber-400 hover:text-amber-300 font-medium">Pilih Semua</button>
-                                    <span class="text-gray-600 text-[10px]">|</span>
-                                    <button type="button" onclick="window.__selectAllPointMembers(false)" class="text-[10px] text-gray-400 hover:text-white font-medium">Batal Pilih Semua</button>
+
+                                <!-- Right Column: Selected list & Reset -->
+                                <div>
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <label class="block text-xs text-gray-400 font-medium">Anggota Terpilih (<span id="selected-count" class="font-bold text-amber-400">0</span>)</label>
+                                        <button type="button" onclick="window.__resetSelectedMembers()" class="text-[10px] text-red-400 hover:text-red-300 font-bold transition-colors">
+                                            🔄 Reset / Satukan Lagi
+                                        </button>
+                                    </div>
+                                    <div class="h-[34px] mb-2 hidden md:block"></div>
+                                    <div id="point-selected-container" class="max-h-[220px] min-h-[100px] overflow-y-auto border border-amber-500/20 rounded-xl bg-amber-500/[0.02] p-2 space-y-1">
+                                        <!-- Rendered dynamically -->
+                                    </div>
                                 </div>
                             </div>
                             <div>
@@ -269,10 +286,13 @@ export async function renderAdmin() {
     window.__deleteLogEntry = (id) => deleteLogEntryHandler(id, user);
     window.__filterPointMembers = filterPointMembers;
     window.__selectAllPointMembers = selectAllPointMembers;
+    window.__toggleMemberSelection = toggleMemberSelection;
+    window.__resetSelectedMembers = resetSelectedMembers;
 
-    // Initial load of logs
+    // Initial load of logs & member lists
     setTimeout(() => {
         loadAdminPointLogs(user);
+        updateMemberLists();
     }, 100);
 }
 
@@ -280,12 +300,24 @@ function memberOptions() {
     return members.map(m => `<option value="${m.tag}">${m.name} (${m.tag})</option>`).join('');
 }
 
-function memberCheckboxes() {
-    return members.map(m => {
+function updateMemberLists() {
+    const leftContainer = document.getElementById('point-members-container');
+    const rightContainer = document.getElementById('point-selected-container');
+    const countSpan = document.getElementById('selected-count');
+    
+    if (!leftContainer || !rightContainer) return;
+    
+    const query = document.getElementById('point-member-search')?.value.toLowerCase() || '';
+
+    // Left List: Unselected
+    const unselected = members.filter(m => !selectedMemberTags.has(m.tag));
+    leftContainer.innerHTML = unselected.map(m => {
+        const matches = m.name.toLowerCase().includes(query) || m.tag.toLowerCase().includes(query);
+        const displayStyle = matches ? 'flex' : 'none';
         return `
             <label class="point-member-row flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors" 
-                   data-name="${m.name}" data-tag="${m.tag}" style="display: flex;">
-                <input type="checkbox" value="${m.tag}" class="point-member-checkbox w-4 h-4 rounded border-white/10 bg-white/5 text-amber-500 focus:ring-amber-500/50">
+                   data-name="${m.name}" data-tag="${m.tag}" style="display: ${displayStyle};">
+                <input type="checkbox" value="${m.tag}" onchange="window.__toggleMemberSelection('${m.tag}', true)" class="w-4 h-4 rounded border-white/10 bg-white/5 text-amber-500 focus:ring-amber-500/50">
                 <div class="flex-1 min-w-0">
                     <p class="text-xs text-white font-medium truncate">${m.name}</p>
                     <p class="text-[10px] text-gray-500">${m.tag} • TH${m.townHallLevel || '?'}</p>
@@ -296,30 +328,74 @@ function memberCheckboxes() {
             </label>
         `;
     }).join('');
+    
+    if (unselected.length === 0) {
+        leftContainer.innerHTML = `<p class="text-center text-gray-500 text-xs py-8">Semua anggota terpilih</p>`;
+    }
+
+    // Right List: Selected
+    const selected = members.filter(m => selectedMemberTags.has(m.tag));
+    rightContainer.innerHTML = selected.map(m => {
+        return `
+            <label class="point-selected-row flex items-center gap-3 p-2 rounded-lg bg-amber-500/5 hover:bg-amber-500/10 border border-amber-500/15 cursor-pointer transition-colors">
+                <input type="checkbox" value="${m.tag}" checked onchange="window.__toggleMemberSelection('${m.tag}', false)" class="w-4 h-4 rounded border-amber-500/30 bg-amber-500/10 text-amber-500 focus:ring-amber-500/50">
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs text-amber-400 font-medium truncate">${m.name}</p>
+                    <p class="text-[10px] text-amber-500/60">${m.tag} • TH${m.townHallLevel || '?'}</p>
+                </div>
+                <div class="text-right shrink-0">
+                    <span class="text-xs text-amber-400 font-bold" style="font-family: 'Lilita One', cursive;">${m.totalPoints || 0}</span>
+                </div>
+            </label>
+        `;
+    }).join('');
+    
+    if (selected.length === 0) {
+        rightContainer.innerHTML = `<p class="text-center text-gray-500 text-xs py-8">Belum ada yang dipilih</p>`;
+    }
+    
+    if (countSpan) {
+        countSpan.textContent = selected.length;
+    }
 }
 
 function filterPointMembers() {
-    const query = document.getElementById('point-member-search')?.value.toLowerCase() || '';
-    const rows = document.querySelectorAll('.point-member-row');
-    rows.forEach(row => {
-        const name = row.dataset.name.toLowerCase();
-        const tag = row.dataset.tag.toLowerCase();
-        if (name.includes(query) || tag.includes(query)) {
-            row.style.display = 'flex';
-        } else {
-            row.style.display = 'none';
-        }
-    });
+    updateMemberLists();
 }
 
 function selectAllPointMembers(checked) {
-    const checkboxes = document.querySelectorAll('.point-member-checkbox');
-    checkboxes.forEach(cb => {
-        const row = cb.closest('.point-member-row');
-        if (row && row.style.display !== 'none') {
-            cb.checked = checked;
-        }
-    });
+    if (checked) {
+        const query = document.getElementById('point-member-search')?.value.toLowerCase() || '';
+        members.forEach(m => {
+            if (!selectedMemberTags.has(m.tag)) {
+                const matches = m.name.toLowerCase().includes(query) || m.tag.toLowerCase().includes(query);
+                if (matches) {
+                    selectedMemberTags.add(m.tag);
+                }
+            }
+        });
+    } else {
+        selectedMemberTags.clear();
+    }
+    updateMemberLists();
+}
+
+function toggleMemberSelection(tag, isSelected) {
+    if (isSelected) {
+        selectedMemberTags.add(tag);
+    } else {
+        selectedMemberTags.delete(tag);
+    }
+    updateMemberLists();
+}
+
+function resetSelectedMembers() {
+    selectedMemberTags.clear();
+    const searchInput = document.getElementById('point-member-search');
+    if (searchInput) {
+        searchInput.value = '';
+    }
+    updateMemberLists();
 }
 
 function updatePointPresets() {
@@ -351,8 +427,7 @@ function fillPointPreset() {
 }
 
 async function submitPoints(user) {
-    const checkedBoxes = document.querySelectorAll('.point-member-checkbox:checked');
-    const selectedTags = Array.from(checkedBoxes).map(cb => cb.value);
+    const selectedTags = Array.from(selectedMemberTags);
     
     const amount = parseInt(document.getElementById('point-amount')?.value);
     const reason = document.getElementById('point-reason')?.value;
@@ -390,12 +465,7 @@ async function submitPoints(user) {
                 // Reset form
                 document.getElementById('point-amount').value = '';
                 document.getElementById('point-reason').value = '';
-                selectAllPointMembers(false);
-                const searchInput = document.getElementById('point-member-search');
-                if (searchInput) {
-                    searchInput.value = '';
-                    filterPointMembers();
-                }
+                resetSelectedMembers();
                 loadAdminPointLogs(user);
             } catch (e) {
                 toast.error('Gagal menyimpan poin.');

@@ -1,4 +1,4 @@
-var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",category:"war"},{id:"used_both_attacks",label:"Menggunakan 2 Attack",points:10,icon:"\u{1F5E1}\uFE0F",category:"war"},{id:"three_stars",label:"3 Bintang",points:15,icon:"\u2B50",category:"war"},{id:"cwl_participation",label:"Ikut CWL",points:30,icon:"\u{1F3C6}",category:"cwl"},{id:"clan_games_complete",label:"Clan Games Selesai",points:20,icon:"\u{1F3AE}",category:"clangames"},{id:"donation_1000",label:"Donasi 1000",points:5,icon:"\u{1F381}",category:"donation"},{id:"clan_capital_active",label:"Clan Capital Aktif",points:10,icon:"\u{1F3F0}",category:"capital"}],E=[{id:"missed_attack_1",label:"Tidak Menggunakan Attack Pertama",points:-20,icon:"\u274C",category:"war"},{id:"missed_attack_2",label:"Tidak Menggunakan Attack Kedua",points:-15,icon:"\u26D4",category:"war"},{id:"missed_war_no_excuse",label:"Tidak Ikut War Tanpa Izin",points:-30,icon:"\u{1F6AB}",category:"war"},{id:"afk_too_long",label:"AFK Terlalu Lama",points:-10,icon:"\u{1F4A4}",category:"activity"},{id:"rule_violation",label:"Melanggar Aturan Clan",points:-25,icon:"\u26A0\uFE0F",category:"violation"}];var me=[{label:"Home",hash:"#/",icon:"\u{1F3E0}"},{label:"Members",hash:"#/members",icon:"\u{1F465}"},{label:"Leaderboard",hash:"#/leaderboard",icon:"\u{1F3C6}"},{label:"War History",hash:"#/wars",icon:"\u2694\uFE0F"},{label:"Statistics",hash:"#/statistics",icon:"\u{1F4CA}"},{label:"Clan Rules",hash:"#/rules",icon:"\u{1F4DC}"},{label:"Admin Panel",hash:"#/admin",icon:"\u2699\uFE0F",adminOnly:!0}];var $={gold:"rgba(245, 166, 35, 1)",purple:"rgba(168, 85, 247, 1)",blue:"rgba(59, 130, 246, 1)",green:"rgba(34, 197, 94, 1)",red:"rgba(239, 68, 68, 1)",cyan:"rgba(6, 182, 212, 1)",goldAlpha:"rgba(245, 166, 35, 0.2)",purpleAlpha:"rgba(168, 85, 247, 0.2)",blueAlpha:"rgba(59, 130, 246, 0.2)",greenAlpha:"rgba(34, 197, 94, 0.2)",redAlpha:"rgba(239, 68, 68, 0.2)",cyanAlpha:"rgba(6, 182, 212, 0.2)"};function pe(e="#/",t=null,a=null){let r=a==="leader"||a==="coleader",o=me.filter(i=>!(i.adminOnly&&!r));return`
+var E=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",category:"war"},{id:"used_both_attacks",label:"Menggunakan 2 Attack",points:10,icon:"\u{1F5E1}\uFE0F",category:"war"},{id:"three_stars",label:"3 Bintang",points:15,icon:"\u2B50",category:"war"},{id:"cwl_participation",label:"Ikut CWL",points:30,icon:"\u{1F3C6}",category:"cwl"},{id:"clan_games_complete",label:"Clan Games Selesai",points:20,icon:"\u{1F3AE}",category:"clangames"},{id:"donation_1000",label:"Donasi 1000",points:5,icon:"\u{1F381}",category:"donation"},{id:"clan_capital_active",label:"Clan Capital Aktif",points:10,icon:"\u{1F3F0}",category:"capital"}],B=[{id:"missed_attack_1",label:"Tidak Menggunakan Attack Pertama",points:-20,icon:"\u274C",category:"war"},{id:"missed_attack_2",label:"Tidak Menggunakan Attack Kedua",points:-15,icon:"\u26D4",category:"war"},{id:"missed_war_no_excuse",label:"Tidak Ikut War Tanpa Izin",points:-30,icon:"\u{1F6AB}",category:"war"},{id:"afk_too_long",label:"AFK Terlalu Lama",points:-10,icon:"\u{1F4A4}",category:"activity"},{id:"rule_violation",label:"Melanggar Aturan Clan",points:-25,icon:"\u26A0\uFE0F",category:"violation"}];var ue=[{label:"Home",hash:"#/",icon:"\u{1F3E0}"},{label:"Members",hash:"#/members",icon:"\u{1F465}"},{label:"Leaderboard",hash:"#/leaderboard",icon:"\u{1F3C6}"},{label:"War History",hash:"#/wars",icon:"\u2694\uFE0F"},{label:"Statistics",hash:"#/statistics",icon:"\u{1F4CA}"},{label:"Clan Rules",hash:"#/rules",icon:"\u{1F4DC}"},{label:"Admin Panel",hash:"#/admin",icon:"\u2699\uFE0F",adminOnly:!0}];var C={gold:"rgba(245, 166, 35, 1)",purple:"rgba(168, 85, 247, 1)",blue:"rgba(59, 130, 246, 1)",green:"rgba(34, 197, 94, 1)",red:"rgba(239, 68, 68, 1)",cyan:"rgba(6, 182, 212, 1)",goldAlpha:"rgba(245, 166, 35, 0.2)",purpleAlpha:"rgba(168, 85, 247, 0.2)",blueAlpha:"rgba(59, 130, 246, 0.2)",greenAlpha:"rgba(34, 197, 94, 0.2)",redAlpha:"rgba(239, 68, 68, 0.2)",cyanAlpha:"rgba(6, 182, 212, 0.2)"};function ge(e="#/",t=null,a=null){let r=a==="leader"||a==="coleader",o=ue.filter(s=>!(s.adminOnly&&!r));return`
         <nav id="main-navbar" class="fixed top-0 left-0 right-0 z-[9990] transition-all duration-500">
             <div class="navbar-glass">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6">
@@ -15,11 +15,11 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
 
                         <!-- Desktop Nav Links -->
                         <div class="hidden lg:flex items-center gap-1">
-                            ${o.map(i=>`
-                                <a href="${i.hash}" 
+                            ${o.map(s=>`
+                                <a href="${s.hash}" 
                                    class="nav-link px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200
-                                          ${e===i.hash?"text-amber-400 bg-amber-500/10":"text-gray-300 hover:text-white hover:bg-white/10"}">
-                                    <span class="mr-1.5">${i.icon}</span>${i.label}
+                                          ${e===s.hash?"text-amber-400 bg-amber-500/10":"text-gray-300 hover:text-white hover:bg-white/10"}">
+                                    <span class="mr-1.5">${s.icon}</span>${s.label}
                                 </a>
                             `).join("")}
                         </div>
@@ -75,11 +75,11 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                             </button>
                         </div>
                         <div class="flex flex-col gap-2">
-                            ${o.map(i=>`
-                                <a href="${i.hash}" 
+                            ${o.map(s=>`
+                                <a href="${s.hash}" 
                                    class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all
-                                          ${e===i.hash?"text-amber-400 bg-amber-500/10":"text-gray-300 hover:text-white hover:bg-white/10"}">
-                                    <span class="text-lg">${i.icon}</span>${i.label}
+                                          ${e===s.hash?"text-amber-400 bg-amber-500/10":"text-gray-300 hover:text-white hover:bg-white/10"}">
+                                    <span class="text-lg">${s.icon}</span>${s.label}
                                 </a>
                             `).join("")}
                             ${t?`
@@ -93,7 +93,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 </div>
             </div>
         </nav>
-    `}function ue(){let e=document.getElementById("main-navbar");if(!e)return;let t=0;function a(){let c=window.scrollY,u=e.querySelector(".navbar-glass");u&&(c>60?u.classList.add("navbar-solid"):u.classList.remove("navbar-solid"),t=c)}window.addEventListener("scroll",a,{passive:!0}),a();let r=document.getElementById("mobile-menu-btn"),o=document.getElementById("mobile-menu"),i=document.getElementById("mobile-menu-panel"),s=document.getElementById("mobile-menu-close"),n=document.getElementById("mobile-menu-backdrop");function l(){!o||!i||(o.classList.remove("hidden"),requestAnimationFrame(()=>{i.classList.remove("translate-x-full"),i.classList.add("translate-x-0")}))}function d(){!o||!i||(i.classList.remove("translate-x-0"),i.classList.add("translate-x-full"),setTimeout(()=>o.classList.add("hidden"),300))}return r?.addEventListener("click",l),s?.addEventListener("click",d),n?.addEventListener("click",d),document.querySelectorAll(".mobile-nav-link").forEach(c=>{c.addEventListener("click",d)}),()=>{window.removeEventListener("scroll",a)}}var G=class{constructor(t="particles-canvas"){this.canvas=document.getElementById(t),this.canvas&&(this.ctx=this.canvas.getContext("2d"),this.particles=[],this.animationId=null,this.maxParticles=60,this.colors=["rgba(245, 166, 35, 0.4)","rgba(168, 85, 247, 0.3)","rgba(59, 130, 246, 0.3)","rgba(255, 215, 0, 0.2)","rgba(147, 51, 234, 0.2)"],this.resize(),window.addEventListener("resize",()=>this.resize()))}resize(){this.canvas&&(this.canvas.width=window.innerWidth,this.canvas.height=window.innerHeight)}createParticle(){return{x:Math.random()*this.canvas.width,y:this.canvas.height+Math.random()*100,size:Math.random()*3+1,speedY:-(Math.random()*.5+.2),speedX:(Math.random()-.5)*.3,opacity:Math.random()*.5+.1,color:this.colors[Math.floor(Math.random()*this.colors.length)],life:0,maxLife:Math.random()*300+200,pulse:Math.random()*Math.PI*2,pulseSpeed:Math.random()*.02+.01}}update(){for(;this.particles.length<this.maxParticles;)this.particles.push(this.createParticle());for(let t=this.particles.length-1;t>=0;t--){let a=this.particles[t];a.x+=a.speedX,a.y+=a.speedY,a.life++,a.pulse+=a.pulseSpeed;let r=a.life/a.maxLife;r<.1?a.currentOpacity=a.opacity*(r/.1):r>.8?a.currentOpacity=a.opacity*((1-r)/.2):a.currentOpacity=a.opacity,a.currentSize=a.size+Math.sin(a.pulse)*.5,(a.life>=a.maxLife||a.y<-20)&&this.particles.splice(t,1)}}draw(){if(this.ctx){this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);for(let t of this.particles)this.ctx.save(),this.ctx.globalAlpha=t.currentOpacity||t.opacity,this.ctx.fillStyle=t.color,this.ctx.shadowColor=t.color,this.ctx.shadowBlur=t.currentSize*4,this.ctx.beginPath(),this.ctx.arc(t.x,t.y,t.currentSize,0,Math.PI*2),this.ctx.fill(),this.ctx.restore()}}animate(){this.update(),this.draw(),this.animationId=requestAnimationFrame(()=>this.animate())}start(){this.canvas&&this.animate()}stop(){this.animationId&&(cancelAnimationFrame(this.animationId),this.animationId=null)}destroy(){this.stop(),this.particles=[],this.ctx&&this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)}};function p(){return`
+    `}function be(){let e=document.getElementById("main-navbar");if(!e)return;let t=0;function a(){let c=window.scrollY,u=e.querySelector(".navbar-glass");u&&(c>60?u.classList.add("navbar-solid"):u.classList.remove("navbar-solid"),t=c)}window.addEventListener("scroll",a,{passive:!0}),a();let r=document.getElementById("mobile-menu-btn"),o=document.getElementById("mobile-menu"),s=document.getElementById("mobile-menu-panel"),n=document.getElementById("mobile-menu-close"),i=document.getElementById("mobile-menu-backdrop");function l(){!o||!s||(o.classList.remove("hidden"),requestAnimationFrame(()=>{s.classList.remove("translate-x-full"),s.classList.add("translate-x-0")}))}function d(){!o||!s||(s.classList.remove("translate-x-0"),s.classList.add("translate-x-full"),setTimeout(()=>o.classList.add("hidden"),300))}return r?.addEventListener("click",l),n?.addEventListener("click",d),i?.addEventListener("click",d),document.querySelectorAll(".mobile-nav-link").forEach(c=>{c.addEventListener("click",d)}),()=>{window.removeEventListener("scroll",a)}}var Y=class{constructor(t="particles-canvas"){this.canvas=document.getElementById(t),this.canvas&&(this.ctx=this.canvas.getContext("2d"),this.particles=[],this.animationId=null,this.maxParticles=60,this.colors=["rgba(245, 166, 35, 0.4)","rgba(168, 85, 247, 0.3)","rgba(59, 130, 246, 0.3)","rgba(255, 215, 0, 0.2)","rgba(147, 51, 234, 0.2)"],this.resize(),window.addEventListener("resize",()=>this.resize()))}resize(){this.canvas&&(this.canvas.width=window.innerWidth,this.canvas.height=window.innerHeight)}createParticle(){return{x:Math.random()*this.canvas.width,y:this.canvas.height+Math.random()*100,size:Math.random()*3+1,speedY:-(Math.random()*.5+.2),speedX:(Math.random()-.5)*.3,opacity:Math.random()*.5+.1,color:this.colors[Math.floor(Math.random()*this.colors.length)],life:0,maxLife:Math.random()*300+200,pulse:Math.random()*Math.PI*2,pulseSpeed:Math.random()*.02+.01}}update(){for(;this.particles.length<this.maxParticles;)this.particles.push(this.createParticle());for(let t=this.particles.length-1;t>=0;t--){let a=this.particles[t];a.x+=a.speedX,a.y+=a.speedY,a.life++,a.pulse+=a.pulseSpeed;let r=a.life/a.maxLife;r<.1?a.currentOpacity=a.opacity*(r/.1):r>.8?a.currentOpacity=a.opacity*((1-r)/.2):a.currentOpacity=a.opacity,a.currentSize=a.size+Math.sin(a.pulse)*.5,(a.life>=a.maxLife||a.y<-20)&&this.particles.splice(t,1)}}draw(){if(this.ctx){this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);for(let t of this.particles)this.ctx.save(),this.ctx.globalAlpha=t.currentOpacity||t.opacity,this.ctx.fillStyle=t.color,this.ctx.shadowColor=t.color,this.ctx.shadowBlur=t.currentSize*4,this.ctx.beginPath(),this.ctx.arc(t.x,t.y,t.currentSize,0,Math.PI*2),this.ctx.fill(),this.ctx.restore()}}animate(){this.update(),this.draw(),this.animationId=requestAnimationFrame(()=>this.animate())}start(){this.canvas&&this.animate()}stop(){this.animationId&&(cancelAnimationFrame(this.animationId),this.animationId=null)}destroy(){this.stop(),this.particles=[],this.ctx&&this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)}};function p(){return`
         <footer class="relative border-t border-white/5 bg-gradient-to-b from-[#0a0e17] to-[#050810] mt-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
@@ -158,11 +158,11 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 </div>
             </div>
         </footer>
-    `}function j({icon:e,label:t,value:a,color:r="blue",subtitle:o="",glow:i=!1}){let s={gold:"from-amber-500/20 to-yellow-600/10 border-amber-500/30",purple:"from-purple-500/20 to-violet-600/10 border-purple-500/30",blue:"from-blue-500/20 to-cyan-600/10 border-blue-500/30",green:"from-green-500/20 to-emerald-600/10 border-green-500/30",red:"from-red-500/20 to-rose-600/10 border-red-500/30",cyan:"from-cyan-500/20 to-teal-600/10 border-cyan-500/30"},n={gold:"shadow-amber-500/20",purple:"shadow-purple-500/20",blue:"shadow-blue-500/20",green:"shadow-green-500/20",red:"shadow-red-500/20",cyan:"shadow-cyan-500/20"},l={gold:"from-amber-500 to-yellow-600",purple:"from-purple-500 to-violet-600",blue:"from-blue-500 to-cyan-600",green:"from-green-500 to-emerald-600",red:"from-red-500 to-rose-600",cyan:"from-cyan-500 to-teal-600"};return`
-        <div class="group relative rounded-2xl border bg-gradient-to-br ${s[r]} 
+    `}function N({icon:e,label:t,value:a,color:r="blue",subtitle:o="",glow:s=!1}){let n={gold:"from-amber-500/20 to-yellow-600/10 border-amber-500/30",purple:"from-purple-500/20 to-violet-600/10 border-purple-500/30",blue:"from-blue-500/20 to-cyan-600/10 border-blue-500/30",green:"from-green-500/20 to-emerald-600/10 border-green-500/30",red:"from-red-500/20 to-rose-600/10 border-red-500/30",cyan:"from-cyan-500/20 to-teal-600/10 border-cyan-500/30"},i={gold:"shadow-amber-500/20",purple:"shadow-purple-500/20",blue:"shadow-blue-500/20",green:"shadow-green-500/20",red:"shadow-red-500/20",cyan:"shadow-cyan-500/20"},l={gold:"from-amber-500 to-yellow-600",purple:"from-purple-500 to-violet-600",blue:"from-blue-500 to-cyan-600",green:"from-green-500 to-emerald-600",red:"from-red-500 to-rose-600",cyan:"from-cyan-500 to-teal-600"};return`
+        <div class="group relative rounded-2xl border bg-gradient-to-br ${n[r]} 
                     p-6 transition-all duration-300 hover:scale-[1.03] hover:border-opacity-60 
-                    ${i?`shadow-lg ${n[r]}`:""} 
-                    hover:shadow-xl ${n[r]} animate-item cursor-default">
+                    ${s?`shadow-lg ${i[r]}`:""} 
+                    hover:shadow-xl ${i[r]} animate-item cursor-default">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${l[r]} flex items-center justify-center text-2xl shadow-lg shrink-0">
                     ${e}
@@ -175,14 +175,14 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
             </div>
             <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
         </div>
-    `}function ge({name:e,tag:t,role:a,townHallLevel:r,trophies:o,donations:i,clanCapital:s,totalPoints:n,onClick:l}){let d={leader:"from-amber-500 to-yellow-600",coLeader:"from-purple-500 to-violet-600",admin:"from-blue-500 to-cyan-600",member:"from-gray-500 to-gray-600"},c={leader:"Leader",coLeader:"Co-Leader",admin:"Elder",member:"Member"},D={1:"#8B7355",2:"#CD853F",3:"#DAA520",4:"#B8860B",5:"#4169E1",6:"#FFD700",7:"#9370DB",8:"#DC143C",9:"#4B0082",10:"#FF4500",11:"#00CED1",12:"#1E90FF",13:"#228B22",14:"#32CD32",15:"#4169E1",16:"#8B008B",17:"#FFD700"}[r]||"#6b7280";return`
+    `}function xe({name:e,tag:t,role:a,townHallLevel:r,trophies:o,donations:s,clanCapital:n,totalPoints:i,onClick:l}){let d={leader:"from-amber-500 to-yellow-600",coLeader:"from-purple-500 to-violet-600",admin:"from-blue-500 to-cyan-600",member:"from-gray-500 to-gray-600"},c={leader:"Leader",coLeader:"Co-Leader",admin:"Elder",member:"Member"},A={1:"#8B7355",2:"#CD853F",3:"#DAA520",4:"#B8860B",5:"#4169E1",6:"#FFD700",7:"#9370DB",8:"#DC143C",9:"#4B0082",10:"#FF4500",11:"#00CED1",12:"#1E90FF",13:"#228B22",14:"#32CD32",15:"#4169E1",16:"#8B008B",17:"#FFD700"}[r]||"#6b7280";return`
         <div class="group relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm 
                     p-4 sm:p-5 transition-all duration-300 hover:bg-white/10 hover:border-white/20 
                     hover:shadow-lg hover:shadow-purple-500/10 cursor-pointer animate-item"
              onclick="${l||""}">
             <div class="flex items-center gap-3 sm:gap-4">
                 <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center text-sm font-bold text-white shrink-0"
-                     style="background: linear-gradient(135deg, ${D}, ${D}99); box-shadow: 0 0 15px ${D}40;">
+                     style="background: linear-gradient(135deg, ${A}, ${A}99); box-shadow: 0 0 15px ${A}40;">
                     TH${r||"?"}
                 </div>
                 <div class="flex-1 min-w-0">
@@ -195,12 +195,12 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                     <p class="text-xs text-gray-500 mb-2">${t}</p>
                     <div class="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-400">
                         <span class="flex items-center gap-1 shrink-0">\u{1F3C6} ${(o||0).toLocaleString()}</span>
-                        <span class="flex items-center gap-1 shrink-0">\u{1F381} ${(i||0).toLocaleString()}</span>
+                        <span class="flex items-center gap-1 shrink-0">\u{1F381} ${(s||0).toLocaleString()}</span>
                     </div>
                 </div>
                 <div class="text-right shrink-0">
                     <div class="text-lg font-bold text-amber-400" style="font-family: 'Lilita One', cursive;">
-                        ${a==="leader"?"\u{1F451}":n||0}
+                        ${a==="leader"?"\u{1F451}":i||0}
                     </div>
                     <div class="text-[10px] text-gray-500 uppercase">${a==="leader"?"Leader":"Points"}</div>
                 </div>
@@ -209,7 +209,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 </svg>
             </div>
         </div>
-    `}function be({date:e,opponent:t,warSize:a,result:r,clanStars:o,opponentStars:i,clanDestruction:s,opponentDestruction:n,onClick:l}){let d={win:{label:"VICTORY",bg:"from-green-500/20 to-emerald-600/10",border:"border-green-500/30",badge:"from-green-500 to-emerald-600"},loss:{label:"DEFEAT",bg:"from-red-500/20 to-rose-600/10",border:"border-red-500/30",badge:"from-red-500 to-rose-600"},draw:{label:"DRAW",bg:"from-gray-500/20 to-gray-600/10",border:"border-gray-500/30",badge:"from-gray-500 to-gray-600"}},c=d[r]||d.draw;return`
+    `}function he({date:e,opponent:t,warSize:a,result:r,clanStars:o,opponentStars:s,clanDestruction:n,opponentDestruction:i,onClick:l}){let d={win:{label:"VICTORY",bg:"from-green-500/20 to-emerald-600/10",border:"border-green-500/30",badge:"from-green-500 to-emerald-600"},loss:{label:"DEFEAT",bg:"from-red-500/20 to-rose-600/10",border:"border-red-500/30",badge:"from-red-500 to-rose-600"},draw:{label:"DRAW",bg:"from-gray-500/20 to-gray-600/10",border:"border-gray-500/30",badge:"from-gray-500 to-gray-600"}},c=d[r]||d.draw;return`
         <div class="group relative rounded-2xl border ${c.border} bg-gradient-to-br ${c.bg} backdrop-blur-sm 
                     p-6 transition-all duration-300 hover:scale-[1.02] cursor-pointer animate-item"
              onclick="${l||""}">
@@ -226,17 +226,17 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 <div class="flex-1 text-center">
                     <p class="text-2xl font-bold text-white" style="font-family: 'Lilita One', cursive;">\u2B50 ${o||0}</p>
                     <p class="text-xs text-gray-400 mt-1">Our Clan</p>
-                    <p class="text-xs text-gray-500">${(s||0).toFixed(1)}%</p>
+                    <p class="text-xs text-gray-500">${(n||0).toFixed(1)}%</p>
                 </div>
                 <div class="text-gray-500 font-bold text-lg">VS</div>
                 <div class="flex-1 text-center">
-                    <p class="text-2xl font-bold text-white/60" style="font-family: 'Lilita One', cursive;">\u2B50 ${i||0}</p>
+                    <p class="text-2xl font-bold text-white/60" style="font-family: 'Lilita One', cursive;">\u2B50 ${s||0}</p>
                     <p class="text-xs text-gray-400 mt-1 truncate">${t||"Unknown"}</p>
-                    <p class="text-xs text-gray-500">${(n||0).toFixed(1)}%</p>
+                    <p class="text-xs text-gray-500">${(i||0).toFixed(1)}%</p>
                 </div>
             </div>
         </div>
-    `}function y({rank:e,name:t,tag:a,townHallLevel:r,totalPoints:o,totalWars:i,totalStars:s,donations:n}){let l=e<=3,c={1:{medal:"\u{1F947}",border:"border-amber-400/50",bg:"from-amber-500/20 to-yellow-600/10",glow:"shadow-amber-500/30",textColor:"text-amber-400"},2:{medal:"\u{1F948}",border:"border-gray-300/50",bg:"from-gray-300/20 to-gray-400/10",glow:"shadow-gray-300/20",textColor:"text-gray-300"},3:{medal:"\u{1F949}",border:"border-orange-500/50",bg:"from-orange-500/20 to-amber-600/10",glow:"shadow-orange-500/20",textColor:"text-orange-400"}}[e]||{medal:"",border:"border-white/10",bg:"bg-white/5",glow:"",textColor:"text-white"};return l?`
+    `}function y({rank:e,name:t,tag:a,townHallLevel:r,totalPoints:o,totalWars:s,totalStars:n,donations:i}){let l=e<=3,c={1:{medal:"\u{1F947}",border:"border-amber-400/50",bg:"from-amber-500/20 to-yellow-600/10",glow:"shadow-amber-500/30",textColor:"text-amber-400"},2:{medal:"\u{1F948}",border:"border-gray-300/50",bg:"from-gray-300/20 to-gray-400/10",glow:"shadow-gray-300/20",textColor:"text-gray-300"},3:{medal:"\u{1F949}",border:"border-orange-500/50",bg:"from-orange-500/20 to-amber-600/10",glow:"shadow-orange-500/20",textColor:"text-orange-400"}}[e]||{medal:"",border:"border-white/10",bg:"bg-white/5",glow:"",textColor:"text-white"};return l?`
             <div class="relative rounded-2xl border ${c.border} bg-gradient-to-br ${c.bg} backdrop-blur-sm 
                         p-6 transition-all duration-300 hover:scale-[1.03] shadow-lg ${c.glow} 
                         ${e===1?"gold-shimmer":""} animate-item">
@@ -252,7 +252,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                     </div>
                 </div>
                 <div class="flex gap-4 mt-4 text-xs text-gray-400 border-t border-white/10 pt-3">
-                    <span>\u{1F381} ${(n||0).toLocaleString()} Donated</span>
+                    <span>\u{1F381} ${(i||0).toLocaleString()} Donated</span>
                 </div>
             </div>
         `:`
@@ -266,19 +266,19 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 </div>
             </div>
             <div class="flex gap-4 text-xs text-gray-500 shrink-0">
-                <span>\u{1F381} ${(n||0).toLocaleString()}</span>
+                <span>\u{1F381} ${(i||0).toLocaleString()}</span>
             </div>
             <div class="text-right shrink-0">
                 <span class="text-amber-400 font-bold" style="font-family: 'Lilita One', cursive;">${(o||0).toLocaleString()}</span>
             </div>
         </div>
-    `}import{initializeApp as Ze}from"https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";import{getAuth as et}from"https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";import{getFirestore as tt}from"https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";import{getStorage as at}from"https://www.gstatic.com/firebasejs/11.8.1/firebase-storage.js";var re={apiKey:"AIzaSyCJvQDiM7JQ7n0si8UgI-lpVA7CgiVD8eA",authDomain:"victorytoclan.firebaseapp.com",projectId:"victorytoclan",storageBucket:"victorytoclan.firebasestorage.app",messagingSenderId:"762294306774",appId:"1:762294306774:web:601d43f7d499167e40c677"},K,S,g,rt;try{K=Ze(re),S=et(K),g=tt(K),rt=at(K),console.log("\u2705 Firebase initialized successfully")}catch(e){console.warn("\u26A0\uFE0F Firebase initialization failed:",e.message),console.warn("Please configure your Firebase project in js/config/firebase.js")}function x(){return re.apiKey!=="YOUR_API_KEY"&&re.projectId!=="YOUR_PROJECT_ID"}async function h(){return await import("https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js")}async function v(){if(!x())return oe();try{let{collection:e,getDocs:t,query:a,orderBy:r}=await h(),o=a(e(g,"members"),r("totalPoints","desc"));return(await t(o)).docs.map(s=>({id:s.id,...s.data()}))}catch(e){return console.error("getMembers:",e),oe()}}async function ve(e){if(!x())return oe().find(t=>t.tag===e)||null;try{let{doc:t,getDoc:a}=await h(),r=await a(t(g,"members",e));return r.exists()?{id:r.id,...r.data()}:null}catch(t){return console.error("getMember:",t),null}}async function A(){if(!x())return xe();try{let{collection:e,getDocs:t,query:a,orderBy:r}=await h(),o=a(e(g,"wars"),r("date","desc"));return(await t(o)).docs.map(s=>({id:s.id,...s.data()}))}catch(e){return console.error("getWars:",e),xe()}}async function fe(e){if(!x())return;let{collection:t,addDoc:a,serverTimestamp:r}=await h();return await a(t(g,"wars"),{...e,createdAt:r()})}async function ne(e){if(!x())return;let{collection:t,addDoc:a,serverTimestamp:r,doc:o,runTransaction:i}=await h(),s=o(g,"members",e.memberTag);await i(g,async n=>{let l=await n.get(s);if(!l.exists())throw"Document does not exist!";let d=(l.data().totalPoints||0)+e.amount;d>1500&&(d=1500),n.update(s,{totalPoints:d})}),await a(t(g,"pointHistory"),{...e,date:r()})}async function Y(){if(!x())return he();try{let{collection:e,getDocs:t,query:a,orderBy:r,limit:o}=await h(),i=a(e(g,"pointHistory"),r("date","desc"),o(150));return(await t(i)).docs.map(n=>({id:n.id,...n.data()}))}catch(e){return console.error("getAllPointHistory:",e),he()}}async function we(e){if(!x())return;let{doc:t,deleteDoc:a}=await h(),r=t(g,"pointHistory",e);await a(r)}async function ye(e){if(!x())return;let{collection:t,addDoc:a,serverTimestamp:r}=await h();return await a(t(g,"promotions"),{...e,date:r()})}async function ke(e){if(!x())return;let{collection:t,addDoc:a,serverTimestamp:r}=await h();return await a(t(g,"violations"),{...e,date:r()})}function oe(){return["DragonSlayer","WarMachine","ClashKing","QueenArcher","GoblinHero","WallBreaker","TH17Master","EliteWarrior","SuperWitch","IceGolem","LavaHound","ElectroDragon","YetiSmash","HeadHunter","InfernoTower","PhoenixRise","RoyalGhost","SneakyGoblin","SuperBowler","PartyWizard"].map((t,a)=>({tag:`#${String(2e3+a).padStart(4,"0")}ABC`,name:t,townHallLevel:Math.floor(Math.random()*7)+11,role:a===0?"leader":a<3?"coLeader":a<7?"admin":"member",trophies:Math.floor(Math.random()*2e3)+4e3,donations:Math.floor(Math.random()*5e3)+500,donationsReceived:Math.floor(Math.random()*3e3)+200,clanCapitalContributions:Math.floor(Math.random()*1e5)+1e4,totalPoints:Math.floor(Math.random()*300)+50,totalWars:Math.floor(Math.random()*50)+10,totalStars:Math.floor(Math.random()*100)+20,avgDestruction:Math.random()*30+70}))}function xe(){return["Dark Warriors","Storm Legion","Iron Wolves","Shadow Riders","Thunder Hawks"].map((t,a)=>({id:`war-${a}`,date:new Date(Date.now()-a*3*864e5).toISOString(),opponent:t,warSize:[15,20,25,30,40][a%5],result:["win","win","loss","win","draw"][a],clanStars:Math.floor(Math.random()*30)+20,opponentStars:Math.floor(Math.random()*30)+15,clanDestruction:Math.random()*20+80,opponentDestruction:Math.random()*30+60}))}function he(){return["Ikut War","3 Bintang","Donasi 1000","Clan Games","Tidak Attack"].map((t,a)=>({id:`ph-${a}`,amount:a===4?-20:[10,15,5,20][a],reason:t,category:"war",adminName:"Leader",date:new Date(Date.now()-a*2*864e5).toISOString()}))}async function B(){if(!x())return null;try{let{doc:e,getDoc:t}=await h(),a=await t(e(g,"settings","rules"));return a.exists()?a.data():null}catch(e){return console.error("getRules:",e),null}}async function Le(e){if(!x())return;let{doc:t,setDoc:a}=await h();await a(t(g,"settings","rules"),e)}async function J(){if(!x())return{heroTitle:`<span class="hero-title-gradient">Lead Your Clan</span>
+    `}import{initializeApp as et}from"https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";import{getAuth as tt}from"https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";import{getFirestore as at}from"https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";import{getStorage as rt}from"https://www.gstatic.com/firebasejs/11.8.1/firebase-storage.js";var ne={apiKey:"AIzaSyCJvQDiM7JQ7n0si8UgI-lpVA7CgiVD8eA",authDomain:"victorytoclan.firebaseapp.com",projectId:"victorytoclan",storageBucket:"victorytoclan.firebasestorage.app",messagingSenderId:"762294306774",appId:"1:762294306774:web:601d43f7d499167e40c677"},J,D,g,ot;try{J=et(ne),D=tt(J),g=at(J),ot=rt(J),console.log("\u2705 Firebase initialized successfully")}catch(e){console.warn("\u26A0\uFE0F Firebase initialization failed:",e.message),console.warn("Please configure your Firebase project in js/config/firebase.js")}function x(){return ne.apiKey!=="YOUR_API_KEY"&&ne.projectId!=="YOUR_PROJECT_ID"}async function h(){return await import("https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js")}async function v(){if(!x())return ie();try{let{collection:e,getDocs:t,query:a,orderBy:r}=await h(),o=a(e(g,"members"),r("totalPoints","desc"));return(await t(o)).docs.map(n=>({id:n.id,...n.data()}))}catch(e){return console.error("getMembers:",e),ie()}}async function we(e){if(!x())return ie().find(t=>t.tag===e)||null;try{let{doc:t,getDoc:a}=await h(),r=await a(t(g,"members",e));return r.exists()?{id:r.id,...r.data()}:null}catch(t){return console.error("getMember:",t),null}}async function R(){if(!x())return ve();try{let{collection:e,getDocs:t,query:a,orderBy:r}=await h(),o=a(e(g,"wars"),r("date","desc"));return(await t(o)).docs.map(n=>({id:n.id,...n.data()}))}catch(e){return console.error("getWars:",e),ve()}}async function ye(e){if(!x())return;let{collection:t,addDoc:a,serverTimestamp:r}=await h();return await a(t(g,"wars"),{...e,createdAt:r()})}async function se(e){if(!x())return;let{collection:t,addDoc:a,serverTimestamp:r,doc:o,runTransaction:s}=await h(),n=o(g,"members",e.memberTag);await s(g,async i=>{let l=await i.get(n);if(!l.exists())throw"Document does not exist!";let d=(l.data().totalPoints||0)+e.amount;d>1500&&(d=1500),i.update(n,{totalPoints:d})}),await a(t(g,"pointHistory"),{...e,date:r()})}async function Q(){if(!x())return fe();try{let{collection:e,getDocs:t,query:a,orderBy:r,limit:o}=await h(),s=a(e(g,"pointHistory"),r("date","desc"),o(150));return(await t(s)).docs.map(i=>({id:i.id,...i.data()}))}catch(e){return console.error("getAllPointHistory:",e),fe()}}async function ke(e){if(!x())return;let{doc:t,deleteDoc:a}=await h(),r=t(g,"pointHistory",e);await a(r)}async function Le(e){if(!x())return;let{collection:t,addDoc:a,serverTimestamp:r}=await h();return await a(t(g,"promotions"),{...e,date:r()})}async function $e(e){if(!x())return;let{collection:t,addDoc:a,serverTimestamp:r}=await h();return await a(t(g,"violations"),{...e,date:r()})}function ie(){return["DragonSlayer","WarMachine","ClashKing","QueenArcher","GoblinHero","WallBreaker","TH17Master","EliteWarrior","SuperWitch","IceGolem","LavaHound","ElectroDragon","YetiSmash","HeadHunter","InfernoTower","PhoenixRise","RoyalGhost","SneakyGoblin","SuperBowler","PartyWizard"].map((t,a)=>({tag:`#${String(2e3+a).padStart(4,"0")}ABC`,name:t,townHallLevel:Math.floor(Math.random()*7)+11,role:a===0?"leader":a<3?"coLeader":a<7?"admin":"member",trophies:Math.floor(Math.random()*2e3)+4e3,donations:Math.floor(Math.random()*5e3)+500,donationsReceived:Math.floor(Math.random()*3e3)+200,clanCapitalContributions:Math.floor(Math.random()*1e5)+1e4,totalPoints:Math.floor(Math.random()*300)+50,totalWars:Math.floor(Math.random()*50)+10,totalStars:Math.floor(Math.random()*100)+20,avgDestruction:Math.random()*30+70}))}function ve(){return["Dark Warriors","Storm Legion","Iron Wolves","Shadow Riders","Thunder Hawks"].map((t,a)=>({id:`war-${a}`,date:new Date(Date.now()-a*3*864e5).toISOString(),opponent:t,warSize:[15,20,25,30,40][a%5],result:["win","win","loss","win","draw"][a],clanStars:Math.floor(Math.random()*30)+20,opponentStars:Math.floor(Math.random()*30)+15,clanDestruction:Math.random()*20+80,opponentDestruction:Math.random()*30+60}))}function fe(){return["Ikut War","3 Bintang","Donasi 1000","Clan Games","Tidak Attack"].map((t,a)=>({id:`ph-${a}`,amount:a===4?-20:[10,15,5,20][a],reason:t,category:"war",adminName:"Leader",date:new Date(Date.now()-a*2*864e5).toISOString()}))}async function I(){if(!x())return null;try{let{doc:e,getDoc:t}=await h(),a=await t(e(g,"settings","rules"));return a.exists()?a.data():null}catch(e){return console.error("getRules:",e),null}}async function Ce(e){if(!x())return;let{doc:t,setDoc:a}=await h();await a(t(g,"settings","rules"),e)}async function X(){if(!x())return{heroTitle:`<span class="hero-title-gradient">Lead Your Clan</span>
 <br>
 <span class="hero-title-gradient-2">To Victory</span>`,heroDescription:"Pantau kontribusi anggota, statistik war, sistem poin, dan rekomendasi kenaikan pangkat secara otomatis."};try{let{doc:e,getDoc:t}=await h(),a=await t(e(g,"settings","landing"));return a.exists()?a.data():{heroTitle:`<span class="hero-title-gradient">Lead Your Clan</span>
 <br>
 <span class="hero-title-gradient-2">To Victory</span>`,heroDescription:"Pantau kontribusi anggota, statistik war, sistem poin, dan rekomendasi kenaikan pangkat secara otomatis."}}catch(e){return console.error("getLandingSettings:",e),{heroTitle:`<span class="hero-title-gradient">Lead Your Clan</span>
 <br>
-<span class="hero-title-gradient-2">To Victory</span>`,heroDescription:"Pantau kontribusi anggota, statistik war, sistem poin, dan rekomendasi kenaikan pangkat secara otomatis."}}}async function $e(e){if(!x())return;let{doc:t,setDoc:a}=await h();await a(t(g,"settings","landing"),e,{merge:!0})}async function Ce(){let e=await J(),a=(await v()).filter(r=>r.role!=="leader").sort((r,o)=>(o.totalPoints||0)-(r.totalPoints||0)).slice(0,3);return`
+<span class="hero-title-gradient-2">To Victory</span>`,heroDescription:"Pantau kontribusi anggota, statistik war, sistem poin, dan rekomendasi kenaikan pangkat secara otomatis."}}}async function Me(e){if(!x())return;let{doc:t,setDoc:a}=await h();await a(t(g,"settings","landing"),e,{merge:!0})}async function Se(){let e=await X(),a=(await v()).filter(r=>r.role!=="leader").sort((r,o)=>(o.totalPoints||0)-(r.totalPoints||0)).slice(0,3);return`
         <!-- Hero Section -->
         <section class="relative min-h-screen flex items-center justify-center overflow-hidden" id="hero-section">
             <!-- Background Image with Parallax -->
@@ -372,10 +372,10 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-on-scroll" data-stagger="true">
-                    ${Q("\u2694\uFE0F","War Tracker","Input dan pantau hasil war dengan tracking attack, bintang, dan destruction otomatis.","from-red-500/20 to-orange-500/10","border-red-500/20")}
-                    ${Q("\u{1F4CA}","Point System","Sistem poin otomatis dengan reward dan punishment yang transparan untuk semua anggota.","from-blue-500/20 to-cyan-500/10","border-blue-500/20")}
-                    ${Q("\u{1F3C6}","Leaderboard","Ranking anggota berdasarkan kontribusi dengan efek emas untuk top player.","from-amber-500/20 to-yellow-500/10","border-amber-500/20")}
-                    ${Q("\u{1F465}","Member Profiles","Profil detail setiap anggota dengan riwayat war, poin, dan statistik lengkap.","from-purple-500/20 to-violet-500/10","border-purple-500/20")}
+                    ${Z("\u2694\uFE0F","War Tracker","Input dan pantau hasil war dengan tracking attack, bintang, dan destruction otomatis.","from-red-500/20 to-orange-500/10","border-red-500/20")}
+                    ${Z("\u{1F4CA}","Point System","Sistem poin otomatis dengan reward dan punishment yang transparan untuk semua anggota.","from-blue-500/20 to-cyan-500/10","border-blue-500/20")}
+                    ${Z("\u{1F3C6}","Leaderboard","Ranking anggota berdasarkan kontribusi dengan efek emas untuk top player.","from-amber-500/20 to-yellow-500/10","border-amber-500/20")}
+                    ${Z("\u{1F465}","Member Profiles","Profil detail setiap anggota dengan riwayat war, poin, dan statistik lengkap.","from-purple-500/20 to-violet-500/10","border-purple-500/20")}
                 </div>
             </div>
         </section>
@@ -443,7 +443,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
         </section>
 
         ${p()}
-    `}function Q(e,t,a,r,o){return`
+    `}function Z(e,t,a,r,o){return`
         <div class="animate-item group rounded-2xl border ${o} bg-gradient-to-br ${r} 
                     backdrop-blur-sm p-6 transition-all duration-300 hover:scale-[1.04] hover:shadow-lg cursor-default">
             <div class="text-4xl mb-4">${e}</div>
@@ -540,13 +540,13 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                     ${this.repeat("memberCard",6)}
                 </div>
             </div>
-        `}};function I(e,t,a){return`
+        `}};function H(e,t,a){return`
         <div class="flex flex-col items-center justify-center py-16 text-center animate-on-scroll">
             <div class="text-6xl mb-4 opacity-50">${e}</div>
             <h3 class="text-xl font-bold text-white/70 mb-2" style="font-family: 'Lilita One', cursive;">${t}</h3>
             <p class="text-gray-500 max-w-md">${a}</p>
         </div>
-    `}function C(e){return e==null?"0":Number(e).toLocaleString("en-US")}function Me(e){return e?(e instanceof Date?e:new Date(e)).toLocaleDateString("id-ID",{year:"numeric",month:"long",day:"numeric"}):"-"}function X(e){return e?(e instanceof Date?e:new Date(e)).toLocaleDateString("id-ID",{year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}):"-"}function Pe(e,t=300){let a;return function(...r){clearTimeout(a),a=setTimeout(()=>e.apply(this,r),t)}}function Te(e){let t={leader:{label:"Leader",bg:"from-yellow-500 to-amber-600",text:"text-black"},coLeader:{label:"Co-Leader",bg:"from-purple-500 to-violet-600",text:"text-white"},admin:{label:"Elder",bg:"from-blue-500 to-cyan-600",text:"text-white"},member:{label:"Member",bg:"from-gray-500 to-gray-600",text:"text-white"}},a=t[e]||t.member;return`<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-gradient-to-r ${a.bg} ${a.text}">${a.label}</span>`}function Z(e){return e?e.toDate?e.toDate():e.seconds?new Date(e.seconds*1e3):new Date(e):null}async function Se(){let e=document.getElementById("page-content");e.innerHTML=`
+    `}function M(e){return e==null?"0":Number(e).toLocaleString("en-US")}function Te(e){return e?(e instanceof Date?e:new Date(e)).toLocaleDateString("id-ID",{year:"numeric",month:"long",day:"numeric"}):"-"}function ee(e){return e?(e instanceof Date?e:new Date(e)).toLocaleDateString("id-ID",{year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}):"-"}function Pe(e,t=300){let a;return function(...r){clearTimeout(a),a=setTimeout(()=>e.apply(this,r),t)}}function Ee(e){let t={leader:{label:"Leader",bg:"from-yellow-500 to-amber-600",text:"text-black"},coLeader:{label:"Co-Leader",bg:"from-purple-500 to-violet-600",text:"text-white"},admin:{label:"Elder",bg:"from-blue-500 to-cyan-600",text:"text-white"},member:{label:"Member",bg:"from-gray-500 to-gray-600",text:"text-white"}},a=t[e]||t.member;return`<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-gradient-to-r ${a.bg} ${a.text}">${a.label}</span>`}function te(e){return e?e.toDate?e.toDate():e.seconds?new Date(e.seconds*1e3):new Date(e):null}async function De(){let e=document.getElementById("page-content");e.innerHTML=`
         <div class="pt-24 pb-8 px-4">
             <div class="max-w-7xl mx-auto">
                 <div class="mb-8">
@@ -558,7 +558,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 </div>
             </div>
         </div>
-    `;let[t,a]=await Promise.all([v(),A()]),r=t.length,o=[...t].sort((n,l)=>(l.donations||0)-(n.donations||0))[0],i=[...t].sort((n,l)=>(l.trophies||0)-(n.trophies||0))[0],s=[...t].sort((n,l)=>(l.totalWars||0)-(n.totalWars||0))[0];e.innerHTML=`
+    `;let[t,a]=await Promise.all([v(),R()]),r=t.length,o=[...t].sort((i,l)=>(l.donations||0)-(i.donations||0))[0],s=[...t].sort((i,l)=>(l.trophies||0)-(i.trophies||0))[0],n=[...t].sort((i,l)=>(l.totalWars||0)-(i.totalWars||0))[0];e.innerHTML=`
         <div class="pt-24 pb-8 px-4">
             <div class="max-w-7xl mx-auto">
                 <!-- Header -->
@@ -571,10 +571,10 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
 
                 <!-- Stat Cards Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 animate-on-scroll" data-stagger="true">
-                    ${j({icon:"\u{1F465}",label:"Total Members",value:C(r),color:"blue"})}
-                    ${j({icon:"\u{1F381}",label:"Top Donator",value:o?.name||"-",color:"purple",subtitle:`${C(o?.donations||0)} donated`})}
-                    ${j({icon:"\u{1F3C6}",label:"Top Player",value:i?.name||"-",color:"gold",glow:!0,subtitle:`${C(i?.trophies||0)} trophies`})}
-                    ${j({icon:"\u{1F525}",label:"Most Active",value:s?.name||"-",color:"red",subtitle:`${s?.totalWars||0} wars joined`})}
+                    ${N({icon:"\u{1F465}",label:"Total Members",value:M(r),color:"blue"})}
+                    ${N({icon:"\u{1F381}",label:"Top Donator",value:o?.name||"-",color:"purple",subtitle:`${M(o?.donations||0)} donated`})}
+                    ${N({icon:"\u{1F3C6}",label:"Top Player",value:s?.name||"-",color:"gold",glow:!0,subtitle:`${M(s?.trophies||0)} trophies`})}
+                    ${N({icon:"\u{1F525}",label:"Most Active",value:n?.name||"-",color:"red",subtitle:`${n?.totalWars||0} wars joined`})}
                 </div>
 
                 <!-- Recent Wars -->
@@ -587,7 +587,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                         </a>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-stagger="true">
-                        ${a.slice(0,3).map(n=>ot(n)).join("")}
+                        ${a.slice(0,3).map(i=>nt(i)).join("")}
                         ${a.length===0?`
                             <div class="col-span-full text-center py-12 text-gray-500">
                                 <p class="text-4xl mb-2">\u2694\uFE0F</p>
@@ -607,13 +607,13 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                         </a>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4" data-stagger="true">
-                        ${t.filter(n=>n.role!=="leader").slice(0,3).map((n,l)=>nt(n,l+1)).join("")}
+                        ${t.filter(i=>i.role!=="leader").slice(0,3).map((i,l)=>it(i,l+1)).join("")}
                     </div>
                 </div>
             </div>
         </div>
         ${p()}
-    `}function ot(e){let t={win:{label:"VICTORY",color:"text-green-400",border:"border-green-500/30",bg:"from-green-500/10 to-transparent"},loss:{label:"DEFEAT",color:"text-red-400",border:"border-red-500/30",bg:"from-red-500/10 to-transparent"},draw:{label:"DRAW",color:"text-gray-400",border:"border-gray-500/30",bg:"from-gray-500/10 to-transparent"}},a=t[e.result]||t.draw,r=e.date?new Date(e.date).toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"}):"-";return`
+    `}function nt(e){let t={win:{label:"VICTORY",color:"text-green-400",border:"border-green-500/30",bg:"from-green-500/10 to-transparent"},loss:{label:"DEFEAT",color:"text-red-400",border:"border-red-500/30",bg:"from-red-500/10 to-transparent"},draw:{label:"DRAW",color:"text-gray-400",border:"border-gray-500/30",bg:"from-gray-500/10 to-transparent"}},a=t[e.result]||t.draw,r=e.date?new Date(e.date).toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"}):"-";return`
         <div class="animate-item rounded-2xl border ${a.border} bg-gradient-to-br ${a.bg} backdrop-blur-sm p-5 
                     hover:scale-[1.02] transition-all duration-300 cursor-pointer" onclick="location.hash='#/wars'">
             <div class="flex items-center justify-between mb-3">
@@ -632,7 +632,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 </div>
             </div>
         </div>
-    `}function nt(e,t){let a=["\u{1F947}","\u{1F948}","\u{1F949}"],r=["text-amber-400","text-gray-300","text-orange-400"];return`
+    `}function it(e,t){let a=["\u{1F947}","\u{1F948}","\u{1F949}"],r=["text-amber-400","text-gray-300","text-orange-400"];return`
         <div class="animate-item flex items-center gap-4 p-4 rounded-xl border ${["border-amber-500/30","border-gray-400/30","border-orange-500/30"][t-1]} bg-white/5 
                     hover:bg-white/10 transition-all duration-200 cursor-pointer" 
              onclick="location.hash='#/member/${encodeURIComponent(e.tag)}'">
@@ -645,14 +645,14 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 ${(e.totalPoints||0).toLocaleString()}
             </p>
         </div>
-    `}function R(){let e=new IntersectionObserver(t=>{t.forEach(a=>{a.isIntersecting&&(a.target.classList.add("animate-visible"),a.target.dataset.stagger&&a.target.querySelectorAll(".animate-item").forEach((o,i)=>{o.style.transitionDelay=`${Math.min(i,8)*100}ms`,o.classList.add("animate-visible")}))})},{threshold:.1,rootMargin:"0px 0px -50px 0px"});return document.querySelectorAll(".animate-on-scroll").forEach(t=>{e.observe(t)}),e}function De(){let e=document.querySelectorAll("[data-parallax]");if(!e.length)return;let t=!1;function a(){t||(requestAnimationFrame(()=>{let r=window.scrollY;e.forEach(o=>{let i=parseFloat(o.dataset.parallax)||.5;o.style.transform=`translateY(${r*i}px)`}),t=!1}),t=!0)}return window.addEventListener("scroll",a,{passive:!0}),()=>window.removeEventListener("scroll",a)}async function k(e,t){e.style.opacity="0",e.style.transform="translateY(10px)",await new Promise(a=>setTimeout(a,200)),await t(),window.scrollTo({top:0,behavior:"instant"}),requestAnimationFrame(()=>{e.style.transition="opacity 0.4s ease, transform 0.4s ease",e.style.opacity="1",e.style.transform="translateY(0)"}),setTimeout(()=>R(),100)}var W=[],N=[],w=1,ee=12;async function Ee(){let e=document.getElementById("page-content");e.innerHTML=`
+    `}function _(){let e=new IntersectionObserver(t=>{t.forEach(a=>{a.isIntersecting&&(a.target.classList.add("animate-visible"),a.target.dataset.stagger&&a.target.querySelectorAll(".animate-item").forEach((o,s)=>{o.style.transitionDelay=`${Math.min(s,8)*100}ms`,o.classList.add("animate-visible")}))})},{threshold:.1,rootMargin:"0px 0px -50px 0px"});return document.querySelectorAll(".animate-on-scroll").forEach(t=>{e.observe(t)}),e}function Ae(){let e=document.querySelectorAll("[data-parallax]");if(!e.length)return;let t=!1;function a(){t||(requestAnimationFrame(()=>{let r=window.scrollY;e.forEach(o=>{let s=parseFloat(o.dataset.parallax)||.5;o.style.transform=`translateY(${r*s}px)`}),t=!1}),t=!0)}return window.addEventListener("scroll",a,{passive:!0}),()=>window.removeEventListener("scroll",a)}async function k(e,t){e.style.opacity="0",e.style.transform="translateY(10px)",await new Promise(a=>setTimeout(a,200)),await t(),window.scrollTo({top:0,behavior:"instant"}),requestAnimationFrame(()=>{e.style.transition="opacity 0.4s ease, transform 0.4s ease",e.style.opacity="1",e.style.transform="translateY(0)"}),setTimeout(()=>_(),100)}var F=[],W=[],w=1,ae=12;async function Be(){let e=document.getElementById("page-content");e.innerHTML=`
         <div class="pt-24 pb-8 px-4">
             <div class="max-w-7xl mx-auto">
                 <div class="mb-8"><div class="h-8 bg-white/10 rounded w-48 mb-2 animate-pulse"></div></div>
                 <div class="grid gap-4">${f.repeat("memberCard",6)}</div>
             </div>
         </div>
-    `,W=await v(),N=[...W],w=1,ie(e)}function ie(e){let t=Math.ceil(N.length/ee),a=N.slice((w-1)*ee,w*ee),r=[...new Set(W.map(l=>l.townHallLevel))].sort((l,d)=>d-l);e.innerHTML=`
+    `,F=await v(),W=[...F],w=1,le(e)}function le(e){let t=Math.ceil(W.length/ae),a=W.slice((w-1)*ae,w*ae),r=[...new Set(F.map(l=>l.townHallLevel))].sort((l,d)=>d-l);e.innerHTML=`
         <div class="pt-24 pb-8 px-4">
             <div class="max-w-7xl mx-auto">
                 <!-- Header -->
@@ -660,7 +660,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                     <h1 class="text-3xl md:text-4xl font-bold text-white mb-2" style="font-family: 'Lilita One', cursive;">
                         Members
                     </h1>
-                    <p class="text-gray-400">Daftar anggota clan \xB7 ${W.length} members</p>
+                    <p class="text-gray-400">Daftar anggota clan \xB7 ${F.length} members</p>
                 </div>
 
                 <!-- Filters Bar -->
@@ -698,7 +698,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
 
                 <!-- Members List -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 animate-on-scroll" id="members-list" data-stagger="true">
-                    ${a.length>0?a.map(l=>ge({name:l.name,tag:l.tag,role:l.role,townHallLevel:l.townHallLevel,trophies:l.trophies,donations:l.donations,clanCapital:l.clanCapitalContributions,totalPoints:l.totalPoints,onClick:`location.hash='#/member/${encodeURIComponent(l.tag)}'`})).join(""):I("\u{1F465}","Tidak ada member ditemukan","Coba ubah filter pencarian")}
+                    ${a.length>0?a.map(l=>xe({name:l.name,tag:l.tag,role:l.role,townHallLevel:l.townHallLevel,trophies:l.trophies,donations:l.donations,clanCapital:l.clanCapitalContributions,totalPoints:l.totalPoints,onClick:`location.hash='#/member/${encodeURIComponent(l.tag)}'`})).join(""):H("\u{1F465}","Tidak ada member ditemukan","Coba ubah filter pencarian")}
                 </div>
 
                 <!-- Pagination -->
@@ -709,7 +709,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                             onclick="window.__membersPage(${w-1})" ${w===1?"disabled":""}>
                         \u2190 Prev
                     </button>
-                    ${it(w,t)}
+                    ${st(w,t)}
                     <button class="px-4 py-2 rounded-xl text-sm font-medium transition-all
                                    ${w===t?"bg-white/5 text-gray-600 cursor-not-allowed":"bg-white/10 text-white hover:bg-white/20"}"
                             onclick="window.__membersPage(${w+1})" ${w===t?"disabled":""}>
@@ -720,13 +720,13 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
             </div>
         </div>
         ${p()}
-    `;let o=document.getElementById("member-search"),i=document.getElementById("filter-th"),s=document.getElementById("filter-role"),n=Pe(()=>{let l=o?.value.toLowerCase()||"",d=i?.value||"",c=s?.value||"";N=W.filter(u=>{let D=!l||u.name.toLowerCase().includes(l)||u.tag.toLowerCase().includes(l),Qe=!d||u.townHallLevel==d,Xe=!c||u.role===c;return D&&Qe&&Xe}),w=1,ie(e)},250);o?.addEventListener("input",n),i?.addEventListener("change",n),s?.addEventListener("change",n),window.__membersPage=l=>{let d=Math.ceil(N.length/ee);l<1||l>d||(w=l,ie(e),window.scrollTo({top:0,behavior:"smooth"}))},setTimeout(()=>R(),50)}function it(e,t){let a=[],o=Math.max(1,e-Math.floor(2.5)),i=Math.min(t,o+5-1);i-o<4&&(o=Math.max(1,i-5+1));for(let s=o;s<=i;s++)a.push(`
+    `;let o=document.getElementById("member-search"),s=document.getElementById("filter-th"),n=document.getElementById("filter-role"),i=Pe(()=>{let l=o?.value.toLowerCase()||"",d=s?.value||"",c=n?.value||"";W=F.filter(u=>{let A=!l||u.name.toLowerCase().includes(l)||u.tag.toLowerCase().includes(l),Xe=!d||u.townHallLevel==d,Ze=!c||u.role===c;return A&&Xe&&Ze}),w=1,le(e)},250);o?.addEventListener("input",i),s?.addEventListener("change",i),n?.addEventListener("change",i),window.__membersPage=l=>{let d=Math.ceil(W.length/ae);l<1||l>d||(w=l,le(e),window.scrollTo({top:0,behavior:"smooth"}))},setTimeout(()=>_(),50)}function st(e,t){let a=[],o=Math.max(1,e-Math.floor(2.5)),s=Math.min(t,o+5-1);s-o<4&&(o=Math.max(1,s-5+1));for(let n=o;n<=s;n++)a.push(`
             <button class="w-10 h-10 rounded-xl text-sm font-medium transition-all
-                           ${s===e?"bg-gradient-to-r from-amber-500 to-yellow-600 text-black font-bold":"bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"}"
-                    onclick="window.__membersPage(${s})">
-                ${s}
+                           ${n===e?"bg-gradient-to-r from-amber-500 to-yellow-600 text-black font-bold":"bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"}"
+                    onclick="window.__membersPage(${n})">
+                ${n}
             </button>
-        `);return a.join("")}async function Ae(e){let t=document.getElementById("page-content");t.innerHTML=`<div class="pt-24 pb-8 px-4"><div class="max-w-5xl mx-auto">${f.profile()}</div></div>`;let a=decodeURIComponent(e),r=await ve(a);if(!r){t.innerHTML=`
+        `);return a.join("")}async function Re(e){let t=document.getElementById("page-content");t.innerHTML=`<div class="pt-24 pb-8 px-4"><div class="max-w-5xl mx-auto">${f.profile()}</div></div>`;let a=decodeURIComponent(e),r=await we(a);if(!r){t.innerHTML=`
             <div class="pt-24 pb-8 px-4">
                 <div class="max-w-5xl mx-auto text-center py-20">
                     <p class="text-6xl mb-4">\u{1F50D}</p>
@@ -735,17 +735,17 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                     <a href="#/members" class="text-amber-400 hover:text-amber-300 text-sm">\u2190 Kembali ke Members</a>
                 </div>
             </div>
-        `;return}let i={1:"#8B7355",2:"#CD853F",3:"#DAA520",4:"#B8860B",5:"#4169E1",6:"#FFD700",7:"#9370DB",8:"#DC143C",9:"#4B0082",10:"#FF4500",11:"#00CED1",12:"#1E90FF",13:"#228B22",14:"#32CD32",15:"#4169E1",16:"#8B008B",17:"#FFD700"}[r.townHallLevel]||"#6b7280",s="",n=r.totalPoints||0;if(r.role==="leader")s=`
+        `;return}let s={1:"#8B7355",2:"#CD853F",3:"#DAA520",4:"#B8860B",5:"#4169E1",6:"#FFD700",7:"#9370DB",8:"#DC143C",9:"#4B0082",10:"#FF4500",11:"#00CED1",12:"#1E90FF",13:"#228B22",14:"#32CD32",15:"#4169E1",16:"#8B008B",17:"#FFD700"}[r.townHallLevel]||"#6b7280",n="",i=r.totalPoints||0;if(r.role==="leader")n=`
             <div class="flex items-center gap-4 p-5 rounded-2xl bg-amber-500/10 border border-amber-500/20">
                 <div class="text-3xl">\u{1F451}</div>
                 <p class="text-gray-300 text-sm leading-relaxed">\u{1F451} Anggota ini adalah <strong>Leader Utama</strong> klan.</p>
             </div>
-        `;else if(r.role==="coLeader"){let l=Math.max(0,Math.min(100,n/1500*100)),d="";n<1250?d=`
+        `;else if(r.role==="coLeader"){let l=Math.max(0,Math.min(100,i/1500*100)),d="";i<1250?d=`
                 <div class="flex items-center gap-4 p-5 rounded-2xl bg-red-500/10 border border-red-500/20">
                     <div class="text-3xl shrink-0">\u26A0\uFE0F</div>
                     <div>
                         <p class="text-white font-bold text-lg mb-1" style="font-family: 'Lilita One', cursive;">Rekomendasi Turun Jabatan</p>
-                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${n}</strong>) di bawah batas minimal Co-Leader (1250). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Elder</strong>.</p>
+                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${i}</strong>) di bawah batas minimal Co-Leader (1250). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Elder</strong>.</p>
                     </div>
                 </div>
             `:d=`
@@ -753,7 +753,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                     <span class="text-green-400 shrink-0">\u269C\uFE0F</span>
                     <p class="text-gray-300 text-sm leading-relaxed">\u2728 Anggota ini telah mencapai pangkat <strong>Co-Leader</strong> dengan poin maksimal (1500).</p>
                 </div>
-            `,s=`
+            `,n=`
             <div class="space-y-6">
                 <div class="flex justify-between items-end text-sm">
                     <div>
@@ -762,7 +762,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                     </div>
                     <div class="text-right">
                         <p class="text-gray-500 text-xs mb-1">Kemajuan Poin</p>
-                        <p class="text-amber-400 font-bold text-lg">${n} / 1500 Poin</p>
+                        <p class="text-amber-400 font-bold text-lg">${i} / 1500 Poin</p>
                     </div>
                 </div>
                 
@@ -776,15 +776,15 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 <!-- Status/Rekomendasi Info -->
                 ${d}
             </div>
-        `}else if(r.role==="admin")if(n<1e3)s=`
+        `}else if(r.role==="admin")if(i<1e3)n=`
                 <div class="flex items-center gap-4 p-5 rounded-2xl bg-red-500/10 border border-red-500/20">
                     <div class="text-3xl shrink-0">\u26A0\uFE0F</div>
                     <div>
                         <p class="text-white font-bold text-lg mb-1" style="font-family: 'Lilita One', cursive;">Rekomendasi Turun Jabatan</p>
-                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${n}</strong>) di bawah batas minimal Elder (1000). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Member</strong>.</p>
+                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${i}</strong>) di bawah batas minimal Elder (1000). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Member</strong>.</p>
                     </div>
                 </div>
-            `;else{let d=Math.max(0,Math.min(100,(n-1250)/250*100)),c=1500-n,u=c<=0?`\u{1F389} Persyaratan poin tercapai! Poin saat ini (${n}) telah mencukupi untuk dipromosikan menjadi Co-Leader.`:`Dibutuhkan <strong>${c}</strong> poin lagi untuk naik jabatan menjadi <strong>Co-Leader</strong>.`;s=`
+            `;else{let d=Math.max(0,Math.min(100,(i-1250)/250*100)),c=1500-i,u=c<=0?`\u{1F389} Persyaratan poin tercapai! Poin saat ini (${i}) telah mencukupi untuk dipromosikan menjadi Co-Leader.`:`Dibutuhkan <strong>${c}</strong> poin lagi untuk naik jabatan menjadi <strong>Co-Leader</strong>.`;n=`
                 <div class="space-y-6">
                     <div class="flex justify-between items-end text-sm">
                         <div>
@@ -793,7 +793,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                         </div>
                         <div class="text-right">
                             <p class="text-gray-500 text-xs mb-1">Kemajuan Poin</p>
-                            <p class="text-amber-400 font-bold text-lg">${n} / 1500 Poin</p>
+                            <p class="text-amber-400 font-bold text-lg">${i} / 1500 Poin</p>
                         </div>
                     </div>
                     
@@ -810,20 +810,20 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                         <p class="text-gray-300 text-sm leading-relaxed">${u}</p>
                     </div>
                 </div>
-            `}else{let d=Math.max(0,Math.min(100,(n-500)/750*100)),c=1250-n,u="";n<300?u=`
+            `}else{let d=Math.max(0,Math.min(100,(i-500)/750*100)),c=1250-i,u="";i<300?u=`
                 <div class="flex items-center gap-4 p-5 rounded-2xl bg-red-500/10 border border-red-500/20">
                     <div class="text-3xl shrink-0">\u{1F6A8}</div>
                     <div>
                         <p class="text-white font-bold text-lg mb-1" style="font-family: 'Lilita One', cursive;">Rekomendasi Kick</p>
-                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${n}</strong>) di bawah batas minimal Member (300). Anggota ini direkomendasikan untuk <strong>dikeluarkan (kick) dari klan</strong>.</p>
+                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${i}</strong>) di bawah batas minimal Member (300). Anggota ini direkomendasikan untuk <strong>dikeluarkan (kick) dari klan</strong>.</p>
                     </div>
                 </div>
             `:u=`
                 <div class="flex items-start gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
                     <span class="text-amber-400">\u{1F4A1}</span>
-                    <p class="text-gray-300 text-sm leading-relaxed">${c<=0?`\u{1F389} Persyaratan poin tercapai! Poin saat ini (${n}) telah mencukupi untuk dipromosikan menjadi Elder.`:`Dibutuhkan <strong>${c}</strong> poin lagi untuk naik jabatan menjadi <strong>Elder</strong>.`}</p>
+                    <p class="text-gray-300 text-sm leading-relaxed">${c<=0?`\u{1F389} Persyaratan poin tercapai! Poin saat ini (${i}) telah mencukupi untuk dipromosikan menjadi Elder.`:`Dibutuhkan <strong>${c}</strong> poin lagi untuk naik jabatan menjadi <strong>Elder</strong>.`}</p>
                 </div>
-            `,s=`
+            `,n=`
             <div class="space-y-6">
                 <div class="flex justify-between items-end text-sm">
                     <div>
@@ -832,7 +832,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                     </div>
                     <div class="text-right">
                         <p class="text-gray-500 text-xs mb-1">Kemajuan Poin</p>
-                        <p class="text-amber-400 font-bold text-lg">${n} / 1250 Poin</p>
+                        <p class="text-amber-400 font-bold text-lg">${i} / 1250 Poin</p>
                     </div>
                 </div>
                 
@@ -859,7 +859,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 <div class="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm p-8 mb-8 animate-on-scroll">
                     <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
                         <div class="w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-bold text-white shrink-0"
-                             style="background: linear-gradient(135deg, ${i}, ${i}99); box-shadow: 0 0 25px ${i}40;">
+                             style="background: linear-gradient(135deg, ${s}, ${s}99); box-shadow: 0 0 25px ${s}40;">
                             TH${r.townHallLevel||"?"}
                         </div>
                         <div class="flex-1">
@@ -867,17 +867,17 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                                 <h1 class="text-2xl md:text-3xl font-bold text-white" style="font-family: 'Lilita One', cursive;">
                                     ${r.name}
                                 </h1>
-                                ${Te(r.role)}
+                                ${Ee(r.role)}
                             </div>
                             <p class="text-gray-500 text-sm mb-3">${r.tag}</p>
                             <div class="flex flex-wrap gap-4 text-sm text-gray-400">
-                                <span class="flex items-center gap-1.5">\u{1F3C6} ${C(r.trophies)} trophies</span>
-                                <span class="flex items-center gap-1.5">\u{1F381} ${C(r.donations)} donated</span>
+                                <span class="flex items-center gap-1.5">\u{1F3C6} ${M(r.trophies)} trophies</span>
+                                <span class="flex items-center gap-1.5">\u{1F381} ${M(r.donations)} donated</span>
                             </div>
                         </div>
                         <div class="text-center md:text-right">
                             <p class="text-4xl font-bold text-amber-400" style="font-family: 'Lilita One', cursive;">
-                                ${C(r.totalPoints||0)}
+                                ${M(r.totalPoints||0)}
                             </p>
                             <p class="text-xs text-gray-500 uppercase tracking-wider">Total Points</p>
                         </div>
@@ -890,21 +890,21 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                         \u2B06\uFE0F Keterangan Naik Jabatan
                     </h2>
                     
-                    ${s}
+                    ${n}
                 </div>
             </div>
         </div>
         ${p()}
-    `}async function Be(){let e=document.getElementById("page-content");e.innerHTML=`
+    `}async function Ie(){let e=document.getElementById("page-content");e.innerHTML=`
         <div class="pt-24 pb-8 px-4"><div class="max-w-4xl mx-auto">
             <div class="mb-8"><div class="h-8 bg-white/10 rounded w-48 mb-2 animate-pulse"></div></div>
             ${f.repeat("leaderboardRow",10)}
         </div></div>
-    `;let t=await v(),a=await Y(),r=t.filter(s=>s.role!=="leader").sort((s,n)=>(n.totalPoints||0)-(s.totalPoints||0)).slice(0,100);if(r.length===0){e.innerHTML=`
+    `;let t=await v(),a=await Q(),r=t.filter(n=>n.role!=="leader").sort((n,i)=>(i.totalPoints||0)-(n.totalPoints||0)).slice(0,100);if(r.length===0){e.innerHTML=`
             <div class="pt-24 pb-8 px-4"><div class="max-w-4xl mx-auto">
-                ${I("\u{1F3C6}","Belum Ada Data","Leaderboard akan muncul setelah data member tersedia")}
+                ${H("\u{1F3C6}","Belum Ada Data","Leaderboard akan muncul setelah data member tersedia")}
             </div></div>${p()}
-        `;return}let o=r.slice(0,3),i=r.slice(3);e.innerHTML=`
+        `;return}let o=r.slice(0,3),s=r.slice(3);e.innerHTML=`
         <div class="pt-24 pb-8 px-4">
             <div class="max-w-4xl mx-auto">
                 <!-- Header -->
@@ -933,18 +933,18 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 </div>
                 `:`
                 <div class="grid gap-4 mb-10 animate-on-scroll" data-stagger="true">
-                    ${o.map((s,n)=>y({rank:n+1,...s})).join("")}
+                    ${o.map((n,i)=>y({rank:i+1,...n})).join("")}
                 </div>
                 `}
 
                 <!-- Rest of Rankings -->
-                ${i.length>0?`
+                ${s.length>0?`
                 <div class="rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm overflow-hidden animate-on-scroll" data-stagger="true">
                     <div class="px-6 py-4 border-b border-white/5">
                         <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider">Rankings #4 - #${r.length}</h3>
                     </div>
                     <div class="p-4 space-y-2">
-                        ${i.map((s,n)=>y({rank:n+4,...s})).join("")}
+                        ${s.map((n,i)=>y({rank:i+4,...n})).join("")}
                     </div>
                 </div>
                 `:""}
@@ -955,19 +955,19 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                         <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider">\u{1F4DC} Riwayat Aktivitas Poin Klan</h3>
                     </div>
                     <div class="p-4 space-y-2">
-                        ${a.length>0?a.map(s=>{let n=X(Z(s.date)),l=(s.amount||0)>=0,d=l?"bg-green-500/20 text-green-400 border border-green-500/30":"bg-red-500/20 text-red-400 border border-red-500/30";return`
+                        ${a.length>0?a.map(n=>{let i=ee(te(n.date)),l=(n.amount||0)>=0,d=l?"bg-green-500/20 text-green-400 border border-green-500/30":"bg-red-500/20 text-red-400 border border-red-500/30";return`
                             <div class="animate-item flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-200">
                                 <div class="flex-1 min-w-0">
                                     <div class="flex items-center gap-2 flex-wrap">
-                                        <span class="text-white font-medium">${s.memberName||"Unknown"}</span>
-                                        <span class="text-[10px] text-gray-500">${s.memberTag||""}</span>
-                                        <span class="text-xs text-gray-500">\u2014 ${s.reason||""}</span>
+                                        <span class="text-white font-medium">${n.memberName||"Unknown"}</span>
+                                        <span class="text-[10px] text-gray-500">${n.memberTag||""}</span>
+                                        <span class="text-xs text-gray-500">\u2014 ${n.reason||""}</span>
                                     </div>
-                                    <p class="text-[10px] text-gray-500 mt-1">Oleh: ${s.adminName||"Admin"} \u2022 ${n}</p>
+                                    <p class="text-[10px] text-gray-500 mt-1">Oleh: ${n.adminName||"Admin"} \u2022 ${i}</p>
                                 </div>
                                 <div class="shrink-0 text-right">
                                     <span class="px-3 py-1 rounded-full text-xs font-bold ${d}" style="font-family: 'Lilita One', cursive;">
-                                        ${l?"+":""}${s.amount} Poin
+                                        ${l?"+":""}${n.amount} Poin
                                     </span>
                                 </div>
                             </div>
@@ -980,17 +980,17 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
             </div>
         </div>
         ${p()}
-    `}async function Ie(){let e=document.getElementById("page-content");e.innerHTML=`
+    `}async function He(){let e=document.getElementById("page-content");e.innerHTML=`
         <div class="pt-24 pb-8 px-4"><div class="max-w-4xl mx-auto">
             <div class="mb-8"><div class="h-8 bg-white/10 rounded w-48 mb-2 animate-pulse"></div></div>
             ${f.repeat("warCard",5)}
         </div></div>
-    `;let t=await A();if(t.length===0){e.innerHTML=`
+    `;let t=await R();if(t.length===0){e.innerHTML=`
             <div class="pt-24 pb-8 px-4"><div class="max-w-4xl mx-auto">
                 <h1 class="text-3xl font-bold text-white mb-4" style="font-family: 'Lilita One', cursive;">\u2694\uFE0F War History</h1>
-                ${I("\u2694\uFE0F","Belum Ada Data War","Data war akan muncul setelah admin menginput hasil war")}
+                ${H("\u2694\uFE0F","Belum Ada Data War","Data war akan muncul setelah admin menginput hasil war")}
             </div></div>${p()}
-        `;return}let a=t.length,r=t.filter(n=>n.result==="win").length,o=t.filter(n=>n.result==="loss").length,i=t.filter(n=>n.result==="draw").length,s=a?Math.round(r/a*100):0;e.innerHTML=`
+        `;return}let a=t.length,r=t.filter(i=>i.result==="win").length,o=t.filter(i=>i.result==="loss").length,s=t.filter(i=>i.result==="draw").length,n=a?Math.round(r/a*100):0;e.innerHTML=`
         <div class="pt-24 pb-8 px-4">
             <div class="max-w-4xl mx-auto">
                 <!-- Header -->
@@ -1016,7 +1016,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                         <p class="text-xs text-gray-500">Defeats</p>
                     </div>
                     <div class="animate-item rounded-xl border border-amber-500/20 bg-amber-500/10 p-4 text-center">
-                        <p class="text-2xl font-bold text-amber-400" style="font-family: 'Lilita One', cursive;">${s}%</p>
+                        <p class="text-2xl font-bold text-amber-400" style="font-family: 'Lilita One', cursive;">${n}%</p>
                         <p class="text-xs text-gray-500">Win Rate</p>
                     </div>
                 </div>
@@ -1027,15 +1027,15 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                     <div class="absolute left-6 md:left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-amber-500/50 via-purple-500/30 to-transparent"></div>
 
                     <div class="space-y-6" data-stagger="true">
-                        ${t.map((n,l)=>{let d=Me(n.date);return`
+                        ${t.map((i,l)=>{let d=Te(i.date);return`
                                 <div class="animate-item relative flex gap-6 md:gap-8">
                                     <!-- Timeline Dot -->
                                     <div class="relative z-10 shrink-0">
-                                        <div class="w-3 h-3 mt-7 rounded-full ${{win:"bg-green-500",loss:"bg-red-500",draw:"bg-gray-500"}[n.result]||"bg-gray-500"} ring-4 ring-[#0a0e17]"></div>
+                                        <div class="w-3 h-3 mt-7 rounded-full ${{win:"bg-green-500",loss:"bg-red-500",draw:"bg-gray-500"}[i.result]||"bg-gray-500"} ring-4 ring-[#0a0e17]"></div>
                                     </div>
                                     <!-- War Card -->
                                     <div class="flex-1 pb-2">
-                                        ${be({date:d,opponent:n.opponent,warSize:n.warSize,result:n.result,clanStars:n.clanStars,opponentStars:n.opponentStars,clanDestruction:n.clanDestruction,opponentDestruction:n.opponentDestruction})}
+                                        ${he({date:d,opponent:i.opponent,warSize:i.warSize,result:i.result,clanStars:i.clanStars,opponentStars:i.opponentStars,clanDestruction:i.clanDestruction,opponentDestruction:i.opponentDestruction})}
                                     </div>
                                 </div>
                             `}).join("")}
@@ -1044,12 +1044,12 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
             </div>
         </div>
         ${p()}
-    `}var H=[];async function Re(){H.forEach(r=>{try{r.destroy()}catch{}}),H=[];let e=document.getElementById("page-content");e.innerHTML=`
+    `}var O=[];async function _e(){O.forEach(r=>{try{r.destroy()}catch{}}),O=[];let e=document.getElementById("page-content");e.innerHTML=`
         <div class="pt-24 pb-8 px-4"><div class="max-w-7xl mx-auto">
             <div class="mb-8"><div class="h-8 bg-white/10 rounded w-48 mb-2 animate-pulse"></div></div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">${f.repeat("chart",4)}</div>
         </div></div>
-    `;let[t,a]=await Promise.all([v(),A()]);e.innerHTML=`
+    `;let[t,a]=await Promise.all([v(),R()]);e.innerHTML=`
         <div class="pt-24 pb-8 px-4">
             <div class="max-w-7xl mx-auto">
                 <div class="mb-10 animate-on-scroll">
@@ -1085,7 +1085,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
             </div>
         </div>
         ${p()}
-    `,await st(),lt(t),dt(a),ct(t),mt(t)}function st(){return new Promise(e=>{if(window.Chart){e();return}let t=setInterval(()=>{window.Chart&&(clearInterval(t),e())},100);setTimeout(()=>{clearInterval(t),e()},5e3)})}function lt(e){let t=document.getElementById("chart-donations");if(!t||!window.Chart)return;let a=[...e].sort((o,i)=>(i.donations||0)-(o.donations||0)).slice(0,10),r=new Chart(t.getContext("2d"),{type:"bar",data:{labels:a.map(o=>o.name.substring(0,10)),datasets:[{label:"Donations",data:a.map(o=>o.donations||0),backgroundColor:$.purpleAlpha,borderColor:$.purple,borderWidth:1,borderRadius:8}]},options:He()});H.push(r)}function dt(e){let t=document.getElementById("chart-wars");if(!t||!window.Chart)return;let a=e.filter(s=>s.result==="win").length,r=e.filter(s=>s.result==="loss").length,o=e.filter(s=>s.result==="draw").length,i=new Chart(t.getContext("2d"),{type:"doughnut",data:{labels:["Victories","Defeats","Draws"],datasets:[{data:[a,r,o],backgroundColor:[$.green,$.red,$.gold],borderColor:"#0a0e17",borderWidth:3,hoverOffset:8}]},options:{responsive:!0,maintainAspectRatio:!1,cutout:"65%",plugins:{legend:{labels:{color:"#94a3b8",font:{size:12},padding:16,usePointStyle:!0}},tooltip:{backgroundColor:"rgba(15,23,42,0.9)",titleColor:"#f1f5f9",bodyColor:"#cbd5e1",borderColor:"rgba(255,255,255,0.1)",borderWidth:1,cornerRadius:12,padding:12}},animation:{animateRotate:!0,animateScale:!0,duration:1200}}});H.push(i)}function ct(e){let t=document.getElementById("chart-points");if(!t||!window.Chart)return;let a=[...e].sort((o,i)=>(i.totalPoints||0)-(o.totalPoints||0)).slice(0,10),r=new Chart(t.getContext("2d"),{type:"bar",data:{labels:a.map(o=>o.name.substring(0,10)),datasets:[{label:"Points",data:a.map(o=>o.totalPoints||0),backgroundColor:$.goldAlpha,borderColor:$.gold,borderWidth:1,borderRadius:8}]},options:{...He(),indexAxis:"y"}});H.push(r)}function mt(e){let t=document.getElementById("chart-th");if(!t||!window.Chart)return;let a={};e.forEach(n=>{let l=n.townHallLevel||0;a[l]=(a[l]||0)+1});let r=Object.keys(a).sort((n,l)=>n-l).map(n=>`TH${n}`),o=Object.keys(a).sort((n,l)=>n-l).map(n=>a[n]),i=o.map((n,l)=>`hsl(${l*30+200}, 70%, 55%)`),s=new Chart(t.getContext("2d"),{type:"doughnut",data:{labels:r,datasets:[{data:o,backgroundColor:i,borderColor:"#0a0e17",borderWidth:3}]},options:{responsive:!0,maintainAspectRatio:!1,cutout:"55%",plugins:{legend:{labels:{color:"#94a3b8",font:{size:11},padding:12,usePointStyle:!0}},tooltip:{backgroundColor:"rgba(15,23,42,0.9)",titleColor:"#f1f5f9",bodyColor:"#cbd5e1",cornerRadius:12,padding:12}}}});H.push(s)}function He(){return{responsive:!0,maintainAspectRatio:!1,plugins:{legend:{display:!1},tooltip:{backgroundColor:"rgba(15,23,42,0.9)",titleColor:"#f1f5f9",bodyColor:"#cbd5e1",borderColor:"rgba(255,255,255,0.1)",borderWidth:1,cornerRadius:12,padding:12}},scales:{x:{ticks:{color:"#64748b",font:{size:10}},grid:{color:"rgba(255,255,255,0.05)"},border:{color:"rgba(255,255,255,0.1)"}},y:{ticks:{color:"#64748b",font:{size:10}},grid:{color:"rgba(255,255,255,0.05)"},border:{color:"rgba(255,255,255,0.1)"}}},animation:{duration:1e3,easing:"easeOutQuart"}}}var pt=["Semua perubahan poin memiliki alasan, nama admin, dan tanggal yang tercatat","Jika status Opt-In dan tidak menyerang, poin otomatis berkurang","Jika status Opt-Out atau Izin, tidak ada pengurangan poin","Leader dan Co-Leader berhak menambah/mengurangi poin manual","Riwayat poin dapat dilihat oleh semua anggota","Promosi direkomendasikan berdasarkan akumulasi poin","Setiap anggota wajib menghormati sesama anggota clan","Donasi yang aktif dan Clan Capital yang rajin akan mendapat poin tambahan"];async function Oe(){let e=await B(),t=e&&e.rewards?e.rewards:T,a=e&&e.punishments?e.punishments:E,r=e&&e.generalRules?e.generalRules:pt;return`
+    `,await lt(),dt(t),ct(a),mt(t),pt(t)}function lt(){return new Promise(e=>{if(window.Chart){e();return}let t=setInterval(()=>{window.Chart&&(clearInterval(t),e())},100);setTimeout(()=>{clearInterval(t),e()},5e3)})}function dt(e){let t=document.getElementById("chart-donations");if(!t||!window.Chart)return;let a=[...e].sort((o,s)=>(s.donations||0)-(o.donations||0)).slice(0,10),r=new Chart(t.getContext("2d"),{type:"bar",data:{labels:a.map(o=>o.name.substring(0,10)),datasets:[{label:"Donations",data:a.map(o=>o.donations||0),backgroundColor:C.purpleAlpha,borderColor:C.purple,borderWidth:1,borderRadius:8}]},options:Oe()});O.push(r)}function ct(e){let t=document.getElementById("chart-wars");if(!t||!window.Chart)return;let a=e.filter(n=>n.result==="win").length,r=e.filter(n=>n.result==="loss").length,o=e.filter(n=>n.result==="draw").length,s=new Chart(t.getContext("2d"),{type:"doughnut",data:{labels:["Victories","Defeats","Draws"],datasets:[{data:[a,r,o],backgroundColor:[C.green,C.red,C.gold],borderColor:"#0a0e17",borderWidth:3,hoverOffset:8}]},options:{responsive:!0,maintainAspectRatio:!1,cutout:"65%",plugins:{legend:{labels:{color:"#94a3b8",font:{size:12},padding:16,usePointStyle:!0}},tooltip:{backgroundColor:"rgba(15,23,42,0.9)",titleColor:"#f1f5f9",bodyColor:"#cbd5e1",borderColor:"rgba(255,255,255,0.1)",borderWidth:1,cornerRadius:12,padding:12}},animation:{animateRotate:!0,animateScale:!0,duration:1200}}});O.push(s)}function mt(e){let t=document.getElementById("chart-points");if(!t||!window.Chart)return;let a=[...e].sort((o,s)=>(s.totalPoints||0)-(o.totalPoints||0)).slice(0,10),r=new Chart(t.getContext("2d"),{type:"bar",data:{labels:a.map(o=>o.name.substring(0,10)),datasets:[{label:"Points",data:a.map(o=>o.totalPoints||0),backgroundColor:C.goldAlpha,borderColor:C.gold,borderWidth:1,borderRadius:8}]},options:{...Oe(),indexAxis:"y"}});O.push(r)}function pt(e){let t=document.getElementById("chart-th");if(!t||!window.Chart)return;let a={};e.forEach(i=>{let l=i.townHallLevel||0;a[l]=(a[l]||0)+1});let r=Object.keys(a).sort((i,l)=>i-l).map(i=>`TH${i}`),o=Object.keys(a).sort((i,l)=>i-l).map(i=>a[i]),s=o.map((i,l)=>`hsl(${l*30+200}, 70%, 55%)`),n=new Chart(t.getContext("2d"),{type:"doughnut",data:{labels:r,datasets:[{data:o,backgroundColor:s,borderColor:"#0a0e17",borderWidth:3}]},options:{responsive:!0,maintainAspectRatio:!1,cutout:"55%",plugins:{legend:{labels:{color:"#94a3b8",font:{size:11},padding:12,usePointStyle:!0}},tooltip:{backgroundColor:"rgba(15,23,42,0.9)",titleColor:"#f1f5f9",bodyColor:"#cbd5e1",cornerRadius:12,padding:12}}}});O.push(n)}function Oe(){return{responsive:!0,maintainAspectRatio:!1,plugins:{legend:{display:!1},tooltip:{backgroundColor:"rgba(15,23,42,0.9)",titleColor:"#f1f5f9",bodyColor:"#cbd5e1",borderColor:"rgba(255,255,255,0.1)",borderWidth:1,cornerRadius:12,padding:12}},scales:{x:{ticks:{color:"#64748b",font:{size:10}},grid:{color:"rgba(255,255,255,0.05)"},border:{color:"rgba(255,255,255,0.1)"}},y:{ticks:{color:"#64748b",font:{size:10}},grid:{color:"rgba(255,255,255,0.05)"},border:{color:"rgba(255,255,255,0.1)"}}},animation:{duration:1e3,easing:"easeOutQuart"}}}var ut=["Semua perubahan poin memiliki alasan, nama admin, dan tanggal yang tercatat","Jika status Opt-In dan tidak menyerang, poin otomatis berkurang","Jika status Opt-Out atau Izin, tidak ada pengurangan poin","Leader dan Co-Leader berhak menambah/mengurangi poin manual","Riwayat poin dapat dilihat oleh semua anggota","Promosi direkomendasikan berdasarkan akumulasi poin","Setiap anggota wajib menghormati sesama anggota clan","Donasi yang aktif dan Clan Capital yang rajin akan mendapat poin tambahan"];async function je(){let e=await I(),t=e&&e.rewards?e.rewards:E,a=e&&e.punishments?e.punishments:B,r=e&&e.generalRules?e.generalRules:ut;return`
         <div class="pt-24 pb-8 px-4">
             <div class="max-w-5xl mx-auto">
                 <!-- Header -->
@@ -1153,28 +1153,28 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                         <h2 class="text-2xl font-bold text-white" style="font-family: 'Lilita One', cursive;">General Rules</h2>
                     </div>
                     <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 space-y-4">
-                        ${r.map((o,i)=>ut(i+1,o)).join("")}
+                        ${r.map((o,s)=>gt(s+1,o)).join("")}
                     </div>
                 </div>
             </div>
         </div>
         ${p()}
-    `}function ut(e,t){return`
+    `}function gt(e,t){return`
         <div class="flex items-start gap-4 group">
             <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500/20 to-yellow-600/10 border border-amber-500/20 
                          flex items-center justify-center text-sm font-bold text-amber-400 shrink-0 
                          group-hover:from-amber-500/30 transition-all">${e}</span>
             <p class="text-gray-300 text-sm leading-relaxed pt-1">${t}</p>
         </div>
-    `}var se=class{constructor(){this.container=null,this.toasts=[],this.init()}init(){this.container||(this.container=document.createElement("div"),this.container.id="toast-container",this.container.className="fixed top-20 right-4 z-[9999] flex flex-col gap-3 pointer-events-none",this.container.style.maxWidth="380px",this.container.style.width="100%",document.body.appendChild(this.container))}show(t,a="info",r=4e3){this.init();let o={success:'<svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',error:'<svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',warning:'<svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>',info:'<svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'},i={success:"border-green-500/50 bg-green-500/10",error:"border-red-500/50 bg-red-500/10",warning:"border-amber-500/50 bg-amber-500/10",info:"border-blue-500/50 bg-blue-500/10"},s={success:"text-green-400",error:"text-red-400",warning:"text-amber-400",info:"text-blue-400"},n=document.createElement("div");return n.className=`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border ${i[a]} backdrop-blur-xl text-white shadow-2xl toast-enter`,n.innerHTML=`
-            <div class="${s[a]}">${o[a]}</div>
+    `}var de=class{constructor(){this.container=null,this.toasts=[],this.init()}init(){this.container||(this.container=document.createElement("div"),this.container.id="toast-container",this.container.className="fixed top-20 right-4 z-[9999] flex flex-col gap-3 pointer-events-none",this.container.style.maxWidth="380px",this.container.style.width="100%",document.body.appendChild(this.container))}show(t,a="info",r=4e3){this.init();let o={success:'<svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',error:'<svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',warning:'<svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>',info:'<svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'},s={success:"border-green-500/50 bg-green-500/10",error:"border-red-500/50 bg-red-500/10",warning:"border-amber-500/50 bg-amber-500/10",info:"border-blue-500/50 bg-blue-500/10"},n={success:"text-green-400",error:"text-red-400",warning:"text-amber-400",info:"text-blue-400"},i=document.createElement("div");return i.className=`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border ${s[a]} backdrop-blur-xl text-white shadow-2xl toast-enter`,i.innerHTML=`
+            <div class="${n[a]}">${o[a]}</div>
             <p class="text-sm font-medium flex-1">${t}</p>
             <button class="text-white/50 hover:text-white transition-colors shrink-0" onclick="this.closest('.toast-enter, .toast-visible').classList.add('toast-exit'); setTimeout(() => this.closest('.toast-enter, .toast-visible, .toast-exit')?.remove(), 300);">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
-        `,this.container.appendChild(n),requestAnimationFrame(()=>{n.classList.remove("toast-enter"),n.classList.add("toast-visible")}),r>0&&setTimeout(()=>{n.parentNode&&(n.classList.add("toast-exit"),setTimeout(()=>n.remove(),300))},r),n}success(t,a){return this.show(t,"success",a)}error(t,a){return this.show(t,"error",a)}warning(t,a){return this.show(t,"warning",a)}info(t,a){return this.show(t,"info",a)}},m=new se;var le=class{constructor(){this.activeModal=null}show({title:t,content:a,size:r="md",showClose:o=!0,actions:i=[],onClose:s=null}){this.close();let n={sm:"max-w-sm",md:"max-w-lg",lg:"max-w-2xl",xl:"max-w-4xl",full:"max-w-6xl"},l=document.createElement("div");return l.className="fixed inset-0 z-[9998] flex items-center justify-center p-4",l.id="modal-backdrop",l.innerHTML=`
+        `,this.container.appendChild(i),requestAnimationFrame(()=>{i.classList.remove("toast-enter"),i.classList.add("toast-visible")}),r>0&&setTimeout(()=>{i.parentNode&&(i.classList.add("toast-exit"),setTimeout(()=>i.remove(),300))},r),i}success(t,a){return this.show(t,"success",a)}error(t,a){return this.show(t,"error",a)}warning(t,a){return this.show(t,"warning",a)}info(t,a){return this.show(t,"info",a)}},m=new de;var ce=class{constructor(){this.activeModal=null}show({title:t,content:a,size:r="md",showClose:o=!0,actions:s=[],onClose:n=null}){this.close();let i={sm:"max-w-sm",md:"max-w-lg",lg:"max-w-2xl",xl:"max-w-4xl",full:"max-w-6xl"},l=document.createElement("div");return l.className="fixed inset-0 z-[9998] flex items-center justify-center p-4",l.id="modal-backdrop",l.innerHTML=`
             <div class="absolute inset-0 bg-black/60 backdrop-blur-sm modal-backdrop-bg" onclick="window.__modalManager?.close()"></div>
-            <div class="relative w-full ${n[r]} modal-content-enter">
+            <div class="relative w-full ${i[r]} modal-content-enter">
                 <div class="relative rounded-2xl border border-white/10 bg-[#1a1f2e]/95 backdrop-blur-xl shadow-2xl overflow-hidden">
                     ${t?`
                     <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
@@ -1189,9 +1189,9 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                     <div class="px-6 py-5 text-gray-300 max-h-[70vh] overflow-y-auto modal-body">
                         ${a}
                     </div>
-                    ${i.length>0?`
+                    ${s.length>0?`
                     <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-white/10">
-                        ${i.map((d,c)=>`
+                        ${s.map((d,c)=>`
                             <button id="modal-action-${c}" class="${d.class||"px-4 py-2 rounded-xl text-sm font-medium bg-white/10 hover:bg-white/20 text-white transition-all"}">
                                 ${d.label}
                             </button>
@@ -1199,7 +1199,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                     </div>`:""}
                 </div>
             </div>
-        `,document.body.appendChild(l),document.body.style.overflow="hidden",i.forEach((d,c)=>{let u=l.querySelector(`#modal-action-${c}`);u&&d.onClick&&u.addEventListener("click",()=>d.onClick(l))}),requestAnimationFrame(()=>{let d=l.querySelector(".modal-content-enter");d&&d.classList.add("modal-content-visible")}),this.activeModal=l,this.onClose=s,this._escHandler=d=>{d.key==="Escape"&&this.close()},document.addEventListener("keydown",this._escHandler),l}confirm({title:t,message:a,confirmLabel:r="Confirm",cancelLabel:o="Cancel",onConfirm:i,onCancel:s,danger:n=!1}){return this.show({title:t||"Konfirmasi",content:`<p class="text-gray-300">${a}</p>`,size:"sm",actions:[{label:o,class:"px-4 py-2 rounded-xl text-sm font-medium bg-white/10 hover:bg-white/20 text-white transition-all",onClick:()=>{this.close(),s&&s()}},{label:r,class:`px-4 py-2 rounded-xl text-sm font-bold text-white transition-all ${n?"bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700":"bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700"}`,onClick:()=>{this.close(),i&&i()}}]})}close(){if(this.activeModal){let t=this.activeModal.querySelector(".modal-content-visible");t&&(t.classList.remove("modal-content-visible"),t.classList.add("modal-content-exit"));let a=this.activeModal;setTimeout(()=>{a.remove(),document.body.style.overflow=""},200),this.activeModal=null}this._escHandler&&document.removeEventListener("keydown",this._escHandler),this.onClose&&(this.onClose(),this.onClose=null)}},te=new le;window.__modalManager=te;var M=null,P=null,gt=[];async function _e(){if(!x())return m.warning("Firebase belum dikonfigurasi. Silakan setup Firebase terlebih dahulu."),null;try{let{GoogleAuthProvider:e,signInWithPopup:t}=await import("https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js"),a=new e,r=await t(S,a);return m.success(`Selamat datang, ${r.user.displayName}!`),r.user}catch(e){return e.code==="auth/popup-closed-by-user"?m.info("Login dibatalkan."):m.error(`Login gagal: ${e.message}`),console.error("Auth error:",e),null}}async function de(){try{let{signOut:e}=await import("https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js");await e(S),M=null,P=null,m.info("Berhasil logout.")}catch(e){m.error("Logout gagal."),console.error("Sign out error:",e)}}function je(e){if(!x())return e(null,null),()=>{};let{onAuthStateChanged:t}=S.constructor.prototype;import("https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js").then(({onAuthStateChanged:a})=>{a(S,async r=>{if(M=r,r){try{await r.reload(),M=S.currentUser}catch(o){console.warn("Failed to reload auth profile:",o)}P=await bt(M.uid),await xt(M)}else P=null;e(M,P),gt.forEach(o=>o(M,P))})})}async function bt(e){try{let{doc:t,getDoc:a}=await import("https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js"),r=await a(t(g,"users",e));return r.exists()&&r.data().role||"member"}catch(t){return console.warn("Error fetching user role:",t),"member"}}async function xt(e){try{let{doc:t,getDoc:a,setDoc:r,serverTimestamp:o}=await import("https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js"),i=t(g,"users",e.uid);if(!(await a(i)).exists())await r(i,{uid:e.uid,email:e.email,displayName:e.displayName,photoURL:e.photoURL,role:"member",playerTag:"",createdAt:o(),lastLogin:o()});else{let{updateDoc:n}=await import("https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js");await n(i,{displayName:e.displayName,photoURL:e.photoURL,lastLogin:o()})}}catch(t){console.warn("Error ensuring user doc:",t)}}function F(){return M}function Ne(){return P}function O(){return P==="leader"||P==="coleader"}var _=[],L=null;async function Fe(){let e=document.getElementById("page-content");if(!O()){e.innerHTML=`
+        `,document.body.appendChild(l),document.body.style.overflow="hidden",s.forEach((d,c)=>{let u=l.querySelector(`#modal-action-${c}`);u&&d.onClick&&u.addEventListener("click",()=>d.onClick(l))}),requestAnimationFrame(()=>{let d=l.querySelector(".modal-content-enter");d&&d.classList.add("modal-content-visible")}),this.activeModal=l,this.onClose=n,this._escHandler=d=>{d.key==="Escape"&&this.close()},document.addEventListener("keydown",this._escHandler),l}confirm({title:t,message:a,confirmLabel:r="Confirm",cancelLabel:o="Cancel",onConfirm:s,onCancel:n,danger:i=!1}){return this.show({title:t||"Konfirmasi",content:`<p class="text-gray-300">${a}</p>`,size:"sm",actions:[{label:o,class:"px-4 py-2 rounded-xl text-sm font-medium bg-white/10 hover:bg-white/20 text-white transition-all",onClick:()=>{this.close(),n&&n()}},{label:r,class:`px-4 py-2 rounded-xl text-sm font-bold text-white transition-all ${i?"bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700":"bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700"}`,onClick:()=>{this.close(),s&&s()}}]})}close(){if(this.activeModal){let t=this.activeModal.querySelector(".modal-content-visible");t&&(t.classList.remove("modal-content-visible"),t.classList.add("modal-content-exit"));let a=this.activeModal;setTimeout(()=>{a.remove(),document.body.style.overflow=""},200),this.activeModal=null}this._escHandler&&document.removeEventListener("keydown",this._escHandler),this.onClose&&(this.onClose(),this.onClose=null)}},re=new ce;window.__modalManager=re;var S=null,T=null,bt=[];async function Ne(){if(!x())return m.warning("Firebase belum dikonfigurasi. Silakan setup Firebase terlebih dahulu."),null;try{let{GoogleAuthProvider:e,signInWithPopup:t}=await import("https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js"),a=new e,r=await t(D,a);return m.success(`Selamat datang, ${r.user.displayName}!`),r.user}catch(e){return e.code==="auth/popup-closed-by-user"?m.info("Login dibatalkan."):m.error(`Login gagal: ${e.message}`),console.error("Auth error:",e),null}}async function me(){try{let{signOut:e}=await import("https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js");await e(D),S=null,T=null,m.info("Berhasil logout.")}catch(e){m.error("Logout gagal."),console.error("Sign out error:",e)}}function We(e){if(!x())return e(null,null),()=>{};let{onAuthStateChanged:t}=D.constructor.prototype;import("https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js").then(({onAuthStateChanged:a})=>{a(D,async r=>{if(S=r,r){try{await r.reload(),S=D.currentUser}catch(o){console.warn("Failed to reload auth profile:",o)}T=await xt(S.uid),await ht(S)}else T=null;e(S,T),bt.forEach(o=>o(S,T))})})}async function xt(e){try{let{doc:t,getDoc:a}=await import("https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js"),r=await a(t(g,"users",e));return r.exists()&&r.data().role||"member"}catch(t){return console.warn("Error fetching user role:",t),"member"}}async function ht(e){try{let{doc:t,getDoc:a,setDoc:r,serverTimestamp:o}=await import("https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js"),s=t(g,"users",e.uid);if(!(await a(s)).exists())await r(s,{uid:e.uid,email:e.email,displayName:e.displayName,photoURL:e.photoURL,role:"member",playerTag:"",createdAt:o(),lastLogin:o()});else{let{updateDoc:i}=await import("https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js");await i(s,{displayName:e.displayName,photoURL:e.photoURL,lastLogin:o()})}}catch(t){console.warn("Error ensuring user doc:",t)}}function U(){return S}function Fe(){return T}function j(){return T==="leader"||T==="coleader"}var P=[],L=null,$=new Set;async function ze(){let e=document.getElementById("page-content");if(!j()){e.innerHTML=`
             <div class="pt-24 pb-8 px-4">
                 <div class="max-w-3xl mx-auto text-center py-20">
                     <p class="text-6xl mb-4">\u{1F512}</p>
@@ -1208,7 +1208,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                     <a href="#/" class="text-amber-400 hover:text-amber-300 text-sm">\u2190 Kembali ke Home</a>
                 </div>
             </div>
-        `;return}_=await v(),L=await B();let t=L&&L.rewards?L.rewards:T,a=F();e.innerHTML=`
+        `;return}P=await v(),L=await I(),$.clear();let t=L&&L.rewards?L.rewards:E,a=U();e.innerHTML=`
         <div class="pt-24 pb-8 px-4">
             <div class="max-w-5xl mx-auto">
                 <!-- Header -->
@@ -1233,22 +1233,37 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-on-scroll" data-stagger="true">
                     
                     <!-- Add/Deduct Points -->
-                    <div class="animate-item rounded-2xl border border-amber-500/20 bg-gradient-to-br from-amber-500/10 to-yellow-600/5 p-6">
+                    <div class="animate-item md:col-span-2 rounded-2xl border border-amber-500/20 bg-gradient-to-br from-amber-500/10 to-yellow-600/5 p-6">
                         <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2" style="font-family: 'Lilita One', cursive;">
                             \u{1F48E} Kelola Poin
                         </h3>
                         <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs text-gray-400 mb-1.5 font-medium">Pilih Anggota (Bisa Pilih Banyak)</label>
-                                <input type="text" id="point-member-search" oninput="window.__filterPointMembers()" 
-                                       class="admin-input text-xs py-2 px-3 mb-2" placeholder="Cari nama anggota atau tag...">
-                                <div id="point-members-container" class="max-h-[220px] overflow-y-auto border border-white/5 rounded-xl bg-white/[0.02] p-2 space-y-1">
-                                    ${ht()}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Left Column: Roster List -->
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1.5 font-medium">Daftar Anggota</label>
+                                    <input type="text" id="point-member-search" oninput="window.__filterPointMembers()" 
+                                           class="admin-input text-xs py-2 px-3 mb-2" placeholder="Cari nama anggota atau tag...">
+                                    <div id="point-members-container" class="max-h-[220px] overflow-y-auto border border-white/5 rounded-xl bg-white/[0.02] p-2 space-y-1">
+                                        <!-- Rendered dynamically -->
+                                    </div>
+                                    <div class="flex gap-3 mt-2">
+                                        <button type="button" onclick="window.__selectAllPointMembers(true)" class="text-[10px] text-amber-400 hover:text-amber-300 font-medium">Pilih Semua</button>
+                                    </div>
                                 </div>
-                                <div class="flex gap-3 mt-2">
-                                    <button type="button" onclick="window.__selectAllPointMembers(true)" class="text-[10px] text-amber-400 hover:text-amber-300 font-medium">Pilih Semua</button>
-                                    <span class="text-gray-600 text-[10px]">|</span>
-                                    <button type="button" onclick="window.__selectAllPointMembers(false)" class="text-[10px] text-gray-400 hover:text-white font-medium">Batal Pilih Semua</button>
+
+                                <!-- Right Column: Selected list & Reset -->
+                                <div>
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <label class="block text-xs text-gray-400 font-medium">Anggota Terpilih (<span id="selected-count" class="font-bold text-amber-400">0</span>)</label>
+                                        <button type="button" onclick="window.__resetSelectedMembers()" class="text-[10px] text-red-400 hover:text-red-300 font-bold transition-colors">
+                                            \u{1F504} Reset / Satukan Lagi
+                                        </button>
+                                    </div>
+                                    <div class="h-[34px] mb-2 hidden md:block"></div>
+                                    <div id="point-selected-container" class="max-h-[220px] min-h-[100px] overflow-y-auto border border-amber-500/20 rounded-xl bg-amber-500/[0.02] p-2 space-y-1">
+                                        <!-- Rendered dynamically -->
+                                    </div>
                                 </div>
                             </div>
                             <div>
@@ -1354,7 +1369,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-xs text-gray-400 mb-1.5">Member</label>
-                                <select id="viol-member" class="admin-select">${We()}</select>
+                                <select id="viol-member" class="admin-select">${Ue()}</select>
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-400 mb-1.5">Tipe</label>
@@ -1386,7 +1401,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-xs text-gray-400 mb-1.5">Member</label>
-                                <select id="role-member" class="admin-select">${We()}</select>
+                                <select id="role-member" class="admin-select">${Ue()}</select>
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-400 mb-1.5">New Role (Website)</label>
@@ -1428,19 +1443,30 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
             </div>
         </div>
         ${p()}
-    `,window.__updatePointPresets=vt,window.__fillPointPreset=ft,window.__submitPoints=()=>wt(a),window.__submitWar=()=>yt(a),window.__submitViolation=()=>kt(a),window.__submitRole=()=>Lt(a),window.__loadAdminPointLogs=()=>ae(a),window.__deleteLogEntry=r=>$t(r,a),window.__filterPointMembers=Ue,window.__selectAllPointMembers=ze,setTimeout(()=>{ae(a)},100)}function We(){return _.map(e=>`<option value="${e.tag}">${e.name} (${e.tag})</option>`).join("")}function ht(){return _.map(e=>`
+    `,window.__updatePointPresets=yt,window.__fillPointPreset=kt,window.__submitPoints=()=>Lt(a),window.__submitWar=()=>$t(a),window.__submitViolation=()=>Ct(a),window.__submitRole=()=>Mt(a),window.__loadAdminPointLogs=()=>oe(a),window.__deleteLogEntry=r=>St(r,a),window.__filterPointMembers=vt,window.__selectAllPointMembers=ft,window.__toggleMemberSelection=wt,window.__resetSelectedMembers=qe,setTimeout(()=>{oe(a),z()},100)}function Ue(){return P.map(e=>`<option value="${e.tag}">${e.name} (${e.tag})</option>`).join("")}function z(){let e=document.getElementById("point-members-container"),t=document.getElementById("point-selected-container"),a=document.getElementById("selected-count");if(!e||!t)return;let r=document.getElementById("point-member-search")?.value.toLowerCase()||"",o=P.filter(n=>!$.has(n.tag));e.innerHTML=o.map(n=>{let l=n.name.toLowerCase().includes(r)||n.tag.toLowerCase().includes(r)?"flex":"none";return`
             <label class="point-member-row flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors" 
-                   data-name="${e.name}" data-tag="${e.tag}" style="display: flex;">
-                <input type="checkbox" value="${e.tag}" class="point-member-checkbox w-4 h-4 rounded border-white/10 bg-white/5 text-amber-500 focus:ring-amber-500/50">
+                   data-name="${n.name}" data-tag="${n.tag}" style="display: ${l};">
+                <input type="checkbox" value="${n.tag}" onchange="window.__toggleMemberSelection('${n.tag}', true)" class="w-4 h-4 rounded border-white/10 bg-white/5 text-amber-500 focus:ring-amber-500/50">
                 <div class="flex-1 min-w-0">
-                    <p class="text-xs text-white font-medium truncate">${e.name}</p>
-                    <p class="text-[10px] text-gray-500">${e.tag} \u2022 TH${e.townHallLevel||"?"}</p>
+                    <p class="text-xs text-white font-medium truncate">${n.name}</p>
+                    <p class="text-[10px] text-gray-500">${n.tag} \u2022 TH${n.townHallLevel||"?"}</p>
                 </div>
                 <div class="text-right shrink-0">
-                    <span class="text-xs text-amber-400 font-bold" style="font-family: 'Lilita One', cursive;">${e.totalPoints||0}</span>
+                    <span class="text-xs text-amber-400 font-bold" style="font-family: 'Lilita One', cursive;">${n.totalPoints||0}</span>
                 </div>
             </label>
-        `).join("")}function Ue(){let e=document.getElementById("point-member-search")?.value.toLowerCase()||"";document.querySelectorAll(".point-member-row").forEach(a=>{let r=a.dataset.name.toLowerCase(),o=a.dataset.tag.toLowerCase();r.includes(e)||o.includes(e)?a.style.display="flex":a.style.display="none"})}function ze(e){document.querySelectorAll(".point-member-checkbox").forEach(a=>{let r=a.closest(".point-member-row");r&&r.style.display!=="none"&&(a.checked=e)})}function vt(){let e=document.getElementById("point-type")?.value,t=document.getElementById("point-preset-container"),a=document.getElementById("point-preset");if(a)if(e==="manual")t.style.display="none";else{t.style.display="block";let r=L&&L.rewards?L.rewards:T,o=L&&L.punishments?L.punishments:E,i=e==="reward"?r:o;a.innerHTML='<option value="">-- Pilih Preset --</option>'+i.map(s=>`<option value="${s.points}" data-reason="${s.label}">${s.points>0?"+":""}${s.points} \u2014 ${s.label}</option>`).join("")}}function ft(){let t=document.getElementById("point-preset")?.selectedOptions[0];if(!t||!t.value)return;let a=document.getElementById("point-amount"),r=document.getElementById("point-reason");a&&(a.value=t.value),r&&(r.value=t.dataset.reason||"")}async function wt(e){let t=document.querySelectorAll(".point-member-checkbox:checked"),a=Array.from(t).map(l=>l.value),r=parseInt(document.getElementById("point-amount")?.value),o=document.getElementById("point-reason")?.value,i=document.getElementById("point-category")?.value;if(a.length===0){m.warning("Mohon pilih minimal satu anggota.");return}if(isNaN(r)||!o){m.warning("Mohon lengkapi semua field.");return}let s=a.map(l=>_.find(d=>d.tag===l)).filter(Boolean),n=s.map(l=>l.name).join(", ");te.confirm({title:"Konfirmasi Kelola Poin",message:`${r>0?"Tambah":"Kurangi"} <strong>${Math.abs(r)}</strong> poin untuk <strong>${s.length} anggota</strong>?<br><br>Anggota: <i>${n}</i><br><br>Alasan: ${o}`,onConfirm:async()=>{try{for(let d of s)await ne({memberTag:d.tag,memberName:d.name,amount:r,reason:o,category:i,adminName:e?.displayName||"Admin"});m.success(`Poin berhasil ${r>0?"ditambahkan":"dikurangi"} untuk ${s.length} anggota!`),document.getElementById("point-amount").value="",document.getElementById("point-reason").value="",ze(!1);let l=document.getElementById("point-member-search");l&&(l.value="",Ue()),ae(e)}catch(l){m.error("Gagal menyimpan poin."),console.error(l)}}})}async function yt(e){let t=parseInt(document.getElementById("war-size")?.value),a=document.getElementById("war-result")?.value,r=document.getElementById("war-opponent")?.value,o=parseInt(document.getElementById("war-our-stars")?.value)||0,i=parseInt(document.getElementById("war-enemy-stars")?.value)||0,s=parseFloat(document.getElementById("war-our-dest")?.value)||0,n=parseFloat(document.getElementById("war-enemy-dest")?.value)||0;if(!r){m.warning("Mohon isi nama lawan.");return}try{await fe({date:new Date().toISOString(),opponent:r,warSize:t,result:a,clanStars:o,opponentStars:i,clanDestruction:s,opponentDestruction:n,addedBy:e?.displayName||"Admin"}),m.success("Data war berhasil disimpan!"),document.getElementById("war-opponent").value="",document.getElementById("war-our-stars").value="",document.getElementById("war-enemy-stars").value="",document.getElementById("war-our-dest").value="",document.getElementById("war-enemy-dest").value=""}catch(l){m.error("Gagal menyimpan data war."),console.error(l)}}async function kt(e){let t=document.getElementById("viol-member")?.value,a=document.getElementById("viol-type")?.value,r=document.getElementById("viol-desc")?.value,o=parseInt(document.getElementById("viol-points")?.value)||0;if(!t||!r){m.warning("Mohon lengkapi semua field.");return}let i=_.find(s=>s.tag===t);try{await ke({memberTag:t,memberName:i?.name||"Unknown",type:a,description:r,pointsDeducted:o,adminName:e?.displayName||"Admin"}),o>0&&await ne({memberTag:t,memberName:i?.name||"Unknown",amount:-o,reason:`[${a}] ${r}`,category:"violation",adminName:e?.displayName||"Admin"}),m.success("Violation berhasil dicatat!"),document.getElementById("viol-desc").value="",document.getElementById("viol-points").value=""}catch(s){m.error("Gagal menyimpan violation."),console.error(s)}}async function Lt(e){let t=document.getElementById("role-member")?.value,a=document.getElementById("role-new")?.value,r=document.getElementById("role-reason")?.value,o=_.find(i=>i.tag===t);if(!t||!a){m.warning("Mohon pilih member dan role.");return}try{await ye({memberTag:t,memberName:o?.name||"Unknown",fromRole:o?.role||"member",toRole:a,reason:r||"Role updated",adminName:e?.displayName||"Admin"}),m.success(`Role ${o?.name} berhasil diubah ke ${a}!`),document.getElementById("role-reason").value=""}catch(i){m.error("Gagal mengubah role."),console.error(i)}}async function ae(e){let t=document.getElementById("admin-point-logs");if(t)try{let a=await Y();if(a.length===0){t.innerHTML='<p class="text-center text-gray-500 text-sm py-6">Belum ada riwayat perubahan poin.</p>';return}t.innerHTML=a.map(r=>{let o=X(Z(r.date)),i=(r.amount||0)>=0,s=i?"bg-green-500/20 text-green-400 border border-green-500/30":"bg-red-500/20 text-red-400 border border-red-500/30";return`
+        `}).join(""),o.length===0&&(e.innerHTML='<p class="text-center text-gray-500 text-xs py-8">Semua anggota terpilih</p>');let s=P.filter(n=>$.has(n.tag));t.innerHTML=s.map(n=>`
+            <label class="point-selected-row flex items-center gap-3 p-2 rounded-lg bg-amber-500/5 hover:bg-amber-500/10 border border-amber-500/15 cursor-pointer transition-colors">
+                <input type="checkbox" value="${n.tag}" checked onchange="window.__toggleMemberSelection('${n.tag}', false)" class="w-4 h-4 rounded border-amber-500/30 bg-amber-500/10 text-amber-500 focus:ring-amber-500/50">
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs text-amber-400 font-medium truncate">${n.name}</p>
+                    <p class="text-[10px] text-amber-500/60">${n.tag} \u2022 TH${n.townHallLevel||"?"}</p>
+                </div>
+                <div class="text-right shrink-0">
+                    <span class="text-xs text-amber-400 font-bold" style="font-family: 'Lilita One', cursive;">${n.totalPoints||0}</span>
+                </div>
+            </label>
+        `).join(""),s.length===0&&(t.innerHTML='<p class="text-center text-gray-500 text-xs py-8">Belum ada yang dipilih</p>'),a&&(a.textContent=s.length)}function vt(){z()}function ft(e){if(e){let t=document.getElementById("point-member-search")?.value.toLowerCase()||"";P.forEach(a=>{$.has(a.tag)||(a.name.toLowerCase().includes(t)||a.tag.toLowerCase().includes(t))&&$.add(a.tag)})}else $.clear();z()}function wt(e,t){t?$.add(e):$.delete(e),z()}function qe(){$.clear();let e=document.getElementById("point-member-search");e&&(e.value=""),z()}function yt(){let e=document.getElementById("point-type")?.value,t=document.getElementById("point-preset-container"),a=document.getElementById("point-preset");if(a)if(e==="manual")t.style.display="none";else{t.style.display="block";let r=L&&L.rewards?L.rewards:E,o=L&&L.punishments?L.punishments:B,s=e==="reward"?r:o;a.innerHTML='<option value="">-- Pilih Preset --</option>'+s.map(n=>`<option value="${n.points}" data-reason="${n.label}">${n.points>0?"+":""}${n.points} \u2014 ${n.label}</option>`).join("")}}function kt(){let t=document.getElementById("point-preset")?.selectedOptions[0];if(!t||!t.value)return;let a=document.getElementById("point-amount"),r=document.getElementById("point-reason");a&&(a.value=t.value),r&&(r.value=t.dataset.reason||"")}async function Lt(e){let t=Array.from($),a=parseInt(document.getElementById("point-amount")?.value),r=document.getElementById("point-reason")?.value,o=document.getElementById("point-category")?.value;if(t.length===0){m.warning("Mohon pilih minimal satu anggota.");return}if(isNaN(a)||!r){m.warning("Mohon lengkapi semua field.");return}let s=t.map(i=>P.find(l=>l.tag===i)).filter(Boolean),n=s.map(i=>i.name).join(", ");re.confirm({title:"Konfirmasi Kelola Poin",message:`${a>0?"Tambah":"Kurangi"} <strong>${Math.abs(a)}</strong> poin untuk <strong>${s.length} anggota</strong>?<br><br>Anggota: <i>${n}</i><br><br>Alasan: ${r}`,onConfirm:async()=>{try{for(let i of s)await se({memberTag:i.tag,memberName:i.name,amount:a,reason:r,category:o,adminName:e?.displayName||"Admin"});m.success(`Poin berhasil ${a>0?"ditambahkan":"dikurangi"} untuk ${s.length} anggota!`),document.getElementById("point-amount").value="",document.getElementById("point-reason").value="",qe(),oe(e)}catch(i){m.error("Gagal menyimpan poin."),console.error(i)}}})}async function $t(e){let t=parseInt(document.getElementById("war-size")?.value),a=document.getElementById("war-result")?.value,r=document.getElementById("war-opponent")?.value,o=parseInt(document.getElementById("war-our-stars")?.value)||0,s=parseInt(document.getElementById("war-enemy-stars")?.value)||0,n=parseFloat(document.getElementById("war-our-dest")?.value)||0,i=parseFloat(document.getElementById("war-enemy-dest")?.value)||0;if(!r){m.warning("Mohon isi nama lawan.");return}try{await ye({date:new Date().toISOString(),opponent:r,warSize:t,result:a,clanStars:o,opponentStars:s,clanDestruction:n,opponentDestruction:i,addedBy:e?.displayName||"Admin"}),m.success("Data war berhasil disimpan!"),document.getElementById("war-opponent").value="",document.getElementById("war-our-stars").value="",document.getElementById("war-enemy-stars").value="",document.getElementById("war-our-dest").value="",document.getElementById("war-enemy-dest").value=""}catch(l){m.error("Gagal menyimpan data war."),console.error(l)}}async function Ct(e){let t=document.getElementById("viol-member")?.value,a=document.getElementById("viol-type")?.value,r=document.getElementById("viol-desc")?.value,o=parseInt(document.getElementById("viol-points")?.value)||0;if(!t||!r){m.warning("Mohon lengkapi semua field.");return}let s=P.find(n=>n.tag===t);try{await $e({memberTag:t,memberName:s?.name||"Unknown",type:a,description:r,pointsDeducted:o,adminName:e?.displayName||"Admin"}),o>0&&await se({memberTag:t,memberName:s?.name||"Unknown",amount:-o,reason:`[${a}] ${r}`,category:"violation",adminName:e?.displayName||"Admin"}),m.success("Violation berhasil dicatat!"),document.getElementById("viol-desc").value="",document.getElementById("viol-points").value=""}catch(n){m.error("Gagal menyimpan violation."),console.error(n)}}async function Mt(e){let t=document.getElementById("role-member")?.value,a=document.getElementById("role-new")?.value,r=document.getElementById("role-reason")?.value,o=P.find(s=>s.tag===t);if(!t||!a){m.warning("Mohon pilih member dan role.");return}try{await Le({memberTag:t,memberName:o?.name||"Unknown",fromRole:o?.role||"member",toRole:a,reason:r||"Role updated",adminName:e?.displayName||"Admin"}),m.success(`Role ${o?.name} berhasil diubah ke ${a}!`),document.getElementById("role-reason").value=""}catch(s){m.error("Gagal mengubah role."),console.error(s)}}async function oe(e){let t=document.getElementById("admin-point-logs");if(t)try{let a=await Q();if(a.length===0){t.innerHTML='<p class="text-center text-gray-500 text-sm py-6">Belum ada riwayat perubahan poin.</p>';return}t.innerHTML=a.map(r=>{let o=ee(te(r.date)),s=(r.amount||0)>=0,n=s?"bg-green-500/20 text-green-400 border border-green-500/30":"bg-red-500/20 text-red-400 border border-red-500/30";return`
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-200">
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2 flex-wrap">
@@ -1451,15 +1477,15 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                         <p class="text-[10px] text-gray-500 mt-1">Oleh: ${r.adminName||"Admin"} \u2022 ${o}</p>
                     </div>
                     <div class="flex items-center gap-4 shrink-0">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold ${s}" style="font-family: 'Lilita One', cursive;">
-                            ${i?"+":""}${r.amount} Poin
+                        <span class="px-3 py-1 rounded-full text-xs font-bold ${n}" style="font-family: 'Lilita One', cursive;">
+                            ${s?"+":""}${r.amount} Poin
                         </span>
                         <button onclick="window.__deleteLogEntry('${r.id}')" class="p-2 text-red-400 hover:text-red-300 hover:bg-white/10 rounded-lg transition-colors shrink-0" title="Hapus Log Poin">
                             \u{1F5D1}\uFE0F
                         </button>
                     </div>
                 </div>
-            `}).join("")}catch(a){console.error(a),t.innerHTML='<p class="text-center text-red-400 text-sm py-6">Gagal memuat log poin.</p>'}}async function $t(e,t){te.confirm({title:"Hapus Log Poin",message:"Apakah Anda yakin ingin menghapus log poin ini?",onConfirm:async()=>{try{await we(e),m.success("Log poin berhasil dihapus!"),ae(t)}catch(a){console.error(a),m.error("Gagal menghapus log poin.")}}})}var b={rewards:[],punishments:[],generalRules:[]},Ct=["Semua perubahan poin memiliki alasan, nama admin, dan tanggal yang tercatat","Jika status Opt-In dan tidak menyerang, poin otomatis berkurang","Jika status Opt-Out atau Izin, tidak ada pengurangan poin","Leader dan Co-Leader berhak menambah/mengurangi poin manual","Riwayat poin dapat dilihat oleh semua anggota","Promosi direkomendasikan berdasarkan akumulasi poin","Setiap anggota wajib menghormati sesama anggota clan","Donasi yang aktif dan Clan Capital yang rajin akan mendapat poin tambahan"];async function Ve(){let e=document.getElementById("page-content");if(!O()){e.innerHTML=`
+            `}).join("")}catch(a){console.error(a),t.innerHTML='<p class="text-center text-red-400 text-sm py-6">Gagal memuat log poin.</p>'}}async function St(e,t){re.confirm({title:"Hapus Log Poin",message:"Apakah Anda yakin ingin menghapus log poin ini?",onConfirm:async()=>{try{await ke(e),m.success("Log poin berhasil dihapus!"),oe(t)}catch(a){console.error(a),m.error("Gagal menghapus log poin.")}}})}var b={rewards:[],punishments:[],generalRules:[]},Tt=["Semua perubahan poin memiliki alasan, nama admin, dan tanggal yang tercatat","Jika status Opt-In dan tidak menyerang, poin otomatis berkurang","Jika status Opt-Out atau Izin, tidak ada pengurangan poin","Leader dan Co-Leader berhak menambah/mengurangi poin manual","Riwayat poin dapat dilihat oleh semua anggota","Promosi direkomendasikan berdasarkan akumulasi poin","Setiap anggota wajib menghormati sesama anggota clan","Donasi yang aktif dan Clan Capital yang rajin akan mendapat poin tambahan"];async function Ge(){let e=document.getElementById("page-content");if(!j()){e.innerHTML=`
             <div class="pt-24 pb-8 px-4">
                 <div class="max-w-3xl mx-auto text-center py-20">
                     <p class="text-6xl mb-4">\u{1F512}</p>
@@ -1473,7 +1499,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
             <div class="animate-spin text-4xl mb-4">\u23F3</div>
             <p class="text-gray-400">Memuat konfigurasi rules...</p>
         </div></div>
-    `;try{let t=await B();t?b={rewards:t.rewards||[],punishments:t.punishments||[],generalRules:t.generalRules||[]}:b={rewards:JSON.parse(JSON.stringify(T)),punishments:JSON.parse(JSON.stringify(E)),generalRules:[...Ct]}}catch(t){console.error(t),m.error("Gagal mengambil data rules.")}z(e)}function z(e){e.innerHTML=`
+    `;try{let t=await I();t?b={rewards:t.rewards||[],punishments:t.punishments||[],generalRules:t.generalRules||[]}:b={rewards:JSON.parse(JSON.stringify(E)),punishments:JSON.parse(JSON.stringify(B)),generalRules:[...Tt]}}catch(t){console.error(t),m.error("Gagal mengambil data rules.")}V(e)}function V(e){e.innerHTML=`
         <div class="pt-24 pb-8 px-4">
             <div class="max-w-5xl mx-auto">
                 <!-- Header & Back Button -->
@@ -1527,7 +1553,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                                 \u{1F381} Point Rewards Presets
                             </h2>
                             <div id="rewards-container" class="space-y-4 mb-4">
-                                ${b.rewards.map((t,a)=>qe(a,t,"reward")).join("")}
+                                ${b.rewards.map((t,a)=>Ve(a,t,"reward")).join("")}
                             </div>
                             <button onclick="window.__addPreset('reward')" class="w-full py-2.5 rounded-xl border border-dashed border-green-500/20 text-xs font-medium text-green-400 hover:text-green-300 hover:border-green-500/40 transition-colors">
                                 \u2795 Tambah Preset Reward
@@ -1540,7 +1566,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                                 \u26D4 Point Punishments Presets
                             </h2>
                             <div id="punishments-container" class="space-y-4 mb-4">
-                                ${b.punishments.map((t,a)=>qe(a,t,"punishment")).join("")}
+                                ${b.punishments.map((t,a)=>Ve(a,t,"punishment")).join("")}
                             </div>
                             <button onclick="window.__addPreset('punishment')" class="w-full py-2.5 rounded-xl border border-dashed border-red-500/20 text-xs font-medium text-red-400 hover:text-red-300 hover:border-red-500/40 transition-colors">
                                 \u2795 Tambah Preset Punishment
@@ -1551,7 +1577,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
             </div>
         </div>
         ${p()}
-    `,window.__addGeneralRule=()=>{U(),b.generalRules.push(""),z(e)},window.__removeGeneralRule=t=>{U(),b.generalRules.splice(t,1),z(e)},window.__addPreset=t=>{U(),(t==="reward"?b.rewards:b.punishments).push({id:`${t}_${Date.now()}`,label:"",points:t==="reward"?10:-10,icon:t==="reward"?"\u2B50":"\u274C",category:"war"}),z(e)},window.__removePreset=(t,a)=>{U(),(a==="reward"?b.rewards:b.punishments).splice(t,1),z(e)},window.__saveRulesConfig=async()=>{if(U(),b.generalRules.some(r=>!r.trim())){m.warning("Teks aturan umum tidak boleh kosong.");return}let t=b.rewards.some(r=>!r.label.trim()||isNaN(r.points)),a=b.punishments.some(r=>!r.label.trim()||isNaN(r.points));if(t||a){m.warning("Semua label preset harus diisi dan poin harus berupa angka.");return}try{await Le(b),m.success("Rules & presets berhasil disimpan ke database!")}catch(r){console.error(r),m.error("Gagal menyimpan rules.")}}}function qe(e,t,a){let r=a==="reward";return`
+    `,window.__addGeneralRule=()=>{q(),b.generalRules.push(""),V(e)},window.__removeGeneralRule=t=>{q(),b.generalRules.splice(t,1),V(e)},window.__addPreset=t=>{q(),(t==="reward"?b.rewards:b.punishments).push({id:`${t}_${Date.now()}`,label:"",points:t==="reward"?10:-10,icon:t==="reward"?"\u2B50":"\u274C",category:"war"}),V(e)},window.__removePreset=(t,a)=>{q(),(a==="reward"?b.rewards:b.punishments).splice(t,1),V(e)},window.__saveRulesConfig=async()=>{if(q(),b.generalRules.some(r=>!r.trim())){m.warning("Teks aturan umum tidak boleh kosong.");return}let t=b.rewards.some(r=>!r.label.trim()||isNaN(r.points)),a=b.punishments.some(r=>!r.label.trim()||isNaN(r.points));if(t||a){m.warning("Semua label preset harus diisi dan poin harus berupa angka.");return}try{await Ce(b),m.success("Rules & presets berhasil disimpan ke database!")}catch(r){console.error(r),m.error("Gagal menyimpan rules.")}}}function Ve(e,t,a){let r=a==="reward";return`
         <div class="preset-row grid grid-cols-12 gap-3 p-4 bg-white/5 border border-white/5 rounded-xl items-center relative group" data-type="${a}">
             <div class="col-span-2">
                 <label class="block text-[10px] text-gray-500 mb-1">Icon</label>
@@ -1583,7 +1609,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 </button>
             </div>
         </div>
-    `}function U(){let e=document.querySelectorAll(".general-rule-input");b.generalRules=Array.from(e).map(o=>o.value);let t=document.querySelectorAll(".preset-row"),a=[],r=[];t.forEach((o,i)=>{let s=o.dataset.type,n=o.querySelector(".preset-icon-input")?.value||"",l=o.querySelector(".preset-label-input")?.value||"",d=parseInt(o.querySelector(".preset-points-input")?.value)||0,c=o.querySelector(".preset-category-input")?.value||"war",u={id:`${s}_${i}_${Date.now()}`,icon:n,label:l,points:d,category:c};s==="reward"?a.push(u):r.push(u)}),b.rewards=a,b.punishments=r}var q={heroTitle:"",heroDescription:""};async function Ge(){let e=document.getElementById("page-content");if(!O()){e.innerHTML=`
+    `}function q(){let e=document.querySelectorAll(".general-rule-input");b.generalRules=Array.from(e).map(o=>o.value);let t=document.querySelectorAll(".preset-row"),a=[],r=[];t.forEach((o,s)=>{let n=o.dataset.type,i=o.querySelector(".preset-icon-input")?.value||"",l=o.querySelector(".preset-label-input")?.value||"",d=parseInt(o.querySelector(".preset-points-input")?.value)||0,c=o.querySelector(".preset-category-input")?.value||"war",u={id:`${n}_${s}_${Date.now()}`,icon:i,label:l,points:d,category:c};n==="reward"?a.push(u):r.push(u)}),b.rewards=a,b.punishments=r}var G={heroTitle:"",heroDescription:""};async function Ke(){let e=document.getElementById("page-content");if(!j()){e.innerHTML=`
             <div class="pt-24 pb-8 px-4">
                 <div class="max-w-3xl mx-auto text-center py-20">
                     <p class="text-6xl mb-4">\u{1F512}</p>
@@ -1597,7 +1623,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
             <div class="animate-spin text-4xl mb-4">\u23F3</div>
             <p class="text-gray-400">Memuat konfigurasi landing page...</p>
         </div></div>
-    `;try{q=await J()}catch(t){console.error(t),m.error("Gagal mengambil data landing page.")}Mt(e)}function Mt(e){e.innerHTML=`
+    `;try{G=await X()}catch(t){console.error(t),m.error("Gagal mengambil data landing page.")}Pt(e)}function Pt(e){e.innerHTML=`
         <div class="pt-24 pb-8 px-4">
             <div class="max-w-5xl mx-auto">
                 <!-- Header & Back Button -->
@@ -1631,7 +1657,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                                 <div>
                                     <label class="block text-xs text-gray-400 mb-1.5 font-bold uppercase tracking-wider">Hero Title (HTML Diperbolehkan)</label>
                                     <textarea id="hero-title-input" rows="4" class="admin-input font-mono text-sm leading-relaxed" 
-                                              placeholder="Masukkan judul hero...">${q.heroTitle||""}</textarea>
+                                              placeholder="Masukkan judul hero...">${G.heroTitle||""}</textarea>
                                     <div class="mt-2 text-xs text-gray-500 space-y-1">
                                         <p>\u{1F4A1} Gunakan kelas gradient untuk efek warna premium:</p>
                                         <p class="font-mono text-amber-400">&lt;span class="hero-title-gradient"&gt;Teks Anda&lt;/span&gt;</p>
@@ -1642,7 +1668,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                                 <div>
                                     <label class="block text-xs text-gray-400 mb-1.5 font-bold uppercase tracking-wider">Hero Description / Subtitle</label>
                                     <textarea id="hero-desc-input" rows="4" class="admin-input text-sm leading-relaxed" 
-                                              placeholder="Masukkan deskripsi hero...">${q.heroDescription||""}</textarea>
+                                              placeholder="Masukkan deskripsi hero...">${G.heroDescription||""}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -1668,12 +1694,12 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
 
                                 <!-- Dynamic Preview Title -->
                                 <h1 id="preview-title" class="text-3xl md:text-4xl font-bold mb-4 leading-tight" style="font-family: 'Lilita One', cursive;">
-                                    ${q.heroTitle||""}
+                                    ${G.heroTitle||""}
                                 </h1>
 
                                 <!-- Dynamic Preview Description -->
                                 <p id="preview-desc" class="text-sm text-gray-300 max-w-md mx-auto leading-relaxed">
-                                    ${q.heroDescription||""}
+                                    ${G.heroDescription||""}
                                 </p>
                             </div>
                         </div>
@@ -1682,7 +1708,7 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
             </div>
         </div>
         ${p()}
-    `;let t=document.getElementById("hero-title-input"),a=document.getElementById("hero-desc-input"),r=document.getElementById("preview-title"),o=document.getElementById("preview-desc");t&&r&&t.addEventListener("input",()=>{r.innerHTML=t.value||'<span class="text-gray-600">[Judul Kosong]</span>'}),a&&o&&a.addEventListener("input",()=>{o.textContent=a.value||"[Deskripsi Kosong]"}),window.__saveLandingConfig=async()=>{let i=t?.value.trim(),s=a?.value.trim();if(!i||!s){m.warning("Teks judul dan deskripsi tidak boleh kosong.");return}try{await $e({heroTitle:i,heroDescription:s}),m.success("Landing page settings berhasil disimpan!")}catch(n){console.error(n),m.error("Gagal menyimpan landing page settings.")}}}var Ke=null,Ye="",Pt={"/":{render:St,title:"Home"},"/dashboard":{render:Dt,title:"Dashboard"},"/members":{render:Et,title:"Members"},"/leaderboard":{render:Bt,title:"Leaderboard"},"/wars":{render:It,title:"War History"},"/statistics":{render:Rt,title:"Statistics"},"/rules":{render:Ht,title:"Clan Rules"},"/admin":{render:Ot,title:"Admin Panel"},"/admin/rules":{render:_t,title:"Rules Settings"},"/admin/landing":{render:jt,title:"Landing Settings"},"/login":{render:Nt,title:"Login"}};document.addEventListener("DOMContentLoaded",()=>{Tt()});async function Tt(){Ke=new G("particles-canvas"),Ke.start(),je((e,t)=>{V(),e&&ce()==="/login"&&(window.location.hash="#/dashboard")}),Je(),window.addEventListener("hashchange",Je),console.log("\u2694\uFE0F StreetLourd initialized!")}function ce(){return window.location.hash.slice(1)||"/"}function Je(){let e=ce();if(e.startsWith("/member/")){let a=e.replace("/member/","");Ye="/member/:tag",document.title="Member Detail \u2014 StreetLourd",At(a),V();return}let t=Pt[e];t?(Ye=e,document.title=`${t.title} \u2014 StreetLourd`,t.render()):window.location.hash="#/",V()}function V(){let e=document.getElementById("navbar-container");if(!e)return;let t=F(),a=Ne(),r=ce(),o="#"+r;r.startsWith("/member/")&&(o="#/members"),e.innerHTML=pe(o,t,a),ue();let i=document.getElementById("logout-btn"),s=document.getElementById("mobile-logout-btn");i&&i.addEventListener("click",async()=>{await de(),window.location.hash="#/",V()}),s&&s.addEventListener("click",async()=>{await de(),window.location.hash="#/",V()})}async function St(){let e=document.getElementById("page-content");e.style.opacity="0",e.innerHTML=await Ce(),requestAnimationFrame(()=>{e.style.transition="opacity 0.5s ease",e.style.opacity="1"}),setTimeout(()=>{R(),De()},100)}async function Dt(){let e=document.getElementById("page-content");await k(e,()=>Se())}async function Et(){let e=document.getElementById("page-content");await k(e,()=>Ee())}async function At(e){let t=document.getElementById("page-content");await k(t,()=>Ae(e))}async function Bt(){let e=document.getElementById("page-content");await k(e,()=>Be())}async function It(){let e=document.getElementById("page-content");await k(e,()=>Ie())}async function Rt(){let e=document.getElementById("page-content");await k(e,()=>Re())}async function Ht(){let e=document.getElementById("page-content");e.style.opacity="0",e.innerHTML=await Oe(),requestAnimationFrame(()=>{e.style.transition="opacity 0.5s ease",e.style.opacity="1"}),setTimeout(()=>R(),100)}async function Ot(){let e=document.getElementById("page-content");await k(e,()=>Fe())}async function _t(){let e=document.getElementById("page-content");await k(e,()=>Ve())}async function jt(){let e=document.getElementById("page-content");await k(e,()=>Ge())}function Nt(){let e=F(),t=document.getElementById("page-content");if(e){window.location.hash="#/dashboard";return}t.innerHTML=`
+    `;let t=document.getElementById("hero-title-input"),a=document.getElementById("hero-desc-input"),r=document.getElementById("preview-title"),o=document.getElementById("preview-desc");t&&r&&t.addEventListener("input",()=>{r.innerHTML=t.value||'<span class="text-gray-600">[Judul Kosong]</span>'}),a&&o&&a.addEventListener("input",()=>{o.textContent=a.value||"[Deskripsi Kosong]"}),window.__saveLandingConfig=async()=>{let s=t?.value.trim(),n=a?.value.trim();if(!s||!n){m.warning("Teks judul dan deskripsi tidak boleh kosong.");return}try{await Me({heroTitle:s,heroDescription:n}),m.success("Landing page settings berhasil disimpan!")}catch(i){console.error(i),m.error("Gagal menyimpan landing page settings.")}}}var Ye=null,Je="",Et={"/":{render:At,title:"Home"},"/dashboard":{render:Bt,title:"Dashboard"},"/members":{render:Rt,title:"Members"},"/leaderboard":{render:Ht,title:"Leaderboard"},"/wars":{render:_t,title:"War History"},"/statistics":{render:Ot,title:"Statistics"},"/rules":{render:jt,title:"Clan Rules"},"/admin":{render:Nt,title:"Admin Panel"},"/admin/rules":{render:Wt,title:"Rules Settings"},"/admin/landing":{render:Ft,title:"Landing Settings"},"/login":{render:Ut,title:"Login"}};document.addEventListener("DOMContentLoaded",()=>{Dt()});async function Dt(){Ye=new Y("particles-canvas"),Ye.start(),We((e,t)=>{K(),e&&pe()==="/login"&&(window.location.hash="#/dashboard")}),Qe(),window.addEventListener("hashchange",Qe),console.log("\u2694\uFE0F StreetLourd initialized!")}function pe(){return window.location.hash.slice(1)||"/"}function Qe(){let e=pe();if(e.startsWith("/member/")){let a=e.replace("/member/","");Je="/member/:tag",document.title="Member Detail \u2014 StreetLourd",It(a),K();return}let t=Et[e];t?(Je=e,document.title=`${t.title} \u2014 StreetLourd`,t.render()):window.location.hash="#/",K()}function K(){let e=document.getElementById("navbar-container");if(!e)return;let t=U(),a=Fe(),r=pe(),o="#"+r;r.startsWith("/member/")&&(o="#/members"),e.innerHTML=ge(o,t,a),be();let s=document.getElementById("logout-btn"),n=document.getElementById("mobile-logout-btn");s&&s.addEventListener("click",async()=>{await me(),window.location.hash="#/",K()}),n&&n.addEventListener("click",async()=>{await me(),window.location.hash="#/",K()})}async function At(){let e=document.getElementById("page-content");e.style.opacity="0",e.innerHTML=await Se(),requestAnimationFrame(()=>{e.style.transition="opacity 0.5s ease",e.style.opacity="1"}),setTimeout(()=>{_(),Ae()},100)}async function Bt(){let e=document.getElementById("page-content");await k(e,()=>De())}async function Rt(){let e=document.getElementById("page-content");await k(e,()=>Be())}async function It(e){let t=document.getElementById("page-content");await k(t,()=>Re(e))}async function Ht(){let e=document.getElementById("page-content");await k(e,()=>Ie())}async function _t(){let e=document.getElementById("page-content");await k(e,()=>He())}async function Ot(){let e=document.getElementById("page-content");await k(e,()=>_e())}async function jt(){let e=document.getElementById("page-content");e.style.opacity="0",e.innerHTML=await je(),requestAnimationFrame(()=>{e.style.transition="opacity 0.5s ease",e.style.opacity="1"}),setTimeout(()=>_(),100)}async function Nt(){let e=document.getElementById("page-content");await k(e,()=>ze())}async function Wt(){let e=document.getElementById("page-content");await k(e,()=>Ge())}async function Ft(){let e=document.getElementById("page-content");await k(e,()=>Ke())}function Ut(){let e=U(),t=document.getElementById("page-content");if(e){window.location.hash="#/dashboard";return}t.innerHTML=`
         <div class="pt-24 pb-8 px-4">
             <div class="max-w-md mx-auto text-center py-20">
                 <div class="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl p-10">
@@ -1704,4 +1730,4 @@ var T=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 </div>
             </div>
         </div>
-    `,document.getElementById("google-login-btn")?.addEventListener("click",async()=>{let a=document.getElementById("google-login-btn");a.disabled=!0,a.innerHTML='<span class="animate-spin">\u23F3</span> Logging in...',await _e(),a.disabled=!1,a.innerHTML="Sign in with Google"})}
+    `,document.getElementById("google-login-btn")?.addEventListener("click",async()=>{let a=document.getElementById("google-login-btn");a.disabled=!0,a.innerHTML='<span class="animate-spin">\u23F3</span> Logging in...',await Ne(),a.disabled=!1,a.innerHTML="Sign in with Google"})}
