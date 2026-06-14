@@ -119,34 +119,18 @@ export async function addPointEntry(data) {
         let currentPoints = memberData.totalPoints !== undefined ? memberData.totalPoints : 500;
         let currentSidePoints = memberData.sidePoints || 0;
 
-        let newPoints = currentPoints;
-        let newSidePoints = currentSidePoints;
+        let total = currentPoints + currentSidePoints + data.amount;
+        let newPoints = total;
+        let newSidePoints = 0;
 
-        if (data.amount > 0) {
-            let spaceLeft = 1500 - currentPoints;
-            if (spaceLeft > 0) {
-                if (data.amount > spaceLeft) {
-                    newPoints = 1500;
-                    newSidePoints += (data.amount - spaceLeft);
-                } else {
-                    newPoints += data.amount;
-                }
-            } else {
-                newSidePoints += data.amount;
-            }
-        } else if (data.amount < 0) {
-            let deduction = Math.abs(data.amount);
-            if (currentSidePoints >= deduction) {
-                newSidePoints -= deduction;
-            } else {
-                let remainingDeduction = deduction - currentSidePoints;
-                newSidePoints = 0;
-                newPoints -= remainingDeduction;
-            }
-            if (newPoints < 0) {
-                newPoints = 0;
-            }
+        if (total > 1500) {
+            newPoints = 1500;
+            newSidePoints = total - 1500;
         }
+        if (newPoints < 0) {
+            newPoints = 0;
+        }
+
         transaction.update(memberRef, { 
             totalPoints: newPoints,
             sidePoints: newSidePoints
@@ -168,12 +152,25 @@ export async function addSidePointEntry(data) {
             throw "Document does not exist!";
         }
         const memberData = sfDoc.data();
+        let currentPoints = memberData.totalPoints !== undefined ? memberData.totalPoints : 500;
         let currentSidePoints = memberData.sidePoints || 0;
-        let newSidePoints = currentSidePoints + data.amount;
-        if (newSidePoints < 0) {
-            newSidePoints = 0;
+
+        let total = currentPoints + currentSidePoints + data.amount;
+        let newPoints = total;
+        let newSidePoints = 0;
+
+        if (total > 1500) {
+            newPoints = 1500;
+            newSidePoints = total - 1500;
         }
-        transaction.update(memberRef, { sidePoints: newSidePoints });
+        if (newPoints < 0) {
+            newPoints = 0;
+        }
+
+        transaction.update(memberRef, { 
+            totalPoints: newPoints,
+            sidePoints: newSidePoints
+        });
     });
 
     // Add to history
