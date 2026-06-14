@@ -1,0 +1,79 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper to get user's role from the users collection
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    
+    // Helper to check if user has admin privileges (leader or coleader)
+    function isAdmin() {
+      return isAuthenticated() && 
+        (getUserData().role == 'leader' || getUserData().role == 'coleader');
+    }
+    
+    // Helper to check if document belongs to the authenticated user
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // --- Collections ---
+
+    // Users collection rules
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      // Allow creation/modification of own profile
+      allow create, update: if isOwner(userId);
+      // Only admins can delete profiles or assign roles (enforced by functions or DB validation)
+      allow delete: if isAdmin();
+    }
+    
+    // Members collection (clan members data synced from API)
+    match /members/{memberTag} {
+      allow read: if true; // Public read
+      allow write: if isAdmin(); // Only admins/synced functions can update
+    }
+    
+    // Wars collection
+    match /wars/{warId} {
+      allow read: if true; // Public read
+      allow write: if isAdmin();
+    }
+    
+    // War History participation collection
+    match /warHistory/{historyId} {
+      allow read: if true; // Public read
+      allow write: if isAdmin();
+    }
+    
+    // Point History log collection
+    match /pointHistory/{logId} {
+      allow read: if true; // Public read
+      allow write: if isAdmin();
+    }
+    
+    // Promotions collection
+    match /promotions/{promotionId} {
+      allow read: if true; // Public read
+      allow write: if isAdmin();
+    }
+    
+    // Violations collection
+    match /violations/{violationId} {
+      allow read: if true; // Public read
+      allow write: if isAdmin();
+    }
+    
+    // Settings collection (includes clan configurations, point thresholds, etc.)
+    match /settings/{settingsId} {
+      allow read: if true; // Public read
+      allow write: if isAdmin();
+    }
+  }
+}

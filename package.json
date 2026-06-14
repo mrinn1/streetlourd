@@ -1,0 +1,12 @@
+{
+  "name": "victorytoclan-sync",
+  "version": "1.0.0",
+  "description": "Local sync utility for VictoryToClan Clash of Clans dashboard",
+  "main": "sync.js",
+  "scripts": {
+    "sync": "node sync.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^11.8.0"
+  }
+}

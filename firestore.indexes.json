@@ -1,0 +1,61 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "warHistory",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "memberTag",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "date",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "pointHistory",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "memberTag",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "date",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "promotions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "memberTag",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "date",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "violations",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "memberTag",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "date",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
