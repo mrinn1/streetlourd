@@ -156,13 +156,15 @@ export function initNavbar() {
         if (!menu || !menuPanel) return;
         menu.classList.remove('hidden');
         requestAnimationFrame(() => {
-            menuPanel.style.transform = 'translateX(0)';
+            menuPanel.classList.remove('translate-x-full');
+            menuPanel.classList.add('translate-x-0');
         });
     }
 
     function closeMenu() {
         if (!menu || !menuPanel) return;
-        menuPanel.style.transform = 'translateX(100%)';
+        menuPanel.classList.remove('translate-x-0');
+        menuPanel.classList.add('translate-x-full');
         setTimeout(() => menu.classList.add('hidden'), 300);
     }
 
