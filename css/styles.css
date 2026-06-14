@@ -204,3 +204,30 @@ body {
         opacity: 0;
     }
 }
+
+/* Admin Form Controls (Select & Inputs) */
+.admin-select, .admin-input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.admin-select:focus, .admin-input:focus {
+    outline: none;
+    border-color: rgba(245, 166, 35, 0.5); /* Gold outline */
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
+}
+
+/* Explicit styling for dropdown options to fix invisible text on white browser backgrounds */
+.admin-select option {
+    background-color: #1a1f2e; /* Slate dark background */
+    color: #ffffff;            /* White text */
+    padding: 12px;
+}
+
