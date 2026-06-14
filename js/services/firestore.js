@@ -262,3 +262,24 @@ function getDemoPointHistory() {
         date: new Date(Date.now() - i * 2 * 86400000).toISOString(),
     }));
 }
+
+// ==================== RULES & CONFIGURATION ====================
+
+export async function getRules() {
+    if (!isFirebaseConfigured()) return null;
+    try {
+        const { doc, getDoc } = await getFirestore();
+        const snap = await getDoc(doc(db, 'settings', 'rules'));
+        return snap.exists() ? snap.data() : null;
+    } catch (e) {
+        console.error('getRules:', e);
+        return null;
+    }
+}
+
+export async function saveRules(rulesData) {
+    if (!isFirebaseConfigured()) return;
+    const { doc, setDoc } = await getFirestore();
+    await setDoc(doc(db, 'settings', 'rules'), rulesData);
+}
+

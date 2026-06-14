@@ -5,12 +5,13 @@
 import { renderFooter } from '../components/footer.js';
 import { toast } from '../components/toast.js';
 import { modal } from '../components/modal.js';
-import { getMembers, getWars, addPointEntry, saveWar, saveWarHistory, addViolation, addPromotion, getAllUsers, updateUserRole } from '../services/firestore.js';
+import { getMembers, getWars, addPointEntry, saveWar, saveWarHistory, addViolation, addPromotion, getAllUsers, updateUserRole, getRules } from '../services/firestore.js';
 import { getCurrentUser, getUserRole, isAdmin } from '../services/auth.js';
 import { POINT_REWARDS, POINT_PUNISHMENTS, WAR_STATUS } from '../utils/constants.js';
 import { formatNumber } from '../utils/helpers.js';
 
 let members = [];
+let activeRules = null;
 
 export async function renderAdmin() {
     const container = document.getElementById('page-content');
@@ -31,17 +32,26 @@ export async function renderAdmin() {
     }
 
     members = await getMembers();
+    activeRules = await getRules();
+    const rewards = activeRules && activeRules.rewards ? activeRules.rewards : POINT_REWARDS;
     const user = getCurrentUser();
 
     container.innerHTML = `
         <div class="pt-24 pb-8 px-4">
             <div class="max-w-5xl mx-auto">
                 <!-- Header -->
-                <div class="mb-10 animate-on-scroll">
-                    <h1 class="text-3xl md:text-4xl font-bold text-white mb-2" style="font-family: 'Lilita One', cursive;">
-                        ⚙️ Admin Panel
-                    </h1>
-                    <p class="text-gray-400">Kelola poin, war, dan anggota clan</p>
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10 animate-on-scroll">
+                    <div>
+                        <h1 class="text-3xl md:text-4xl font-bold text-white mb-2" style="font-family: 'Lilita One', cursive;">
+                            ⚙️ Admin Panel
+                        </h1>
+                        <p class="text-gray-400 text-sm">Kelola poin, war, dan anggota clan</p>
+                    </div>
+                    <div>
+                        <a href="#/admin/rules" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-black bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 transition-all shadow-lg shadow-amber-500/20 text-sm">
+                            📜 Pengaturan Rules
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Admin Sections as Cards -->
@@ -69,7 +79,7 @@ export async function renderAdmin() {
                                 <label class="block text-xs text-gray-400 mb-1.5">Preset</label>
                                 <select id="point-preset" class="admin-select" onchange="window.__fillPointPreset()">
                                     <option value="">-- Pilih Preset --</option>
-                                    ${POINT_REWARDS.map(r => `<option value="${r.points}" data-reason="${r.label}">+${r.points} — ${r.label}</option>`).join('')}
+                                    ${rewards.map(r => `<option value="${r.points}" data-reason="${r.label}">${r.points > 0 ? '+' : ''}${r.points} — ${r.label}</option>`).join('')}
                                 </select>
                             </div>
                             <div class="grid grid-cols-2 gap-4">
@@ -241,7 +251,9 @@ function updatePointPresets() {
         presetContainer.style.display = 'none';
     } else {
         presetContainer.style.display = 'block';
-        const items = type === 'reward' ? POINT_REWARDS : POINT_PUNISHMENTS;
+        const rewards = activeRules && activeRules.rewards ? activeRules.rewards : POINT_REWARDS;
+        const punishments = activeRules && activeRules.punishments ? activeRules.punishments : POINT_PUNISHMENTS;
+        const items = type === 'reward' ? rewards : punishments;
         preset.innerHTML = `<option value="">-- Pilih Preset --</option>` +
             items.map(r => `<option value="${r.points}" data-reason="${r.label}">${r.points > 0 ? '+' : ''}${r.points} — ${r.label}</option>`).join('');
     }

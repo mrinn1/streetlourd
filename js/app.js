@@ -13,6 +13,7 @@ import { renderWarHistory } from './pages/warHistory.js';
 import { renderStatistics } from './pages/statistics.js';
 import { renderClanRules } from './pages/clanRules.js';
 import { renderAdmin } from './pages/admin.js';
+import { renderAdminRules } from './pages/adminRules.js';
 import { initAuthListener, signInWithGoogle, signOut, getCurrentUser, getUserRole } from './services/auth.js';
 import { initScrollAnimations, initParallax, pageTransition } from './utils/animations.js';
 import { toast } from './components/toast.js';
@@ -31,6 +32,7 @@ const routes = {
     '/statistics':  { render: renderStatisticsPage, title: 'Statistics' },
     '/rules':       { render: renderRulesPage, title: 'Clan Rules' },
     '/admin':       { render: renderAdminPage, title: 'Admin Panel' },
+    '/admin/rules': { render: renderAdminRulesPage, title: 'Rules Settings' },
     '/login':       { render: renderLoginPage, title: 'Login' },
 };
 
@@ -175,10 +177,10 @@ async function renderStatisticsPage() {
     await pageTransition(pageContent, () => renderStatistics());
 }
 
-function renderRulesPage() {
+async function renderRulesPage() {
     const pageContent = document.getElementById('page-content');
     pageContent.style.opacity = '0';
-    pageContent.innerHTML = renderClanRules();
+    pageContent.innerHTML = await renderClanRules();
     requestAnimationFrame(() => {
         pageContent.style.transition = 'opacity 0.5s ease';
         pageContent.style.opacity = '1';
@@ -189,6 +191,11 @@ function renderRulesPage() {
 async function renderAdminPage() {
     const pageContent = document.getElementById('page-content');
     await pageTransition(pageContent, () => renderAdmin());
+}
+
+async function renderAdminRulesPage() {
+    const pageContent = document.getElementById('page-content');
+    await pageTransition(pageContent, () => renderAdminRules());
 }
 
 function renderLoginPage() {
