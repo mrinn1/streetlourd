@@ -94,19 +94,19 @@ export async function renderMemberDetail(tag) {
             </div>
         `;
     } else if (member.role === 'admin') { // Elder
-        if (points < 1000) {
+        if (points < 1250) {
             promotionSectionHtml = `
                 <div class="flex items-center gap-4 p-5 rounded-2xl bg-red-500/10 border border-red-500/20">
-                    <div class="text-3xl">⚠️</div>
+                    <div class="text-3xl shrink-0">⚠️</div>
                     <div>
                         <p class="text-white font-bold text-lg mb-1" style="font-family: 'Lilita One', cursive;">Rekomendasi Turun Jabatan</p>
-                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${points}</strong>) di bawah batas minimal Elder (1000). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Member</strong>.</p>
+                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${points}</strong>) di bawah batas minimal Elder (1250). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Member</strong>.</p>
                     </div>
                 </div>
             `;
         } else {
             const threshold = 1500;
-            const progressPercent = Math.max(0, Math.min(100, ((points - 1000) / 500) * 100));
+            const progressPercent = Math.max(0, Math.min(100, ((points - 1250) / 250) * 100));
             const needed = threshold - points;
             const statusText = needed <= 0 
                 ? `🎉 Persyaratan poin tercapai! Poin saat ini (${points}) telah mencukupi untuk dipromosikan menjadi Co-Leader.`
@@ -141,8 +141,8 @@ export async function renderMemberDetail(tag) {
             `;
         }
     } else { // Regular Member
-        const threshold = 1000;
-        const progressPercent = Math.max(0, Math.min(100, ((points - 500) / 500) * 100));
+        const threshold = 1250;
+        const progressPercent = Math.max(0, Math.min(100, ((points - 500) / 750) * 100));
         const needed = threshold - points;
         const statusText = needed <= 0 
             ? `🎉 Persyaratan poin tercapai! Poin saat ini (${points}) telah mencukupi untuk dipromosikan menjadi Elder.`
@@ -157,7 +157,7 @@ export async function renderMemberDetail(tag) {
                     </div>
                     <div class="text-right">
                         <p class="text-gray-500 text-xs mb-1">Kemajuan Poin</p>
-                        <p class="text-amber-400 font-bold text-lg">${points} / 1000 Poin</p>
+                        <p class="text-amber-400 font-bold text-lg">${points} / 1250 Poin</p>
                     </div>
                 </div>
                 

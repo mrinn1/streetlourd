@@ -105,6 +105,6 @@ export const WAR_STATUS = {
 
 // --- Promotion Thresholds ---
 export const PROMOTION_THRESHOLDS = {
-    member_to_senior: 1000,
+    member_to_senior: 1250,
     senior_to_coleader: 1500,
 };

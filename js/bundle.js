@@ -782,15 +782,15 @@ var M=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                 <!-- Status/Rekomendasi Info -->
                 ${d}
             </div>
-        `}else if(r.role==="admin")if(i<1e3)s=`
+        `}else if(r.role==="admin")if(i<1250)s=`
                 <div class="flex items-center gap-4 p-5 rounded-2xl bg-red-500/10 border border-red-500/20">
-                    <div class="text-3xl">\u26A0\uFE0F</div>
+                    <div class="text-3xl shrink-0">\u26A0\uFE0F</div>
                     <div>
                         <p class="text-white font-bold text-lg mb-1" style="font-family: 'Lilita One', cursive;">Rekomendasi Turun Jabatan</p>
-                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${i}</strong>) di bawah batas minimal Elder (1000). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Member</strong>.</p>
+                        <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${i}</strong>) di bawah batas minimal Elder (1250). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Member</strong>.</p>
                     </div>
                 </div>
-            `;else{let d=Math.max(0,Math.min(100,(i-1e3)/500*100)),c=1500-i,p=c<=0?`\u{1F389} Persyaratan poin tercapai! Poin saat ini (${i}) telah mencukupi untuk dipromosikan menjadi Co-Leader.`:`Dibutuhkan <strong>${c}</strong> poin lagi untuk naik jabatan menjadi <strong>Co-Leader</strong>.`;s=`
+            `;else{let d=Math.max(0,Math.min(100,(i-1250)/250*100)),c=1500-i,p=c<=0?`\u{1F389} Persyaratan poin tercapai! Poin saat ini (${i}) telah mencukupi untuk dipromosikan menjadi Co-Leader.`:`Dibutuhkan <strong>${c}</strong> poin lagi untuk naik jabatan menjadi <strong>Co-Leader</strong>.`;s=`
                 <div class="space-y-6">
                     <div class="flex justify-between items-end text-sm">
                         <div>
@@ -816,7 +816,7 @@ var M=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                         <p class="text-gray-300 text-sm leading-relaxed">${p}</p>
                     </div>
                 </div>
-            `}else{let d=Math.max(0,Math.min(100,(i-500)/500*100)),c=1e3-i,p=c<=0?`\u{1F389} Persyaratan poin tercapai! Poin saat ini (${i}) telah mencukupi untuk dipromosikan menjadi Elder.`:`Dibutuhkan <strong>${c}</strong> poin lagi untuk naik jabatan menjadi <strong>Elder</strong>.`;s=`
+            `}else{let d=Math.max(0,Math.min(100,(i-500)/750*100)),c=1250-i,p=c<=0?`\u{1F389} Persyaratan poin tercapai! Poin saat ini (${i}) telah mencukupi untuk dipromosikan menjadi Elder.`:`Dibutuhkan <strong>${c}</strong> poin lagi untuk naik jabatan menjadi <strong>Elder</strong>.`;s=`
             <div class="space-y-6">
                 <div class="flex justify-between items-end text-sm">
                     <div>
@@ -825,7 +825,7 @@ var M=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                     </div>
                     <div class="text-right">
                         <p class="text-gray-500 text-xs mb-1">Kemajuan Poin</p>
-                        <p class="text-amber-400 font-bold text-lg">${i} / 1000 Poin</p>
+                        <p class="text-amber-400 font-bold text-lg">${i} / 1250 Poin</p>
                     </div>
                 </div>
                 
