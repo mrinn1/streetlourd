@@ -88,7 +88,7 @@ function renderMembersPage(container) {
                 </div>
 
                 <!-- Members List -->
-                <div class="grid gap-4 mb-8 animate-on-scroll" id="members-list" data-stagger="true">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 animate-on-scroll" id="members-list" data-stagger="true">
                     ${paged.length > 0 
                         ? paged.map(m => memberCard({
                             name: m.name,
