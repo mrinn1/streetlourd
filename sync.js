@@ -125,6 +125,33 @@ async function sync() {
         const apiMembers = membersData.items || [];
         console.log(`✅ Berhasil mengambil ${apiMembers.length} anggota dari API.`);
 
+        // Hapus anggota di Firestore yang sudah tidak ada di API (keluar klan)
+        const firestoreMembersSnap = await db.collection('members').get();
+        const firestoreTags = firestoreMembersSnap.docs.map(doc => doc.id);
+        const apiTags = apiMembers.map(m => m.tag);
+
+        if (apiMembers.length > 0) {
+            const tagsToRemove = firestoreTags.filter(tag => !apiTags.includes(tag));
+            if (tagsToRemove.length > 0) {
+                console.log(`🧹 Menghapus ${tagsToRemove.length} anggota yang telah keluar dari klan...`);
+                let deleteBatch = db.batch();
+                let delCount = 0;
+                for (const tag of tagsToRemove) {
+                    deleteBatch.delete(db.collection('members').doc(tag));
+                    delCount++;
+                    if (delCount >= 400) {
+                        await deleteBatch.commit();
+                        deleteBatch = db.batch();
+                        delCount = 0;
+                    }
+                }
+                if (delCount > 0) {
+                    await deleteBatch.commit();
+                }
+                console.log('✅ Anggota yang keluar berhasil dihapus dari database.');
+            }
+        }
+
         // Sync ke Firestore
         console.log('💾 Menyinkronkan anggota ke Firestore...');
         
