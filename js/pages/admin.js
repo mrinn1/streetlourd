@@ -67,8 +67,17 @@ export async function renderAdmin() {
                         </h3>
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-xs text-gray-400 mb-1.5">Pilih Member</label>
-                                <select id="point-member" class="admin-select">${memberOptions()}</select>
+                                <label class="block text-xs text-gray-400 mb-1.5 font-medium">Pilih Anggota (Bisa Pilih Banyak)</label>
+                                <input type="text" id="point-member-search" oninput="window.__filterPointMembers()" 
+                                       class="admin-input text-xs py-2 px-3 mb-2" placeholder="Cari nama anggota atau tag...">
+                                <div id="point-members-container" class="max-h-[220px] overflow-y-auto border border-white/5 rounded-xl bg-white/[0.02] p-2 space-y-1">
+                                    ${memberCheckboxes()}
+                                </div>
+                                <div class="flex gap-3 mt-2">
+                                    <button type="button" onclick="window.__selectAllPointMembers(true)" class="text-[10px] text-amber-400 hover:text-amber-300 font-medium">Pilih Semua</button>
+                                    <span class="text-gray-600 text-[10px]">|</span>
+                                    <button type="button" onclick="window.__selectAllPointMembers(false)" class="text-[10px] text-gray-400 hover:text-white font-medium">Batal Pilih Semua</button>
+                                </div>
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-400 mb-1.5">Jenis</label>
@@ -258,6 +267,8 @@ export async function renderAdmin() {
     window.__submitRole = () => submitRole(user);
     window.__loadAdminPointLogs = () => loadAdminPointLogs(user);
     window.__deleteLogEntry = (id) => deleteLogEntryHandler(id, user);
+    window.__filterPointMembers = filterPointMembers;
+    window.__selectAllPointMembers = selectAllPointMembers;
 
     // Initial load of logs
     setTimeout(() => {
@@ -267,6 +278,48 @@ export async function renderAdmin() {
 
 function memberOptions() {
     return members.map(m => `<option value="${m.tag}">${m.name} (${m.tag})</option>`).join('');
+}
+
+function memberCheckboxes() {
+    return members.map(m => {
+        return `
+            <label class="point-member-row flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors" 
+                   data-name="${m.name}" data-tag="${m.tag}" style="display: flex;">
+                <input type="checkbox" value="${m.tag}" class="point-member-checkbox w-4 h-4 rounded border-white/10 bg-white/5 text-amber-500 focus:ring-amber-500/50">
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs text-white font-medium truncate">${m.name}</p>
+                    <p class="text-[10px] text-gray-500">${m.tag} • TH${m.townHallLevel || '?'}</p>
+                </div>
+                <div class="text-right shrink-0">
+                    <span class="text-xs text-amber-400 font-bold" style="font-family: 'Lilita One', cursive;">${m.totalPoints || 0}</span>
+                </div>
+            </label>
+        `;
+    }).join('');
+}
+
+function filterPointMembers() {
+    const query = document.getElementById('point-member-search')?.value.toLowerCase() || '';
+    const rows = document.querySelectorAll('.point-member-row');
+    rows.forEach(row => {
+        const name = row.dataset.name.toLowerCase();
+        const tag = row.dataset.tag.toLowerCase();
+        if (name.includes(query) || tag.includes(query)) {
+            row.style.display = 'flex';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+function selectAllPointMembers(checked) {
+    const checkboxes = document.querySelectorAll('.point-member-checkbox');
+    checkboxes.forEach(cb => {
+        const row = cb.closest('.point-member-row');
+        if (row && row.style.display !== 'none') {
+            cb.checked = checked;
+        }
+    });
 }
 
 function updatePointPresets() {
@@ -298,35 +351,52 @@ function fillPointPreset() {
 }
 
 async function submitPoints(user) {
-    const memberTag = document.getElementById('point-member')?.value;
+    const checkedBoxes = document.querySelectorAll('.point-member-checkbox:checked');
+    const selectedTags = Array.from(checkedBoxes).map(cb => cb.value);
+    
     const amount = parseInt(document.getElementById('point-amount')?.value);
     const reason = document.getElementById('point-reason')?.value;
     const category = document.getElementById('point-category')?.value;
 
-    if (!memberTag || isNaN(amount) || !reason) {
+    if (selectedTags.length === 0) {
+        toast.warning('Mohon pilih minimal satu anggota.');
+        return;
+    }
+
+    if (isNaN(amount) || !reason) {
         toast.warning('Mohon lengkapi semua field.');
         return;
     }
 
-    const member = members.find(m => m.tag === memberTag);
+    const selectedMembers = selectedTags.map(tag => members.find(m => m.tag === tag)).filter(Boolean);
+    const memberNames = selectedMembers.map(m => m.name).join(', ');
 
     modal.confirm({
-        title: 'Konfirmasi',
-        message: `${amount > 0 ? 'Tambah' : 'Kurangi'} <strong>${Math.abs(amount)}</strong> poin untuk <strong>${member?.name}</strong>?<br><br>Alasan: ${reason}`,
+        title: 'Konfirmasi Kelola Poin',
+        message: `${amount > 0 ? 'Tambah' : 'Kurangi'} <strong>${Math.abs(amount)}</strong> poin untuk <strong>${selectedMembers.length} anggota</strong>?<br><br>Anggota: <i>${memberNames}</i><br><br>Alasan: ${reason}`,
         onConfirm: async () => {
             try {
-                await addPointEntry({
-                    memberTag,
-                    memberName: member?.name || 'Unknown',
-                    amount,
-                    reason,
-                    category,
-                    adminName: user?.displayName || 'Admin',
-                });
-                toast.success(`Poin berhasil ${amount > 0 ? 'ditambahkan' : 'dikurangi'}!`);
+                for (const member of selectedMembers) {
+                    await addPointEntry({
+                        memberTag: member.tag,
+                        memberName: member.name,
+                        amount,
+                        reason,
+                        category,
+                        adminName: user?.displayName || 'Admin',
+                    });
+                }
+                toast.success(`Poin berhasil ${amount > 0 ? 'ditambahkan' : 'dikurangi'} untuk ${selectedMembers.length} anggota!`);
                 // Reset form
                 document.getElementById('point-amount').value = '';
                 document.getElementById('point-reason').value = '';
+                selectAllPointMembers(false);
+                const searchInput = document.getElementById('point-member-search');
+                if (searchInput) {
+                    searchInput.value = '';
+                    filterPointMembers();
+                }
+                loadAdminPointLogs(user);
             } catch (e) {
                 toast.error('Gagal menyimpan poin.');
                 console.error(e);
