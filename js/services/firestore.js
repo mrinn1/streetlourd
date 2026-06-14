@@ -405,4 +405,74 @@ export async function saveLandingSettings(data) {
     await setDoc(doc(db, 'settings', 'landing'), data, { merge: true });
 }
 
+// ==================== BASE LAYOUTS ====================
+
+export async function getLayouts() {
+    if (!isFirebaseConfigured()) return getDemoLayouts();
+    try {
+        const { collection, getDocs, query, orderBy } = await getFirestore();
+        const q = query(collection(db, 'layouts'), orderBy('createdAt', 'desc'));
+        const snap = await getDocs(q);
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch (e) {
+        console.error('getLayouts:', e);
+        try {
+            const { collection, getDocs } = await getFirestore();
+            const snap = await getDocs(collection(db, 'layouts'));
+            const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            docs.sort((a, b) => {
+                const dateA = a.createdAt ? (a.createdAt.toDate ? a.createdAt.toDate() : new Date(a.createdAt)) : 0;
+                const dateB = b.createdAt ? (b.createdAt.toDate ? b.createdAt.toDate() : new Date(b.createdAt)) : 0;
+                return dateB - dateA;
+            });
+            return docs;
+        } catch (err) {
+            console.error('getLayouts fallback failed:', err);
+            return getDemoLayouts();
+        }
+    }
+}
+
+export async function addLayout(data) {
+    if (!isFirebaseConfigured()) return;
+    const { collection, addDoc, serverTimestamp } = await getFirestore();
+    return await addDoc(collection(db, 'layouts'), { ...data, createdAt: serverTimestamp() });
+}
+
+export async function deleteLayout(id) {
+    if (!isFirebaseConfigured()) return;
+    const { doc, deleteDoc } = await getFirestore();
+    await deleteDoc(doc(db, 'layouts', id));
+}
+
+function getDemoLayouts() {
+    return [
+        {
+            id: 'demo-1',
+            title: 'TH17 Legend League War Base',
+            townHallLevel: 17,
+            imageUrl: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&auto=format&fit=crop&q=60',
+            link: 'https://link.clashofclans.com/en?action=OpenLayout&id=TH17-War-Demo',
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: 'demo-2',
+            title: 'TH16 Anti-3 Stars War Base',
+            townHallLevel: 16,
+            imageUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=60',
+            link: 'https://link.clashofclans.com/en?action=OpenLayout&id=TH16-War-Demo',
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: 'demo-3',
+            title: 'TH15 Hybrid Farming Base',
+            townHallLevel: 15,
+            imageUrl: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&auto=format&fit=crop&q=60',
+            link: 'https://link.clashofclans.com/en?action=OpenLayout&id=TH15-Hybrid-Demo',
+            createdAt: new Date().toISOString()
+        }
+    ];
+}
+
+
 

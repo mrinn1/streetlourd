@@ -73,6 +73,7 @@ export const NAV_LINKS = [
     { label: 'Leaderboard', hash: '#/leaderboard',  icon: '🏆' },
     { label: 'War History', hash: '#/wars',         icon: '⚔️' },
     { label: 'Statistics',  hash: '#/statistics',   icon: '📊' },
+    { label: 'Base Layouts',hash: '#/layouts',      icon: '🗺️' },
     { label: 'Clan Rules',  hash: '#/rules',        icon: '📜' },
     { label: 'Admin Panel', hash: '#/admin',        icon: '⚙️', adminOnly: true },
 ];
