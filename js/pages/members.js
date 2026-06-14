@@ -55,7 +55,7 @@ function renderMembersPage(container) {
                 </div>
 
                 <!-- Filters Bar -->
-                <div class="flex flex-col sm:flex-row gap-4 mb-8 animate-on-scroll">
+                <div class="flex flex-col md:flex-row gap-4 mb-8 animate-on-scroll">
                     <!-- Search -->
                     <div class="relative flex-1">
                         <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -66,22 +66,25 @@ function renderMembersPage(container) {
                                       focus:outline-none focus:border-amber-500/50 focus:bg-white/10 transition-all text-sm">
                     </div>
 
-                    <!-- TH Filter -->
-                    <select id="filter-th" class="px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm 
-                                                  focus:outline-none focus:border-amber-500/50 appearance-none cursor-pointer min-w-[140px]">
-                        <option value="">All Town Hall</option>
-                        ${thLevels.map(th => `<option value="${th}">TH ${th}</option>`).join('')}
-                    </select>
+                    <!-- Selects container (grid on mobile, flex on desktop) -->
+                    <div class="grid grid-cols-2 md:flex gap-4">
+                        <!-- TH Filter -->
+                        <select id="filter-th" class="w-full md:w-auto px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm 
+                                                      focus:outline-none focus:border-amber-500/50 cursor-pointer md:min-w-[140px] pr-8">
+                            <option value="">All Town Hall</option>
+                            ${thLevels.map(th => `<option value="${th}">TH ${th}</option>`).join('')}
+                        </select>
 
-                    <!-- Role Filter -->
-                    <select id="filter-role" class="px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm 
-                                                    focus:outline-none focus:border-amber-500/50 appearance-none cursor-pointer min-w-[140px]">
-                        <option value="">All Roles</option>
-                        <option value="leader">Leader</option>
-                        <option value="coLeader">Co-Leader</option>
-                        <option value="admin">Elder</option>
-                        <option value="member">Member</option>
-                    </select>
+                        <!-- Role Filter -->
+                        <select id="filter-role" class="w-full md:w-auto px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm 
+                                                        focus:outline-none focus:border-amber-500/50 cursor-pointer md:min-w-[140px] pr-8">
+                            <option value="">All Roles</option>
+                            <option value="leader">Leader</option>
+                            <option value="coLeader">Co-Leader</option>
+                            <option value="admin">Elder</option>
+                            <option value="member">Member</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Members List -->
