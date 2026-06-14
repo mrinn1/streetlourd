@@ -1,0 +1,34 @@
+name: Clan Sync
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Berjalan otomatis setiap jam
+  workflow_dispatch: # Memungkinkan tombol 'Run workflow' manual di tab Actions GitHub
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create service-account.json
+        run: |
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > service-account.json
+
+      - name: Create functions/.env
+        run: |
+          mkdir -p functions
+          echo "COC_API_KEY=${{ secrets.COC_API_KEY }}" > functions/.env
+          echo "CLAN_TAG=${{ secrets.CLAN_TAG }}" >> functions/.env
+
+      - name: Run sync script
+        run: node sync.js
