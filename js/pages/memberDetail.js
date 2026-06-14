@@ -4,20 +4,15 @@
 
 import { skeleton } from '../components/skeleton.js';
 import { renderFooter } from '../components/footer.js';
-import { getMember, getMemberWarHistory, getPointHistory, getPromotions } from '../services/firestore.js';
-import { formatNumber, formatDate, getRoleBadge, getTHBadge } from '../utils/helpers.js';
+import { getMember } from '../services/firestore.js';
+import { formatNumber, getRoleBadge } from '../utils/helpers.js';
 
 export async function renderMemberDetail(tag) {
     const container = document.getElementById('page-content');
     container.innerHTML = `<div class="pt-24 pb-8 px-4"><div class="max-w-5xl mx-auto">${skeleton.profile()}</div></div>`;
 
     const decodedTag = decodeURIComponent(tag);
-    const [member, warHistory, pointHistory, promotions] = await Promise.all([
-        getMember(decodedTag),
-        getMemberWarHistory(decodedTag),
-        getPointHistory(decodedTag),
-        getPromotions(decodedTag),
-    ]);
+    const member = await getMember(decodedTag);
 
     if (!member) {
         container.innerHTML = `
@@ -39,6 +34,41 @@ export async function renderMemberDetail(tag) {
         15:'#4169E1',16:'#8B008B',17:'#FFD700'
     };
     const thColor = thColors[member.townHallLevel] || '#6b7280';
+
+    // Promotion thresholds & logic
+    let nextRoleLabel = '';
+    let threshold = 0;
+    let progressPercent = 0;
+    let statusText = '';
+    let isMaxRole = false;
+
+    const points = member.totalPoints || 0;
+
+    if (member.role === 'member') {
+        nextRoleLabel = 'Elder (Elder/Admin)';
+        threshold = 100;
+        progressPercent = Math.min(100, (points / threshold) * 100);
+        if (points >= threshold) {
+            statusText = `🎉 Persyaratan poin tercapai! Poin saat ini (${points}) telah mencukupi untuk dipromosikan menjadi ${nextRoleLabel}.`;
+        } else {
+            statusText = `Dibutuhkan <strong>${threshold - points}</strong> poin lagi untuk naik jabatan menjadi <strong>${nextRoleLabel}</strong>.`;
+        }
+    } else if (member.role === 'admin') {
+        nextRoleLabel = 'Co-Leader';
+        threshold = 300;
+        progressPercent = Math.min(100, (points / threshold) * 100);
+        if (points >= threshold) {
+            statusText = `🎉 Persyaratan poin tercapai! Poin saat ini (${points}) telah mencukupi untuk dipromosikan menjadi ${nextRoleLabel}.`;
+        } else {
+            statusText = `Dibutuhkan <strong>${threshold - points}</strong> poin lagi untuk naik jabatan menjadi <strong>${nextRoleLabel}</strong>.`;
+        }
+    } else if (member.role === 'coLeader') {
+        isMaxRole = true;
+        statusText = '✨ Anggota ini telah mencapai pangkat <strong>Co-Leader</strong> (Jabatan kehormatan tertinggi sebelum Leader).';
+    } else if (member.role === 'leader') {
+        isMaxRole = true;
+        statusText = '👑 Anggota ini adalah <strong>Leader Utama</strong> klan.';
+    }
 
     container.innerHTML = `
         <div class="pt-24 pb-8 px-4">
@@ -79,151 +109,48 @@ export async function renderMemberDetail(tag) {
                     </div>
                 </div>
 
-                <!-- Stats Grid -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 animate-on-scroll" data-stagger="true">
-                    ${miniStat('⚔️', 'Wars Joined', member.totalWars || 0)}
-                    ${miniStat('🗡️', 'Attacks Used', (member.totalWars || 0) * 2)}
-                    ${miniStat('⭐', 'Total Stars', member.totalStars || 0)}
-                    ${miniStat('💥', 'Avg Destruction', (member.avgDestruction || 0).toFixed(1) + '%')}
-                    ${miniStat('🏆', 'Trophies', formatNumber(member.trophies))}
-                    ${miniStat('🎁', 'Donations', formatNumber(member.donations))}
-                    ${miniStat('📥', 'Received', formatNumber(member.donationsReceived))}
-                    ${miniStat('🏰', 'Capital', formatNumber(member.clanCapitalContributions))}
-                </div>
-
-                <!-- Tabs -->
-                <div class="mb-8 animate-on-scroll">
-                    <div class="flex gap-2 border-b border-white/10 pb-0 mb-6" id="detail-tabs">
-                        <button class="detail-tab active px-4 py-3 text-sm font-medium border-b-2 transition-all" data-tab="wars">
-                            ⚔️ War History
-                        </button>
-                        <button class="detail-tab px-4 py-3 text-sm font-medium border-b-2 transition-all" data-tab="points">
-                            💎 Point History
-                        </button>
-                        <button class="detail-tab px-4 py-3 text-sm font-medium border-b-2 transition-all" data-tab="promotions">
-                            ⬆️ Promotions
-                        </button>
-                    </div>
-
-                    <!-- Tab Content -->
-                    <div id="tab-content">
-                        ${renderWarHistoryTab(warHistory)}
-                    </div>
+                <!-- Promotion Requirements Progress Section -->
+                <div class="rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm p-8 mb-12 animate-on-scroll">
+                    <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2" style="font-family: 'Lilita One', cursive;">
+                        ⬆️ Keterangan Naik Jabatan
+                    </h2>
+                    
+                    ${isMaxRole ? `
+                        <div class="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/10">
+                            <div class="text-3xl">${member.role === 'leader' ? '👑' : '⚜️'}</div>
+                            <p class="text-gray-300 text-sm leading-relaxed">${statusText}</p>
+                        </div>
+                    ` : `
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-end text-sm">
+                                <div>
+                                    <p class="text-gray-500 text-xs mb-1">Target Jabatan Berikutnya</p>
+                                    <p class="text-white font-bold text-lg">${nextRoleLabel}</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-gray-500 text-xs mb-1">Kemajuan Poin</p>
+                                    <p class="text-amber-400 font-bold text-lg">${points} / ${threshold} Poin</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Progress Bar -->
+                            <div class="w-full h-4 rounded-full bg-white/5 border border-white/10 overflow-hidden relative">
+                                <div class="h-full bg-gradient-to-r from-amber-500 to-yellow-500 rounded-full transition-all duration-1000"
+                                     style="width: ${progressPercent}%">
+                                </div>
+                            </div>
+                            
+                            <!-- Status Info -->
+                            <div class="flex items-start gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                                <span class="text-amber-400">💡</span>
+                                <p class="text-gray-300 text-sm leading-relaxed">${statusText}</p>
+                            </div>
+                        </div>
+                    `}
                 </div>
             </div>
         </div>
         ${renderFooter()}
     `;
-
-    // Tab switching
-    const tabs = document.querySelectorAll('.detail-tab');
-    const tabContent = document.getElementById('tab-content');
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-
-            switch (tab.dataset.tab) {
-                case 'wars': tabContent.innerHTML = renderWarHistoryTab(warHistory); break;
-                case 'points': tabContent.innerHTML = renderPointHistoryTab(pointHistory); break;
-                case 'promotions': tabContent.innerHTML = renderPromotionsTab(promotions); break;
-            }
-        });
-    });
 }
 
-function miniStat(icon, label, value) {
-    return `
-        <div class="animate-item rounded-xl border border-white/5 bg-white/5 p-4 hover:bg-white/10 transition-all">
-            <p class="text-xs text-gray-500 mb-1">${icon} ${label}</p>
-            <p class="text-lg font-bold text-white" style="font-family: 'Lilita One', cursive;">${value}</p>
-        </div>
-    `;
-}
-
-function renderWarHistoryTab(wars) {
-    if (!wars.length) return `<div class="text-center py-12 text-gray-500"><p class="text-4xl mb-2">⚔️</p><p>Belum ada riwayat war</p></div>`;
-    
-    return `
-        <div class="space-y-3">
-            ${wars.map(w => {
-                const stars1 = w.usedAttack1 ? '⭐'.repeat(w.attack1Stars || 0) + '☆'.repeat(3 - (w.attack1Stars || 0)) : '❌ Missed';
-                const stars2 = w.usedAttack2 ? '⭐'.repeat(w.attack2Stars || 0) + '☆'.repeat(3 - (w.attack2Stars || 0)) : '❌ Missed';
-                return `
-                    <div class="rounded-xl border border-white/5 bg-white/5 p-4 hover:bg-white/10 transition-all">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs text-gray-500">${formatDate(w.date)}</span>
-                            <span class="text-xs px-2 py-0.5 rounded-full ${w.status === 'optIn' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'}">${w.status}</span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4 text-sm">
-                            <div>
-                                <p class="text-gray-500 text-xs mb-1">Attack 1</p>
-                                <p class="text-white">${stars1}</p>
-                                ${w.usedAttack1 ? `<p class="text-xs text-gray-500">${(w.attack1Destruction || 0).toFixed(0)}%</p>` : ''}
-                            </div>
-                            <div>
-                                <p class="text-gray-500 text-xs mb-1">Attack 2</p>
-                                <p class="text-white">${stars2}</p>
-                                ${w.usedAttack2 ? `<p class="text-xs text-gray-500">${(w.attack2Destruction || 0).toFixed(0)}%</p>` : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('')}
-        </div>
-    `;
-}
-
-function renderPointHistoryTab(points) {
-    if (!points.length) return `<div class="text-center py-12 text-gray-500"><p class="text-4xl mb-2">💎</p><p>Belum ada riwayat poin</p></div>`;
-
-    return `
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm">
-                <thead>
-                    <tr class="text-left text-gray-500 text-xs uppercase border-b border-white/10">
-                        <th class="pb-3 pr-4">Tanggal</th>
-                        <th class="pb-3 pr-4">Alasan</th>
-                        <th class="pb-3 pr-4">Admin</th>
-                        <th class="pb-3 text-right">Points</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${points.map(p => `
-                        <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-                            <td class="py-3 pr-4 text-gray-400">${formatDate(p.date)}</td>
-                            <td class="py-3 pr-4 text-white">${p.reason}</td>
-                            <td class="py-3 pr-4 text-gray-500">${p.adminName || '-'}</td>
-                            <td class="py-3 text-right font-bold ${p.amount > 0 ? 'text-green-400' : 'text-red-400'}">
-                                ${p.amount > 0 ? '+' : ''}${p.amount}
-                            </td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-        </div>
-    `;
-}
-
-function renderPromotionsTab(promotions) {
-    if (!promotions.length) return `<div class="text-center py-12 text-gray-500"><p class="text-4xl mb-2">⬆️</p><p>Belum ada riwayat promosi</p></div>`;
-
-    return `
-        <div class="space-y-3">
-            ${promotions.map(p => `
-                <div class="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/5">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/20 to-yellow-600/10 flex items-center justify-center text-lg">⬆️</div>
-                    <div class="flex-1">
-                        <p class="text-white text-sm"><span class="text-gray-500">${p.fromRole}</span> → <span class="text-amber-400 font-medium">${p.toRole}</span></p>
-                        <p class="text-xs text-gray-500">${p.reason || 'No reason provided'}</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-xs text-gray-500">${formatDate(p.date)}</p>
-                        <p class="text-xs text-gray-600">by ${p.adminName || '-'}</p>
-                    </div>
-                </div>
-            `).join('')}
-        </div>
-    `;
-}
