@@ -4,11 +4,18 @@
 
 import { renderFooter } from '../components/footer.js';
 import { rankCard } from '../components/card.js';
-import { getMembers, getLandingSettings } from '../services/firestore.js';
+import { getMembers, getLandingSettings, getSettings } from '../services/firestore.js';
 
 export async function renderLanding() {
-    const settings = await getLandingSettings();
-    const members = await getMembers();
+    const [settings, generalSettings, members] = await Promise.all([
+        getLandingSettings(),
+        getSettings(),
+        getMembers()
+    ]);
+    
+    const clanTag = generalSettings.clanTag || '#P0YVL80U';
+    const cleanTag = clanTag.replace('#', '');
+    const joinLink = `https://link.clashofclans.com/en?action=OpenClanProfile&tag=%23${cleanTag}`;
     
     const sorted = members
         .filter(m => m.role !== 'leader')
@@ -59,7 +66,7 @@ export async function renderLanding() {
                                                hover:from-amber-300 hover:to-yellow-400 
                                                shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 
                                                transition-all duration-300 hover:scale-105 w-full sm:w-auto"
-                           style="font-family: 'Lilita One', cursive;">
+                            style="font-family: 'Lilita One', cursive;">
                             <span class="flex items-center justify-center gap-2">
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
                                 Login
@@ -70,12 +77,12 @@ export async function renderLanding() {
                                                        border-2 border-white/20 hover:border-amber-400/50 
                                                        bg-white/5 hover:bg-white/10 backdrop-blur-sm
                                                        transition-all duration-300 hover:scale-105 w-full sm:w-auto"
-                           style="font-family: 'Lilita One', cursive;">
+                            style="font-family: 'Lilita One', cursive;">
                             <span class="flex items-center justify-center gap-2">
                                 🏆 View Leaderboard
                             </span>
                         </a>
-                        <a href="#/members" class="group px-8 py-4 rounded-2xl text-lg font-bold 
+                        <a href="${joinLink}" target="_blank" class="group px-8 py-4 rounded-2xl text-lg font-bold 
                                                   text-purple-300 border-2 border-purple-500/30 
                                                   hover:border-purple-400/60 bg-purple-500/10 hover:bg-purple-500/20 
                                                   backdrop-blur-sm transition-all duration-300 hover:scale-105 w-full sm:w-auto"
@@ -85,7 +92,7 @@ export async function renderLanding() {
                             </span>
                         </a>
                     </div>
-                </div>
+                </div>   </div>
 
                 <!-- Scroll Indicator -->
                 <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
