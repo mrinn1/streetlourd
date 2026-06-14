@@ -47,10 +47,13 @@ export async function renderMemberDetail(tag) {
             </div>
         `;
     } else if (member.role === 'coLeader') {
+        const progressPercent = Math.max(0, Math.min(100, (points / 1500) * 100));
+        let statusHtml = '';
+
         if (points < 1500) {
-            promotionSectionHtml = `
+            statusHtml = `
                 <div class="flex items-center gap-4 p-5 rounded-2xl bg-red-500/10 border border-red-500/20">
-                    <div class="text-3xl">⚠️</div>
+                    <div class="text-3xl shrink-0">⚠️</div>
                     <div>
                         <p class="text-white font-bold text-lg mb-1" style="font-family: 'Lilita One', cursive;">Rekomendasi Turun Jabatan</p>
                         <p class="text-gray-300 text-sm leading-relaxed">Poin saat ini (<strong>${points}</strong>) di bawah batas minimal Co-Leader (1500). Anggota ini direkomendasikan untuk diturunkan pangkatnya menjadi <strong>Elder</strong>.</p>
@@ -58,13 +61,38 @@ export async function renderMemberDetail(tag) {
                 </div>
             `;
         } else {
-            promotionSectionHtml = `
-                <div class="flex items-center gap-4 p-5 rounded-2xl bg-green-500/10 border border-green-500/20">
-                    <div class="text-3xl">⚜️</div>
+            statusHtml = `
+                <div class="flex items-start gap-3 p-4 rounded-xl bg-green-500/10 border border-green-500/20">
+                    <span class="text-green-400 shrink-0">⚜️</span>
                     <p class="text-gray-300 text-sm leading-relaxed">✨ Anggota ini telah mencapai pangkat <strong>Co-Leader</strong> dengan poin maksimal (1500).</p>
                 </div>
             `;
         }
+
+        promotionSectionHtml = `
+            <div class="space-y-6">
+                <div class="flex justify-between items-end text-sm">
+                    <div>
+                        <p class="text-gray-500 text-xs mb-1">Status Jabatan</p>
+                        <p class="text-white font-bold text-lg">Co-Leader (Maksimal)</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-gray-500 text-xs mb-1">Kemajuan Poin</p>
+                        <p class="text-amber-400 font-bold text-lg">${points} / 1500 Poin</p>
+                    </div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="w-full h-4 rounded-full bg-white/5 border border-white/10 overflow-hidden relative">
+                    <div class="h-full bg-gradient-to-r from-amber-500 to-yellow-500 rounded-full transition-all duration-1000"
+                         style="width: ${progressPercent}%">
+                    </div>
+                </div>
+                
+                <!-- Status/Rekomendasi Info -->
+                ${statusHtml}
+            </div>
+        `;
     } else if (member.role === 'admin') { // Elder
         if (points < 1000) {
             promotionSectionHtml = `
