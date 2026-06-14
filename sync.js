@@ -122,7 +122,12 @@ async function sync() {
         });
 
         if (!clanResponse.ok) {
-            throw new Error(`API CoC gagal merespon: ${clanResponse.status} - ${clanResponse.statusText}`);
+            let details = '';
+            try {
+                const errJson = await clanResponse.json();
+                details = ` (${errJson.message || errJson.reason})`;
+            } catch (e) {}
+            throw new Error(`API CoC gagal merespon: ${clanResponse.status} - ${clanResponse.statusText}${details}`);
         }
 
         const clanData = await clanResponse.json();
@@ -144,7 +149,12 @@ async function sync() {
         });
 
         if (!membersResponse.ok) {
-            throw new Error(`API CoC gagal mengambil anggota: ${membersResponse.status}`);
+            let details = '';
+            try {
+                const errJson = await membersResponse.json();
+                details = ` (${errJson.message || errJson.reason})`;
+            } catch (e) {}
+            throw new Error(`API CoC gagal mengambil anggota: ${membersResponse.status}${details}`);
         }
 
         const membersData = await membersResponse.json();
@@ -197,7 +207,12 @@ async function sync() {
                 const playerData = await playerResponse.json();
                 townHallLevel = playerData.townHallLevel || 1;
             } else {
-                console.warn(`   ⚠️ Gagal mengambil detil TH untuk ${member.name}. Menggunakan TH default 1.`);
+                let details = '';
+                try {
+                    const errJson = await playerResponse.json();
+                    details = ` (${errJson.message || errJson.reason})`;
+                } catch (e) {}
+                console.warn(`   ⚠️ Gagal mengambil detil TH untuk ${member.name}${details}. Menggunakan TH default 1.`);
             }
 
             const memberRef = db.collection('members').doc(member.tag);
