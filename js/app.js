@@ -222,13 +222,7 @@ async function renderAdminSidePointsPage() {
 
 async function renderBaseLayoutsPage() {
     const pageContent = document.getElementById('page-content');
-    pageContent.style.opacity = '0';
-    pageContent.innerHTML = await renderBaseLayouts();
-    requestAnimationFrame(() => {
-        pageContent.style.transition = 'opacity 0.5s ease';
-        pageContent.style.opacity = '1';
-    });
-    setTimeout(() => initScrollAnimations(), 100);
+    await pageTransition(pageContent, () => renderBaseLayouts());
 }
 
 async function renderAdminLayoutsPage() {
