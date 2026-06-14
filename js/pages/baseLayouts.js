@@ -1,5 +1,5 @@
 // ============================================================
-// StreetLourd — Base Layouts Page
+// StreetLourd — Base Layouts Page (Public)
 // ============================================================
 
 import { getLayouts } from '../services/firestore.js';
@@ -46,9 +46,49 @@ export async function renderBaseLayouts() {
                     </div>
                 </div>
 
-                <!-- Town Hall Filters -->
-                <div class="flex flex-wrap gap-2 mb-8 animate-on-scroll" id="th-filters-container">
-                    <!-- Dynamic TH buttons -->
+                <!-- Category Tabs (Home Village, Builder Base, Clan Capital) -->
+                <div class="flex border-b border-white/10 mb-8 animate-on-scroll">
+                    <button onclick="window.__setCategoryFilter('home')" id="tab-cat-home"
+                            class="px-6 py-3.5 text-sm font-bold border-b-2 border-amber-500 text-amber-400 transition-all flex items-center gap-2">
+                        🏠 Desa Asal
+                    </button>
+                    <button onclick="window.__setCategoryFilter('builder')" id="tab-cat-builder"
+                            class="px-6 py-3.5 text-sm font-bold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2">
+                        🛠️ Desa Tukang
+                    </button>
+                    <button onclick="window.__setCategoryFilter('capital')" id="tab-cat-capital"
+                            class="px-6 py-3.5 text-sm font-bold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2">
+                        🏰 Clan Capital
+                    </button>
+                </div>
+
+                <!-- Filters Subgrid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 animate-on-scroll">
+                    <!-- Level Filters -->
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-2 font-medium">Filter Level:</label>
+                        <div class="flex flex-wrap gap-2" id="level-filters-container">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                    <!-- Type Filters -->
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-2 font-medium">Filter Tipe:</label>
+                        <div class="flex flex-wrap gap-2" id="type-filters-container">
+                            <button onclick="window.__setTypeFilter('all')" id="btn-type-all"
+                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-black bg-amber-500 transition-all">
+                                Semua Tipe
+                            </button>
+                            <button onclick="window.__setTypeFilter('war')" id="btn-type-war"
+                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                War Base
+                            </button>
+                            <button onclick="window.__setTypeFilter('farming')" id="btn-type-farming"
+                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                Farming / Trophy
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Base Layouts Grid -->
@@ -60,8 +100,11 @@ export async function renderBaseLayouts() {
         ${renderFooter()}
     `;
 
-    // Initialize state
-    let selectedTH = 'all';
+    // Filter states
+    let selectedCategory = 'home';
+    let selectedLevel = 'all';
+    let selectedType = 'all';
+
     window.__filterLayouts = () => {
         const query = document.getElementById('layout-search')?.value.toLowerCase() || '';
         const grid = document.getElementById('layouts-grid');
@@ -69,8 +112,10 @@ export async function renderBaseLayouts() {
 
         const filtered = layouts.filter(item => {
             const matchesSearch = item.title.toLowerCase().includes(query);
-            const matchesTH = selectedTH === 'all' || parseInt(item.townHallLevel) === parseInt(selectedTH);
-            return matchesSearch && matchesTH;
+            const matchesCategory = (item.category || 'home') === selectedCategory;
+            const matchesLevel = selectedLevel === 'all' || parseInt(item.townHallLevel) === parseInt(selectedLevel);
+            const matchesType = selectedType === 'all' || (item.type || 'war') === selectedType;
+            return matchesSearch && matchesCategory && matchesLevel && matchesType;
         });
 
         if (filtered.length === 0) {
@@ -83,12 +128,17 @@ export async function renderBaseLayouts() {
         }
 
         grid.innerHTML = filtered.map(item => {
+            const levelPrefix = item.category === 'builder' ? 'BH' : (item.category === 'capital' ? 'CH' : 'TH');
             const thColors = {
                 15: 'from-blue-500 to-indigo-600',
                 16: 'from-purple-500 to-indigo-700',
-                17: 'from-amber-500 to-yellow-600'
+                17: 'from-amber-500 to-yellow-600',
+                18: 'from-red-500 to-rose-600'
             };
             const badgeBg = thColors[item.townHallLevel] || 'from-gray-600 to-gray-700';
+            const typeLabels = { war: '⚔️ War Base', farming: '🚜 Farming' };
+            const typeLabel = typeLabels[item.type || 'war'];
+            const ratingStars = '⭐'.repeat(item.rating || 5);
 
             return `
                 <div class="group relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden 
@@ -100,15 +150,20 @@ export async function renderBaseLayouts() {
                              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                              onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600'">
                         <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r ${badgeBg} shadow-md">
-                            TH ${item.townHallLevel}
+                            ${levelPrefix} ${item.townHallLevel}
+                        </span>
+                        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold text-white bg-black/60 backdrop-blur-sm shadow-md">
+                            ${typeLabel}
                         </span>
                     </div>
 
                     <!-- Details -->
                     <div class="p-5 flex-1 flex flex-col justify-between">
                         <div class="mb-5">
+                            <div class="flex items-center justify-between gap-2 mb-2">
+                                <span class="text-xs text-yellow-500 font-bold">${ratingStars}</span>
+                            </div>
                             <h3 class="text-white font-bold text-lg leading-snug line-clamp-2">${item.title}</h3>
-                            <p class="text-xs text-gray-500 mt-1.5">Diposting: ${new Date(item.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                         </div>
 
                         <!-- CTA Actions -->
@@ -137,39 +192,93 @@ export async function renderBaseLayouts() {
         });
     };
 
-    window.__setTHFilter = (th) => {
-        selectedTH = th;
-        
+    window.__setCategoryFilter = (cat) => {
+        selectedCategory = cat;
+        selectedLevel = 'all';
+
+        // Update category tabs active classes
+        const tabs = ['home', 'builder', 'capital'];
+        tabs.forEach(t => {
+            const btn = document.getElementById(`tab-cat-${t}`);
+            if (btn) {
+                if (t === cat) {
+                    btn.className = 'px-6 py-3.5 text-sm font-bold border-b-2 border-amber-500 text-amber-400 transition-all flex items-center gap-2';
+                } else {
+                    btn.className = 'px-6 py-3.5 text-sm font-bold border-b-2 border-transparent text-gray-400 hover:text-white transition-all flex items-center gap-2';
+                }
+            }
+        });
+
+        // Update level buttons filter list
+        updateLevelFilters();
+
+        // Run filter
+        window.__filterLayouts();
+    };
+
+    window.__setLevelFilter = (lvl) => {
+        selectedLevel = lvl;
+
         // Update active class on buttons
-        const buttons = document.querySelectorAll('.th-filter-btn');
+        const buttons = document.querySelectorAll('.lvl-filter-btn');
         buttons.forEach(btn => {
-            if (btn.dataset.th === th) {
-                btn.className = 'th-filter-btn px-4 py-2 rounded-xl text-xs font-bold text-black bg-amber-500 transition-all shadow-md';
+            if (btn.dataset.lvl === String(lvl)) {
+                btn.className = 'lvl-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold text-black bg-amber-500 transition-all shadow-md';
             } else {
-                btn.className = 'th-filter-btn px-4 py-2 rounded-xl text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all';
+                btn.className = 'lvl-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all';
             }
         });
 
         window.__filterLayouts();
     };
 
-    // Render TH buttons based on unique TH levels in layouts
-    const thLevels = Array.from(new Set(layouts.map(l => parseInt(l.townHallLevel)))).sort((a, b) => b - a);
-    const filterContainer = document.getElementById('th-filters-container');
-    if (filterContainer) {
-        filterContainer.innerHTML = `
-            <button onclick="window.__setTHFilter('all')" data-th="all"
-                    class="th-filter-btn px-4 py-2 rounded-xl text-xs font-bold text-black bg-amber-500 transition-all shadow-md">
-                Semua TH
+    window.__setTypeFilter = (type) => {
+        selectedType = type;
+
+        // Update active class on buttons
+        const types = ['all', 'war', 'farming'];
+        types.forEach(t => {
+            const btn = document.getElementById(`btn-type-${t}`);
+            if (btn) {
+                if (t === type) {
+                    btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-black bg-amber-500 transition-all shadow-md';
+                } else {
+                    btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all';
+                }
+            }
+        });
+
+        window.__filterLayouts();
+    };
+
+    function updateLevelFilters() {
+        const filterContainer = document.getElementById('level-filters-container');
+        if (!filterContainer) return;
+
+        // Find levels that exist in current layouts for this category
+        const currentCategoryLayouts = layouts.filter(l => (l.category || 'home') === selectedCategory);
+        const levels = Array.from(new Set(currentCategoryLayouts.map(l => parseInt(l.townHallLevel)))).sort((a, b) => b - a);
+
+        const levelPrefix = selectedCategory === 'builder' ? 'BH' : (selectedCategory === 'capital' ? 'CH' : 'TH');
+
+        let levelButtons = `
+            <button onclick="window.__setLevelFilter('all')" data-lvl="all"
+                    class="lvl-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold text-black bg-amber-500 transition-all shadow-md">
+                Semua
             </button>
-            ` + thLevels.map(th => `
-                <button onclick="window.__setTHFilter('${th}')" data-th="${th}"
-                        class="th-filter-btn px-4 py-2 rounded-xl text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
-                    TH ${th}
-                </button>
-            `).join('');
+        `;
+
+        levelButtons += levels.map(lvl => `
+            <button onclick="window.__setLevelFilter('${lvl}')" data-lvl="${lvl}"
+                    class="lvl-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                ${levelPrefix} ${lvl}
+            </button>
+        `).join('');
+
+        filterContainer.innerHTML = levelButtons;
     }
 
-    // Run initial filter
+    // Initialize layout list & filters
+    updateLevelFilters();
     window.__filterLayouts();
 }

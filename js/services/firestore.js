@@ -439,6 +439,12 @@ export async function addLayout(data) {
     return await addDoc(collection(db, 'layouts'), { ...data, createdAt: serverTimestamp() });
 }
 
+export async function updateLayout(id, data) {
+    if (!isFirebaseConfigured()) return;
+    const { doc, updateDoc } = await getFirestore();
+    await updateDoc(doc(db, 'layouts', id), data);
+}
+
 export async function deleteLayout(id) {
     if (!isFirebaseConfigured()) return;
     const { doc, deleteDoc } = await getFirestore();
@@ -449,26 +455,35 @@ function getDemoLayouts() {
     return [
         {
             id: 'demo-1',
-            title: 'TH17 Legend League War Base',
-            townHallLevel: 17,
+            title: 'TH18 Legend League War Base',
+            townHallLevel: 18,
+            category: 'home',
+            type: 'war',
+            rating: 5,
             imageUrl: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&auto=format&fit=crop&q=60',
-            link: 'https://link.clashofclans.com/en?action=OpenLayout&id=TH17-War-Demo',
+            link: 'https://link.clashofclans.com/en?action=OpenLayout&id=TH18-War-Demo',
             createdAt: new Date().toISOString()
         },
         {
             id: 'demo-2',
-            title: 'TH16 Anti-3 Stars War Base',
-            townHallLevel: 16,
+            title: 'BH10 Trophy Push Base',
+            townHallLevel: 10,
+            category: 'builder',
+            type: 'farming',
+            rating: 4,
             imageUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=60',
-            link: 'https://link.clashofclans.com/en?action=OpenLayout&id=TH16-War-Demo',
+            link: 'https://link.clashofclans.com/en?action=OpenLayout&id=BH10-Demo',
             createdAt: new Date().toISOString()
         },
         {
             id: 'demo-3',
-            title: 'TH15 Hybrid Farming Base',
-            townHallLevel: 15,
+            title: 'Capital Hall 10 Layout',
+            townHallLevel: 10,
+            category: 'capital',
+            type: 'war',
+            rating: 5,
             imageUrl: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&auto=format&fit=crop&q=60',
-            link: 'https://link.clashofclans.com/en?action=OpenLayout&id=TH15-Hybrid-Demo',
+            link: 'https://link.clashofclans.com/en?action=OpenLayout&id=CH10-Demo',
             createdAt: new Date().toISOString()
         }
     ];
