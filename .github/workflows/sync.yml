@@ -1,6 +1,9 @@
 name: Clan Sync
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '0 * * * *' # Berjalan otomatis setiap jam
   workflow_dispatch: # Memungkinkan tombol 'Run workflow' manual di tab Actions GitHub
