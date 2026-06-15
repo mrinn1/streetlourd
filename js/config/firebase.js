@@ -26,7 +26,7 @@ try {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
     db = initializeFirestore(app, {
-        experimentalForceLongPolling: true
+        experimentalAutoDetectLongPolling: true
     });
     storage = getStorage(app);
     console.log('✅ Firebase initialized successfully with long polling enabled');
