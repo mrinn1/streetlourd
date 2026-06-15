@@ -40,13 +40,7 @@ var V=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
                                     </button>
                                 </div>
                             `:`
-                                <a href="#/login" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold 
-                                                         bg-gradient-to-r from-amber-500 to-yellow-600 text-black 
-                                                         hover:from-amber-400 hover:to-yellow-500 transition-all 
-                                                         shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 hover:scale-105">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
-                                    Login
-                                </a>
+                                <!-- Login button hidden -->
                             `}
 
                             <!-- Mobile Menu Toggle -->
@@ -329,15 +323,15 @@ var V=[{id:"war_participation",label:"Ikut War",points:10,icon:"\u2694\uFE0F",ca
 
                     <!-- CTA Buttons -->
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <a href="#/login" class="group relative px-8 py-4 rounded-2xl text-lg font-bold text-black 
+                        <a href="#/layouts" class="group relative px-8 py-4 rounded-2xl text-lg font-bold text-black 
                                                bg-gradient-to-r from-amber-400 to-yellow-500 
                                                hover:from-amber-300 hover:to-yellow-400 
                                                shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 
                                                transition-all duration-300 hover:scale-105 w-full sm:w-auto"
                             style="font-family: 'Lilita One', cursive;">
                             <span class="flex items-center justify-center gap-2">
-                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
-                                Login
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0121 18.382V7.618a1 1 0 01-.553-.894L15 4m0 13V4m0 0L9 7" /></svg>
+                                Base Layout
                             </span>
                             <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         </a>

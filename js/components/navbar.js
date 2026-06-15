@@ -61,13 +61,7 @@ export function renderNavbar(currentHash = '#/', user = null, userRole = null) {
                                     </button>
                                 </div>
                             ` : `
-                                <a href="#/login" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold 
-                                                         bg-gradient-to-r from-amber-500 to-yellow-600 text-black 
-                                                         hover:from-amber-400 hover:to-yellow-500 transition-all 
-                                                         shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 hover:scale-105">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
-                                    Login
-                                </a>
+                                <!-- Login button hidden -->
                             `}
 
                             <!-- Mobile Menu Toggle -->
