@@ -86,13 +86,64 @@ export async function renderClanRules() {
                 </div>
 
                 <!-- General Rules -->
-                <div class="animate-on-scroll">
+                <div class="mb-12 animate-on-scroll">
                     <div class="flex items-center gap-3 mb-6">
                         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center text-xl shadow-lg">⚖️</div>
                         <h2 class="text-2xl font-bold text-white" style="font-family: 'Lilita One', cursive;">General Rules</h2>
                     </div>
                     <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 space-y-4">
                         ${generalRules.map((rule, i) => ruleItem(i + 1, rule)).join('')}
+                    </div>
+                </div>
+
+                <!-- Role & Penalty Rules Card -->
+                <div class="rounded-2xl border border-red-500/20 bg-gradient-to-br from-red-500/10 to-rose-500/5 backdrop-blur-sm p-8 mb-12 animate-on-scroll">
+                    <h3 class="text-xl font-bold text-red-400 mb-4 flex items-center gap-2" style="font-family: 'Lilita One', cursive;">
+                        ⚠️ Ketentuan & Batas Poin Jabatan
+                    </h3>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                        Ketentuan batas poin untuk kenaikan jabatan, penurunan jabatan (demote), dan pengeluaran (kick) dari klan:
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Co-Leader Rules -->
+                        <div class="p-4 rounded-xl border border-purple-500/20 bg-purple-500/5 flex flex-col justify-between">
+                            <div>
+                                <h4 class="font-bold text-purple-400 text-sm mb-3 flex items-center gap-1.5" style="font-family: 'Lilita One', cursive;">
+                                    ⚜️ Co-Leader
+                                </h4>
+                                <ul class="space-y-2 text-xs text-gray-400">
+                                    <li>• Syarat Jabatan: <strong class="text-white">1500 Poin</strong></li>
+                                    <li>• Batas Demote: <strong class="text-red-400">&le; 1250 Poin</strong> (Turun ke Elder)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Elder Rules -->
+                        <div class="p-4 rounded-xl border border-blue-500/20 bg-blue-500/5 flex flex-col justify-between">
+                            <div>
+                                <h4 class="font-bold text-blue-400 text-sm mb-3 flex items-center gap-1.5" style="font-family: 'Lilita One', cursive;">
+                                    🛡️ Elder
+                                </h4>
+                                <ul class="space-y-2 text-xs text-gray-400">
+                                    <li>• Syarat Jabatan: <strong class="text-white">1250 Poin</strong></li>
+                                    <li>• Batas Demote: <strong class="text-red-400">1000 Poin</strong> (Turun ke Member)</li>
+                                    <li>• Batas Kick: <strong class="text-red-500">&lt; 1000 Poin</strong> (Dikeluarkan dari klan)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Member Rules -->
+                        <div class="p-4 rounded-xl border border-gray-500/20 bg-gray-500/5 flex flex-col justify-between">
+                            <div>
+                                <h4 class="font-bold text-gray-300 text-sm mb-3 flex items-center gap-1.5" style="font-family: 'Lilita One', cursive;">
+                                    ⚔️ Member
+                                </h4>
+                                <ul class="space-y-2 text-xs text-gray-400">
+                                    <li>• Syarat Poin Awal: <strong class="text-white">500 Poin</strong></li>
+                                    <li>• Batas Kick: <strong class="text-red-500">&le; 250 Poin</strong> (Dikeluarkan dari klan)</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
