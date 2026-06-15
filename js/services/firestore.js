@@ -476,6 +476,28 @@ function getDemoLayouts() {
             createdAt: new Date().toISOString()
         },
         {
+            id: 'demo-2b',
+            title: 'TH18 Anti 3-Star War Base',
+            townHallLevel: 18,
+            category: 'home',
+            type: 'anti_3',
+            rating: 5,
+            imageUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=60',
+            link: 'https://link.clashofclans.com/en?action=OpenLayout&id=TH18-Anti3-Demo',
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: 'demo-2c',
+            title: 'TH15 Heart Shape Fun Base',
+            townHallLevel: 15,
+            category: 'home',
+            type: 'fun',
+            rating: 5,
+            imageUrl: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&auto=format&fit=crop&q=60',
+            link: 'https://link.clashofclans.com/en?action=OpenLayout&id=TH15-Fun-Demo',
+            createdAt: new Date().toISOString()
+        },
+        {
             id: 'demo-3',
             title: 'BH10 Trophy Push Base',
             townHallLevel: 10,

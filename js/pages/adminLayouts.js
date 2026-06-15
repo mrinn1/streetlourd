@@ -117,6 +117,12 @@ function renderManager(container) {
                                         <option value="farming">Trophy / Farming</option>
                                         <option value="hybrid">Hybrid Base</option>
                                         <option value="defense">Defense Base</option>
+                                        <option value="anti_2">Anti 2 Stars</option>
+                                        <option value="anti_3">Anti 3 Stars</option>
+                                        <option value="anti_air">Anti Air Base</option>
+                                        <option value="anti_ground">Anti Ground Base</option>
+                                        <option value="fun">Fun Base</option>
+                                        <option value="troll">Troll</option>
                                     </select>
                                 </div>
 
@@ -269,7 +275,13 @@ function updateAdminLayoutsList() {
         war: 'War',
         farming: 'Farming',
         hybrid: 'Hybrid',
-        defense: 'Defense'
+        defense: 'Defense',
+        anti_2: 'Anti 2 Stars',
+        anti_3: 'Anti 3 Stars',
+        anti_air: 'Anti Air',
+        anti_ground: 'Anti Ground',
+        fun: 'Fun Base',
+        troll: 'Troll'
     };
     const categoryColors = { home: 'bg-emerald-500/20 text-emerald-400', builder: 'bg-orange-500/20 text-orange-400', capital: 'bg-sky-500/20 text-sky-400' };
 

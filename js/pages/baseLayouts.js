@@ -111,7 +111,7 @@ export async function renderBaseLayouts() {
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Level Filters -->
                         <div>
                             <label class="block text-xs text-gray-500 mb-2 font-medium">Filter Level:</label>
@@ -143,6 +143,52 @@ export async function renderBaseLayouts() {
                                         class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
                                     Defense Base
                                 </button>
+                                <button onclick="window.__setTypeFilter('anti_2')" id="btn-type-anti_2"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    Anti 2 Stars
+                                </button>
+                                <button onclick="window.__setTypeFilter('anti_3')" id="btn-type-anti_3"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    Anti 3 Stars
+                                </button>
+                                <button onclick="window.__setTypeFilter('anti_air')" id="btn-type-anti_air"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    Anti Air Base
+                                </button>
+                                <button onclick="window.__setTypeFilter('anti_ground')" id="btn-type-anti_ground"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    Anti Ground Base
+                                </button>
+                                <button onclick="window.__setTypeFilter('fun')" id="btn-type-fun"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    Fun Base
+                                </button>
+                                <button onclick="window.__setTypeFilter('troll')" id="btn-type-troll"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    Troll
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Rating Filters -->
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-2 font-medium">Filter Rating:</label>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="window.__setRatingFilter('all')" id="btn-rating-all"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-black bg-amber-500 transition-all shadow-md">
+                                    Semua Rating
+                                </button>
+                                <button onclick="window.__setRatingFilter('5')" id="btn-rating-5"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    ⭐⭐⭐⭐⭐
+                                </button>
+                                <button onclick="window.__setRatingFilter('4')" id="btn-rating-4"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    ⭐⭐⭐⭐+
+                                </button>
+                                <button onclick="window.__setRatingFilter('3')" id="btn-rating-3"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    ⭐⭐⭐+
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -162,6 +208,7 @@ export async function renderBaseLayouts() {
     let selectedDistrict = 'all';
     let selectedLevel = 'all';
     let selectedType = 'all';
+    let selectedRating = 'all';
 
     window.__filterLayouts = () => {
         const query = document.getElementById('layout-search')?.value.toLowerCase() || '';
@@ -183,7 +230,9 @@ export async function renderBaseLayouts() {
                 matchesDistrict = selectedDistrict === 'all' || (item.district || 'capital_peak') === selectedDistrict;
             }
 
-            return matchesSearch && matchesCategory && matchesLevel && matchesType && matchesDistrict;
+            const matchesRating = selectedRating === 'all' || parseInt(item.rating || 5) >= parseInt(selectedRating);
+
+            return matchesSearch && matchesCategory && matchesLevel && matchesType && matchesDistrict && matchesRating;
         });
 
         if (filtered.length === 0) {
@@ -209,7 +258,13 @@ export async function renderBaseLayouts() {
                 war: '⚔️ War Base', 
                 farming: '🚜 Farming', 
                 hybrid: '🧬 Hybrid', 
-                defense: '🛡️ Defense' 
+                defense: '🛡️ Defense',
+                anti_2: '🛡️ Anti 2 Stars',
+                anti_3: '🛡️ Anti 3 Stars',
+                anti_air: '🎈 Anti Air',
+                anti_ground: '🌋 Anti Ground',
+                fun: '🎨 Fun Base',
+                troll: '😜 Troll'
             };
             
             const districtLabels = {
@@ -297,6 +352,7 @@ export async function renderBaseLayouts() {
         selectedLevel = 'all';
         selectedDistrict = 'all';
         selectedType = 'all';
+        selectedRating = 'all';
 
         // Update category tabs active classes
         const tabs = ['home', 'builder', 'capital'];
@@ -330,6 +386,8 @@ export async function renderBaseLayouts() {
         window.__setTypeFilter('all');
         // Reset district buttons
         window.__setDistrictFilter('all');
+        // Reset rating buttons
+        window.__setRatingFilter('all');
 
         // Update level buttons filter list
         updateLevelFilters();
@@ -358,7 +416,7 @@ export async function renderBaseLayouts() {
         selectedType = type;
 
         // Update active class on buttons
-        const types = ['all', 'war', 'farming', 'hybrid', 'defense'];
+        const types = ['all', 'war', 'farming', 'hybrid', 'defense', 'anti_2', 'anti_3', 'anti_air', 'anti_ground', 'fun', 'troll'];
         types.forEach(t => {
             const btn = document.getElementById(`btn-type-${t}`);
             if (btn) {
@@ -392,6 +450,25 @@ export async function renderBaseLayouts() {
 
         // Update levels list depending on selected district
         updateLevelFilters();
+
+        window.__filterLayouts();
+    };
+
+    window.__setRatingFilter = (rating) => {
+        selectedRating = rating;
+
+        // Update active class on buttons
+        const ratings = ['all', '5', '4', '3'];
+        ratings.forEach(r => {
+            const btn = document.getElementById(`btn-rating-${r}`);
+            if (btn) {
+                if (r === rating) {
+                    btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-black bg-amber-500 transition-all shadow-md';
+                } else {
+                    btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all';
+                }
+            }
+        });
 
         window.__filterLayouts();
     };
