@@ -168,16 +168,18 @@ async function scrapeUrl(url) {
 
     // Detect Type
     if (category === 'home' && !overrideType) {
-        if (textLower.includes('anti 2') || textLower.includes('anti-2')) type = 'anti_2';
-        else if (textLower.includes('anti 3') || textLower.includes('anti-3')) type = 'anti_3';
-        else if (textLower.includes('anti air') || textLower.includes('anti-air')) type = 'anti_air';
-        else if (textLower.includes('anti ground') || textLower.includes('anti-ground')) type = 'anti_ground';
-        else if (textLower.includes('troll')) type = 'troll';
-        else if (textLower.includes('fun') || textLower.includes('funny')) type = 'fun';
-        else if (textLower.includes('hybrid')) type = 'hybrid';
-        else if (textLower.includes('war')) type = 'war';
-        else if (textLower.includes('farming') || textLower.includes('trophy')) type = 'farming';
-        else if (textLower.includes('defence') || textLower.includes('defense')) type = 'defense';
+        if (textLower.match(/\banti[- ]?2\b/) || textLower.match(/\banti[- ]?two\b/)) type = 'anti_2';
+        else if (textLower.match(/\banti[- ]?3\b/) || textLower.match(/\banti[- ]?three\b/)) type = 'anti_3';
+        else if (textLower.match(/\btroll\b/)) type = 'troll';
+        else if (textLower.match(/\b(fun|funny|art)\b/)) type = 'fun';
+        else if (textLower.match(/\bprogress\b/)) type = 'progress';
+        else if (textLower.match(/\bhybrid\b/)) type = 'hybrid';
+        else if (textLower.match(/\btrophy\b/)) type = 'trophy';
+        else if (textLower.match(/\b(anti[- ]?air|dragonloon|balloon|lavaloon|dragon|drag)\b/)) type = 'anti_air';
+        else if (textLower.match(/\b(anti[- ]?ground|hog|valkyrie|witch|giant)\b/)) type = 'anti_ground';
+        else if (textLower.match(/\bwar\b/)) type = 'war';
+        else if (textLower.match(/\b(farming|farm|loot)\b/)) type = 'farming';
+        else if (textLower.match(/\b(defense|defence|defend|protect|shield|defender)\b/)) type = 'defense';
     }
 
     return {

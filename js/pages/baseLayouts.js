@@ -133,7 +133,11 @@ export async function renderBaseLayouts() {
                                 </button>
                                 <button onclick="window.__setTypeFilter('farming')" id="btn-type-farming"
                                         class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
-                                    Farming / Trophy
+                                    Farming Base
+                                </button>
+                                <button onclick="window.__setTypeFilter('trophy')" id="btn-type-trophy"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    Trophy Base
                                 </button>
                                 <button onclick="window.__setTypeFilter('hybrid')" id="btn-type-hybrid"
                                         class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
@@ -145,11 +149,11 @@ export async function renderBaseLayouts() {
                                 </button>
                                 <button onclick="window.__setTypeFilter('anti_2')" id="btn-type-anti_2"
                                         class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
-                                    Anti 2 Stars
+                                    Anti 2 Stars Base
                                 </button>
                                 <button onclick="window.__setTypeFilter('anti_3')" id="btn-type-anti_3"
                                         class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
-                                    Anti 3 Stars
+                                    Anti 3 Stars Base
                                 </button>
                                 <button onclick="window.__setTypeFilter('anti_air')" id="btn-type-anti_air"
                                         class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
@@ -163,9 +167,13 @@ export async function renderBaseLayouts() {
                                         class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
                                     Fun Base
                                 </button>
+                                <button onclick="window.__setTypeFilter('progress')" id="btn-type-progress"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    Progress Base
+                                </button>
                                 <button onclick="window.__setTypeFilter('troll')" id="btn-type-troll"
                                         class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
-                                    Troll
+                                    Troll Base
                                 </button>
                             </div>
                         </div>
@@ -273,15 +281,17 @@ export async function renderBaseLayouts() {
             
             const typeLabels = { 
                 war: '⚔️ War Base', 
-                farming: '🚜 Farming', 
-                hybrid: '🧬 Hybrid', 
-                defense: '🛡️ Defense',
-                anti_2: '🛡️ Anti 2 Stars',
-                anti_3: '🛡️ Anti 3 Stars',
-                anti_air: '🎈 Anti Air',
-                anti_ground: '🌋 Anti Ground',
+                farming: '🚜 Farming Base', 
+                trophy: '🏆 Trophy Base', 
+                hybrid: '🧬 Hybrid Base', 
+                defense: '🛡️ Defense Base',
+                anti_2: '🛡️ Anti 2 Stars Base',
+                anti_3: '🛡️ Anti 3 Stars Base',
+                anti_air: '🎈 Anti Air Base',
+                anti_ground: '🌋 Anti Ground Base',
                 fun: '🎨 Fun Base',
-                troll: '😜 Troll'
+                progress: '📈 Progress Base',
+                troll: '😜 Troll Base'
             };
             
             const districtLabels = {
@@ -509,7 +519,7 @@ export async function renderBaseLayouts() {
         currentPage = 1;
 
         // Update active class on buttons
-        const types = ['all', 'war', 'farming', 'hybrid', 'defense', 'anti_2', 'anti_3', 'anti_air', 'anti_ground', 'fun', 'troll'];
+        const types = ['all', 'war', 'farming', 'trophy', 'hybrid', 'defense', 'anti_2', 'anti_3', 'anti_air', 'anti_ground', 'fun', 'progress', 'troll'];
         types.forEach(t => {
             const btn = document.getElementById(`btn-type-${t}`);
             if (btn) {

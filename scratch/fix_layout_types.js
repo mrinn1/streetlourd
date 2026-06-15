@@ -60,8 +60,12 @@ function detectTypeAndCategory(title, currentCategory) {
             type = 'troll';
         } else if (titleLower.match(/\b(fun|funny|art)\b/)) {
             type = 'fun';
+        } else if (titleLower.match(/\bprogress\b/)) {
+            type = 'progress';
         } else if (titleLower.match(/\bhybrid\b/)) {
             type = 'hybrid';
+        } else if (titleLower.match(/\btrophy\b/)) {
+            type = 'trophy';
         } else if (titleLower.match(/\b(anti[- ]?air|dragonloon|balloon|lavaloon|dragon|drag)\b/)) {
             type = 'anti_air';
         } else if (titleLower.match(/\b(anti[- ]?ground|hog|valkyrie|witch|giant)\b/)) {

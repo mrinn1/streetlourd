@@ -114,15 +114,17 @@ function renderManager(container) {
                                     <label class="block text-xs text-gray-400 mb-1.5 font-medium">Tipe Base</label>
                                     <select id="layout-form-type" class="admin-select">
                                         <option value="war">War Base</option>
-                                        <option value="farming">Trophy / Farming</option>
+                                        <option value="farming">Farming Base</option>
+                                        <option value="trophy">Trophy Base</option>
                                         <option value="hybrid">Hybrid Base</option>
                                         <option value="defense">Defense Base</option>
-                                        <option value="anti_2">Anti 2 Stars</option>
-                                        <option value="anti_3">Anti 3 Stars</option>
+                                        <option value="anti_2">Anti 2 Stars Base</option>
+                                        <option value="anti_3">Anti 3 Stars Base</option>
                                         <option value="anti_air">Anti Air Base</option>
                                         <option value="anti_ground">Anti Ground Base</option>
                                         <option value="fun">Fun Base</option>
-                                        <option value="troll">Troll</option>
+                                        <option value="progress">Progress Base</option>
+                                        <option value="troll">Troll Base</option>
                                     </select>
                                 </div>
 
@@ -272,16 +274,18 @@ function updateAdminLayoutsList() {
         goblin_mines: 'Tambang Goblin'
     };
     const typeLabels = {
-        war: 'War',
-        farming: 'Farming',
-        hybrid: 'Hybrid',
-        defense: 'Defense',
-        anti_2: 'Anti 2 Stars',
-        anti_3: 'Anti 3 Stars',
-        anti_air: 'Anti Air',
-        anti_ground: 'Anti Ground',
+        war: 'War Base',
+        farming: 'Farming Base',
+        trophy: 'Trophy Base',
+        hybrid: 'Hybrid Base',
+        defense: 'Defense Base',
+        anti_2: 'Anti 2 Stars Base',
+        anti_3: 'Anti 3 Stars Base',
+        anti_air: 'Anti Air Base',
+        anti_ground: 'Anti Ground Base',
         fun: 'Fun Base',
-        troll: 'Troll'
+        progress: 'Progress Base',
+        troll: 'Troll Base'
     };
     const categoryColors = { home: 'bg-emerald-500/20 text-emerald-400', builder: 'bg-orange-500/20 text-orange-400', capital: 'bg-sky-500/20 text-sky-400' };
 
