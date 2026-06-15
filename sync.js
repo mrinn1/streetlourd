@@ -226,17 +226,28 @@ async function sync() {
                 totalPoints = 1250;
             }
 
+            let sidePoints = 0;
             let totalWars = 0;
             let totalStars = 0;
             let avgDestruction = 0;
+
+            let pointsChanged = false;
+            let pointDiff = 0;
+            let oldRole = '';
 
             // Jika player sudah terdaftar di Firestore, pertahankan datanya
             if (docSnap.exists) {
                 const existing = docSnap.data();
                 if (existing.role && existing.role !== mappedRole) {
-                    console.log(`   🔄 Perubahan jabatan terdeteksi untuk ${member.name} (${existing.role} -> ${mappedRole}). Menyesuaikan poin ke poin dasar jabatan baru: ${totalPoints}.`);
+                    oldRole = existing.role;
+                    const oldPoints = existing.totalPoints !== undefined ? existing.totalPoints : totalPoints;
+                    pointDiff = totalPoints - oldPoints;
+                    pointsChanged = true;
+                    sidePoints = 0; // Reset sidePoints to 0 when role changes
+                    console.log(`   🔄 Perubahan jabatan terdeteksi untuk ${member.name} (${existing.role} -> ${mappedRole}). Menyesuaikan poin ke poin dasar jabatan baru: ${totalPoints}. Selisih poin: ${pointDiff}`);
                 } else {
                     totalPoints = existing.totalPoints !== undefined ? existing.totalPoints : totalPoints;
+                    sidePoints = existing.sidePoints !== undefined ? existing.sidePoints : 0;
                 }
                 totalWars = existing.totalWars || 0;
                 totalStars = existing.totalStars || 0;
@@ -254,6 +265,7 @@ async function sync() {
                 clanCapitalContributions: member.clanCapitalContributions || 0,
                 townHallLevel: townHallLevel,
                 totalPoints: totalPoints,
+                sidePoints: sidePoints,
                 totalWars: totalWars,
                 totalStars: totalStars,
                 avgDestruction: avgDestruction,
@@ -262,6 +274,30 @@ async function sync() {
 
             batch.set(memberRef, dataToSet, { merge: true });
             operationsCount++;
+
+            if (pointsChanged && pointDiff !== 0) {
+                const historyRef = db.collection('pointHistory').doc();
+                const roleLabels = {
+                    leader: 'Leader',
+                    coLeader: 'Co-Leader',
+                    admin: 'Elder',
+                    member: 'Member'
+                };
+                const fromLabel = roleLabels[oldRole] || oldRole;
+                const toLabel = roleLabels[mappedRole] || mappedRole;
+                
+                const historyData = {
+                    memberTag: member.tag,
+                    memberName: member.name,
+                    amount: pointDiff,
+                    reason: `Perubahan pangkat dari game: ${fromLabel} ➔ ${toLabel} (Reset Poin ke Poin Dasar Pangkat Baru)`,
+                    category: 'system',
+                    adminName: 'System Sync',
+                    date: admin.firestore.FieldValue.serverTimestamp()
+                };
+                batch.set(historyRef, historyData);
+                operationsCount++;
+            }
 
             if (operationsCount >= batchLimit) {
                 await batch.commit();
