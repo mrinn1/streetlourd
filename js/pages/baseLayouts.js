@@ -195,8 +195,12 @@ export async function renderBaseLayouts() {
                 </div>
 
                 <!-- Base Layouts Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 animate-on-scroll" id="layouts-grid" data-stagger="true">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 animate-on-scroll" id="layouts-grid" data-stagger="true">
                     <!-- Dynamic base cards -->
+                </div>
+                <!-- Pagination Controls -->
+                <div id="pagination-container" class="flex justify-center items-center gap-2 mb-12 animate-on-scroll">
+                    <!-- Rendered dynamically -->
                 </div>
             </div>
         </div>
@@ -209,6 +213,8 @@ export async function renderBaseLayouts() {
     let selectedLevel = 'all';
     let selectedType = 'all';
     let selectedRating = 'all';
+    let currentPage = 1;
+    const itemsPerPage = 9;
 
     window.__filterLayouts = () => {
         const query = document.getElementById('layout-search')?.value.toLowerCase() || '';
@@ -235,16 +241,27 @@ export async function renderBaseLayouts() {
             return matchesSearch && matchesCategory && matchesLevel && matchesType && matchesDistrict && matchesRating;
         });
 
+        const paginationContainer = document.getElementById('pagination-container');
+
         if (filtered.length === 0) {
             grid.innerHTML = `
                 <div class="col-span-full py-16">
                     ${emptyState('🗺️', 'Layout Tidak Ditemukan', 'Cobalah mengubah filter atau pencarian Anda.')}
                 </div>
             `;
+            if (paginationContainer) paginationContainer.innerHTML = '';
             return;
         }
 
-        grid.innerHTML = filtered.map(item => {
+        // Calculate pages
+        const totalPages = Math.ceil(filtered.length / itemsPerPage);
+        if (currentPage > totalPages) currentPage = totalPages;
+        if (currentPage < 1) currentPage = 1;
+
+        const startIdx = (currentPage - 1) * itemsPerPage;
+        const paginated = filtered.slice(startIdx, startIdx + itemsPerPage);
+
+        grid.innerHTML = paginated.map(item => {
             const levelPrefix = item.category === 'builder' ? 'BH' : (item.category === 'capital' ? (item.district === 'capital_peak' ? 'CH' : 'Lvl') : 'TH');
             const thColors = {
                 15: 'from-blue-500 to-indigo-600',
@@ -337,6 +354,80 @@ export async function renderBaseLayouts() {
                 </div>
             `;
         }).join('');
+
+        // Render Pagination Controls
+        if (paginationContainer) {
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+            } else {
+                let buttonsHtml = '';
+                
+                // Prev button
+                buttonsHtml += `
+                    <button onclick="window.__setPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} 
+                            class="px-4 py-2.5 rounded-xl text-xs font-bold border border-white/10 bg-white/5 text-gray-300 hover:text-white hover:bg-white/10 disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+                        ← Prev
+                    </button>
+                `;
+
+                // Page number buttons
+                const maxVisiblePages = 5;
+                let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+                if (endPage - startPage + 1 < maxVisiblePages) {
+                    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                }
+
+                if (startPage > 1) {
+                    buttonsHtml += `
+                        <button onclick="window.__setPage(1)" 
+                                class="w-9 h-9 rounded-xl text-xs font-bold transition-all border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:bg-white/10">
+                            1
+                        </button>
+                    `;
+                    if (startPage > 2) {
+                        buttonsHtml += `<span class="text-gray-500 text-xs px-1">...</span>`;
+                    }
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    const isActive = i === currentPage;
+                    buttonsHtml += `
+                        <button onclick="window.__setPage(${i})" 
+                                class="w-9 h-9 rounded-xl text-xs font-bold transition-all ${
+                                    isActive 
+                                        ? 'bg-amber-500 text-black shadow-md shadow-amber-500/20' 
+                                        : 'border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
+                                }">
+                            ${i}
+                        </button>
+                    `;
+                }
+
+                if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) {
+                        buttonsHtml += `<span class="text-gray-500 text-xs px-1">...</span>`;
+                    }
+                    buttonsHtml += `
+                        <button onclick="window.__setPage(${totalPages})" 
+                                class="w-9 h-9 rounded-xl text-xs font-bold transition-all border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:bg-white/10">
+                            ${totalPages}
+                        </button>
+                    `;
+                }
+
+                // Next button
+                buttonsHtml += `
+                    <button onclick="window.__setPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} 
+                            class="px-4 py-2.5 rounded-xl text-xs font-bold border border-white/10 bg-white/5 text-gray-300 hover:text-white hover:bg-white/10 disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+                        Next →
+                    </button>
+                `;
+
+                paginationContainer.innerHTML = buttonsHtml;
+            }
+        }
     };
 
     window.__shareLayout = (link) => {
@@ -398,6 +489,7 @@ export async function renderBaseLayouts() {
 
     window.__setLevelFilter = (lvl) => {
         selectedLevel = lvl;
+        currentPage = 1;
 
         // Update active class on buttons
         const buttons = document.querySelectorAll('.lvl-filter-btn');
@@ -414,6 +506,7 @@ export async function renderBaseLayouts() {
 
     window.__setTypeFilter = (type) => {
         selectedType = type;
+        currentPage = 1;
 
         // Update active class on buttons
         const types = ['all', 'war', 'farming', 'hybrid', 'defense', 'anti_2', 'anti_3', 'anti_air', 'anti_ground', 'fun', 'troll'];
@@ -434,6 +527,7 @@ export async function renderBaseLayouts() {
     window.__setDistrictFilter = (dist) => {
         selectedDistrict = dist;
         selectedLevel = 'all';
+        currentPage = 1;
 
         // Update active class on buttons
         const districts = ['all', 'capital_peak', 'barbarian_camp', 'wizard_valley', 'balloon_lagoon', 'builders_workshop', 'dragon_cliffs', 'golem_quarry', 'skeleton_park', 'goblin_mines'];
@@ -456,6 +550,7 @@ export async function renderBaseLayouts() {
 
     window.__setRatingFilter = (rating) => {
         selectedRating = rating;
+        currentPage = 1;
 
         // Update active class on buttons
         const ratings = ['all', '5', '4', '3'];
@@ -510,6 +605,12 @@ export async function renderBaseLayouts() {
 
         filterContainer.innerHTML = levelButtons;
     }
+
+    window.__setPage = (page) => {
+        currentPage = page;
+        window.__filterLayouts();
+        document.getElementById('layouts-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
 
     // Initialize layout list & filters
     updateLevelFilters();
