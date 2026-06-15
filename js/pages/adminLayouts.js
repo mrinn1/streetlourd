@@ -288,7 +288,7 @@ function updateAdminLayoutsList() {
     listContainer.innerHTML = layouts.map(item => {
         const ratingStars = '⭐'.repeat(item.rating || 5);
         const catLabel = categoryLabels[item.category || 'home'];
-        
+
         let subLabel = '';
         if (item.category === 'home') {
             subLabel = `<span class="px-2 py-0.5 rounded text-[10px] font-bold text-gray-300 bg-white/10">${typeLabels[item.type || 'war'] || 'War'}</span>`;
@@ -342,17 +342,17 @@ function editLayoutHandler(id) {
     // Populate inputs
     document.getElementById('layout-form-category').value = layout.category || 'home';
     onCategoryChange(); // Update fields and levels
-    
+
     if (layout.category === 'capital') {
         document.getElementById('layout-form-district').value = layout.district || 'capital_peak';
         updateLevelOptions();
     }
-    
+
     document.getElementById('layout-form-th').value = layout.townHallLevel;
     if (layout.category === 'home') {
         document.getElementById('layout-form-type').value = layout.type || 'war';
     }
-    
+
     document.getElementById('layout-form-rating').value = layout.rating || '5';
     document.getElementById('layout-form-title').value = layout.title || '';
     document.getElementById('layout-form-link').value = layout.link || '';
@@ -428,13 +428,13 @@ async function submitLayoutFormHandler(user) {
                 addedBy: user?.displayName || 'Admin'
             });
             toast.success('Layout base baru berhasil disimpan!');
-            
+
             // Clear inputs
             document.getElementById('layout-form-title').value = '';
             document.getElementById('layout-form-link').value = '';
             document.getElementById('layout-form-image').value = '';
         }
-        
+
         // Reload layouts
         layouts = await getLayouts();
         updateAdminLayoutsList();
@@ -452,7 +452,7 @@ async function deleteLayoutHandler(id) {
             try {
                 await deleteLayout(id);
                 toast.success('Layout base berhasil dihapus!');
-                
+
                 if (editingLayoutId === id) {
                     cancelEditHandler();
                 }
