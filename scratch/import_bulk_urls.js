@@ -43,11 +43,16 @@ const db = admin.firestore();
 // Helper delay function
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
-// Target file from argument
+// Target file and optional overrides from arguments
 const filePath = process.argv[2];
+const overrideCategory = process.argv[3]; // 'home', 'builder', 'capital'
+const overrideType = process.argv[4];     // 'war', 'hybrid', 'farming', etc.
+const overrideLevel = process.argv[5] ? parseInt(process.argv[5], 10) : null;
+
 if (!filePath) {
     console.error('❌ Harap masukkan path file yang berisi daftar URL!');
-    console.log('Contoh: node scratch/import_bulk_urls.js scratch/urls.txt');
+    console.log('Contoh Biasa: node scratch/import_bulk_urls.js scratch/urls.txt');
+    console.log('Contoh Override: node scratch/import_bulk_urls.js scratch/urls.txt home hybrid 9');
     process.exit(1);
 }
 
@@ -100,74 +105,79 @@ async function scrapeUrl(url) {
     }
 
     // 4. Auto-detect Level and Category
-    let category = 'home';
-    let townHallLevel = 18;
-    let type = 'war';
+    let category = overrideCategory || 'home';
+    let townHallLevel = overrideLevel || 18;
+    let type = overrideType || 'war';
     let district = '';
 
     const titleLower = title.toLowerCase();
-    const textLower = (title + ' ' + html.substring(0, 5000)).toLowerCase();
+    const urlLower = url.toLowerCase();
+    const textLower = (url + ' ' + title + ' ' + html.substring(0, 5000)).toLowerCase();
 
-    if (titleLower.match(/\bth\s*\d+\b/) || titleLower.match(/\btown\s*hall\s*\d+\b/)) {
-        category = 'home';
-    } else if (titleLower.match(/\bbh\s*\d+\b/) || titleLower.match(/\bbuilder\s*hall\s*\d+\b/)) {
-        category = 'builder';
-        type = '';
-    } else if (titleLower.match(/\bch\s*\d+\b/) || titleLower.match(/\bcapital\s*hall\s*\d+\b/) || titleLower.match(/\bcapital\s*peak\b/)) {
-        category = 'capital';
-        type = '';
-        district = 'capital_peak';
-    } else {
-        if (textLower.includes('builder') || textLower.includes(' bh') || textLower.includes('bh ')) {
+    if (!overrideCategory) {
+        if (titleLower.match(/\bth\s*\d+\b/) || titleLower.match(/\btown\s*hall\s*\d+\b/) || urlLower.includes('town-hall')) {
+            category = 'home';
+        } else if (titleLower.match(/\bbh\s*\d+\b/) || titleLower.match(/\bbuilder\s*hall\s*\d+\b/) || urlLower.includes('builder-hall')) {
             category = 'builder';
             type = '';
-        } else if (textLower.includes('capital') || textLower.includes(' ch') || textLower.includes('ch ') || textLower.includes('district') || textLower.includes('peak')) {
+        } else if (titleLower.match(/\bch\s*\d+\b/) || titleLower.match(/\bcapital\s*hall\s*\d+\b/) || titleLower.match(/\bcapital\s*peak\b/) || urlLower.includes('clan-capital')) {
             category = 'capital';
             type = '';
-            if (textLower.includes('peak') || textLower.includes('puncak')) district = 'capital_peak';
-            else if (textLower.includes('barbarian') || textLower.includes('barbar')) district = 'barbarian_camp';
-            else if (textLower.includes('wizard') || textLower.includes('penyihir')) district = 'wizard_valley';
-            else if (textLower.includes('balloon') || textLower.includes('balon')) district = 'balloon_lagoon';
-            else if (textLower.includes('workshop') || textLower.includes('bengkel')) district = 'builders_workshop';
-            else if (textLower.includes('dragon') || textLower.includes('naga')) district = 'dragon_cliffs';
-            else if (textLower.includes('golem') || textLower.includes('tambang')) district = 'golem_quarry';
-            else if (textLower.includes('skeleton') || textLower.includes('rangka')) district = 'skeleton_park';
-            else if (textLower.includes('goblin')) district = 'goblin_mines';
-            else district = 'capital_peak';
+            district = 'capital_peak';
+        } else {
+            if (textLower.includes('builder') || textLower.includes(' bh') || textLower.includes('bh ')) {
+                category = 'builder';
+                type = '';
+            } else if (textLower.includes('capital') || textLower.includes(' ch') || textLower.includes('ch ') || textLower.includes('district') || textLower.includes('peak')) {
+                category = 'capital';
+                type = '';
+                if (textLower.includes('peak') || textLower.includes('puncak')) district = 'capital_peak';
+                else if (textLower.includes('barbarian') || textLower.includes('barbar')) district = 'barbarian_camp';
+                else if (textLower.includes('wizard') || textLower.includes('penyihir')) district = 'wizard_valley';
+                else if (textLower.includes('balloon') || textLower.includes('balon')) district = 'balloon_lagoon';
+                else if (textLower.includes('workshop') || textLower.includes('bengkel')) district = 'builders_workshop';
+                else if (textLower.includes('dragon') || textLower.includes('naga')) district = 'dragon_cliffs';
+                else if (textLower.includes('golem') || textLower.includes('tambang')) district = 'golem_quarry';
+                else if (textLower.includes('skeleton') || textLower.includes('rangka')) district = 'skeleton_park';
+                else if (textLower.includes('goblin')) district = 'goblin_mines';
+                else district = 'capital_peak';
+            }
         }
+    } else if (category === 'capital' && !district) {
+        // Assign default district for capital
+        if (textLower.includes('peak') || textLower.includes('puncak')) district = 'capital_peak';
+        else if (textLower.includes('barbarian') || textLower.includes('barbar')) district = 'barbarian_camp';
+        else if (textLower.includes('wizard') || textLower.includes('penyihir')) district = 'wizard_valley';
+        else if (textLower.includes('balloon') || textLower.includes('balon')) district = 'balloon_lagoon';
+        else if (textLower.includes('workshop') || textLower.includes('bengkel')) district = 'builders_workshop';
+        else if (textLower.includes('dragon') || textLower.includes('naga')) district = 'dragon_cliffs';
+        else if (textLower.includes('golem') || textLower.includes('tambang')) district = 'golem_quarry';
+        else if (textLower.includes('skeleton') || textLower.includes('rangka')) district = 'skeleton_park';
+        else if (textLower.includes('goblin')) district = 'goblin_mines';
+        else district = 'capital_peak';
     }
 
     // Detect Level
-    const levelMatch = title.match(/(?:th|town\s*hall|level|lvl|ch|bh)\s*(\d+)/i) || 
-                       textLower.match(/(?:th|town\s*hall|level|lvl|ch|bh)\s*(\d+)/i);
-    if (levelMatch) {
-        townHallLevel = parseInt(levelMatch[1]);
+    if (!overrideLevel) {
+        const levelMatch = title.match(/(?:th|town\s*hall|level|lvl|ch|bh)\s*(\d+)/i) || 
+                           textLower.match(/(?:th|town\s*hall|level|lvl|ch|bh)\s*(\d+)/i);
+        if (levelMatch) {
+            townHallLevel = parseInt(levelMatch[1]);
+        }
     }
 
     // Detect Type
-    if (category === 'home') {
-        if (titleLower.includes('anti 2') || titleLower.includes('anti-2')) type = 'anti_2';
-        else if (titleLower.includes('anti 3') || titleLower.includes('anti-3')) type = 'anti_3';
-        else if (titleLower.includes('anti air') || titleLower.includes('anti-air')) type = 'anti_air';
-        else if (titleLower.includes('anti ground') || titleLower.includes('anti-ground')) type = 'anti_ground';
-        else if (titleLower.includes('fun')) type = 'fun';
-        else if (titleLower.includes('troll')) type = 'troll';
-        else if (titleLower.includes('war')) type = 'war';
-        else if (titleLower.includes('farming') || titleLower.includes('trophy')) type = 'farming';
-        else if (titleLower.includes('hybrid')) type = 'hybrid';
-        else if (titleLower.includes('defence') || titleLower.includes('defense')) type = 'defense';
-        else {
-            if (textLower.includes('anti 2') || textLower.includes('anti-2')) type = 'anti_2';
-            else if (textLower.includes('anti 3') || textLower.includes('anti-3')) type = 'anti_3';
-            else if (textLower.includes('anti air') || textLower.includes('anti-air')) type = 'anti_air';
-            else if (textLower.includes('anti ground') || textLower.includes('anti-ground')) type = 'anti_ground';
-            else if (textLower.includes('fun')) type = 'fun';
-            else if (textLower.includes('troll')) type = 'troll';
-            else if (textLower.includes('war')) type = 'war';
-            else if (textLower.includes('farming') || textLower.includes('trophy')) type = 'farming';
-            else if (textLower.includes('hybrid')) type = 'hybrid';
-            else if (textLower.includes('defence') || textLower.includes('defense')) type = 'defense';
-        }
+    if (category === 'home' && !overrideType) {
+        if (textLower.includes('anti 2') || textLower.includes('anti-2')) type = 'anti_2';
+        else if (textLower.includes('anti 3') || textLower.includes('anti-3')) type = 'anti_3';
+        else if (textLower.includes('anti air') || textLower.includes('anti-air')) type = 'anti_air';
+        else if (textLower.includes('anti ground') || textLower.includes('anti-ground')) type = 'anti_ground';
+        else if (textLower.includes('troll')) type = 'troll';
+        else if (textLower.includes('fun') || textLower.includes('funny')) type = 'fun';
+        else if (textLower.includes('hybrid')) type = 'hybrid';
+        else if (textLower.includes('war')) type = 'war';
+        else if (textLower.includes('farming') || textLower.includes('trophy')) type = 'farming';
+        else if (textLower.includes('defence') || textLower.includes('defense')) type = 'defense';
     }
 
     return {
