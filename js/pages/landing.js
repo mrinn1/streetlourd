@@ -6,6 +6,10 @@ import { renderFooter } from '../components/footer.js';
 import { rankCard } from '../components/card.js';
 import { getMembers, getLandingSettings, getSettings, getNews } from '../services/firestore.js';
 
+let newsItems = [];
+let currentNewsPage = 1;
+const newsPerPage = 3;
+
 export async function renderLanding() {
     const [settings, generalSettings, members, news] = await Promise.all([
         getLandingSettings(),
@@ -13,6 +17,13 @@ export async function renderLanding() {
         getMembers(),
         getNews()
     ]);
+    
+    newsItems = news || [];
+    currentNewsPage = 1;
+    
+    setTimeout(() => {
+        renderNewsGrid();
+    }, 50);
     
     const clanTag = generalSettings.clanTag || '#P0YVL80U';
     const cleanTag = clanTag.replace('#', '');
@@ -112,64 +123,11 @@ export async function renderLanding() {
                     </p>
                 </div>
 
-                ${news.length === 0 ? `
-                    <p class="text-center text-gray-500 text-sm py-12">Belum ada berita terbaru saat ini.</p>
-                ` : `
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-on-scroll" data-stagger="true">
-                        ${news.map((item, index) => {
-                            const delay = index * 100;
-                            const hasVideo = item.videoUrl;
-                            const hasLink = item.externalLink;
-                            
-                            return `
-                                <div class="animate-item group flex flex-col rounded-3xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-amber-500/30 overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-xl cursor-default" style="transition-delay: ${delay}ms;">
-                                    <!-- Thumbnail -->
-                                    <div class="relative h-48 overflow-hidden bg-slate-800">
-                                        <img src="${item.imageUrl}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400'">
-                                        <div class="absolute inset-0 bg-gradient-to-t from-[#0a0e17] via-[#0a0e17]/20 to-transparent"></div>
-                                        
-                                        <!-- Play icon overlay if video is present -->
-                                        ${hasVideo ? `
-                                            <a href="${item.videoUrl}" target="_blank" class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
-                                                <div class="w-12 h-12 rounded-full bg-red-600/90 flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-transform shadow-lg shadow-red-600/40">
-                                                    <svg class="w-6 h-6 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                                </div>
-                                            </a>
-                                        ` : ''}
-                                    </div>
-                                    
-                                    <!-- Body -->
-                                    <div class="p-6 flex-1 flex flex-col justify-between">
-                                        <div>
-                                            <h3 class="text-white font-bold text-lg mb-2 line-clamp-2 hover:text-amber-400 transition-colors" style="font-family: 'Lilita One', cursive;">${item.title}</h3>
-                                            <p class="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">${item.description}</p>
-                                        </div>
-                                        
-                                        <!-- Footer / Action links -->
-                                        <div class="flex items-center justify-between pt-4 border-t border-white/5">
-                                            <div class="flex gap-4">
-                                                ${hasVideo ? `
-                                                    <a href="${item.videoUrl}" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-red-400 hover:text-red-300 font-bold transition-colors">
-                                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                                        Video
-                                                    </a>
-                                                ` : ''}
-                                                ${hasLink ? `
-                                                    <a href="${item.externalLink}" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 font-bold transition-colors">
-                                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                                                        Artikel
-                                                    </a>
-                                                ` : ''}
-                                            </div>
-                                            
-                                            <span class="text-[10px] text-gray-500 font-medium">Official Supercell</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        }).join('')}
+                <div id="news-grid-container" class="min-h-[300px]">
+                    <div class="flex items-center justify-center py-20">
+                        <div class="animate-spin text-4xl">⏳</div>
                     </div>
-                `}
+                </div>
             </div>
         </section>
 
@@ -238,3 +196,132 @@ export async function renderLanding() {
         ${renderFooter()}
     `;
 }
+
+function renderNewsGrid() {
+    const gridContainer = document.getElementById('news-grid-container');
+    if (!gridContainer) return;
+
+    if (newsItems.length === 0) {
+        gridContainer.innerHTML = `<p class="text-center text-gray-500 text-sm py-12">Belum ada berita terbaru saat ini.</p>`;
+        return;
+    }
+
+    const totalPages = Math.ceil(newsItems.length / newsPerPage);
+    const paged = newsItems.slice((currentNewsPage - 1) * newsPerPage, currentNewsPage * newsPerPage);
+
+    const cardsHtml = paged.map((item, index) => {
+        const delay = index * 100;
+        const hasVideo = item.videoUrl;
+        const hasLink = item.externalLink;
+        
+        return `
+            <div class="animate-item group flex flex-col rounded-3xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-amber-500/30 overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-xl cursor-default" style="transition-delay: ${delay}ms;">
+                <!-- Thumbnail -->
+                <div class="relative h-48 overflow-hidden bg-slate-800">
+                    <img src="${item.imageUrl}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0a0e17] via-[#0a0e17]/20 to-transparent"></div>
+                    
+                    <!-- Play icon overlay if video is present -->
+                    ${hasVideo ? `
+                        <a href="${item.videoUrl}" target="_blank" class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
+                            <div class="w-12 h-12 rounded-full bg-red-600/90 flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-transform shadow-lg shadow-red-600/40">
+                                <svg class="w-6 h-6 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </a>
+                    ` : ''}
+                </div>
+                
+                <!-- Body -->
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-white font-bold text-lg mb-2 line-clamp-2 hover:text-amber-400 transition-colors" style="font-family: 'Lilita One', cursive;">${item.title}</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">${item.description}</p>
+                    </div>
+                    
+                    <!-- Footer / Action links -->
+                    <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                        <div class="flex gap-4">
+                            ${hasVideo ? `
+                                <a href="${item.videoUrl}" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-red-400 hover:text-red-300 font-bold transition-colors">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    Video
+                                </a>
+                            ` : ''}
+                            ${hasLink ? `
+                                <a href="${item.externalLink}" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 font-bold transition-colors">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                    Artikel
+                                </a>
+                            ` : ''}
+                        </div>
+                        
+                        <span class="text-[10px] text-gray-500 font-medium">Official Supercell</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    const paginationHtml = totalPages > 1 ? `
+        <div class="flex items-center justify-center gap-2 mt-10 animate-on-scroll">
+            <button class="px-4 py-2 rounded-xl text-sm font-medium transition-all
+                           ${currentNewsPage === 1 ? 'bg-white/5 text-gray-600 cursor-not-allowed' : 'bg-white/10 text-white hover:bg-white/20'}"
+                    onclick="window.__newsPage(${currentNewsPage - 1})" ${currentNewsPage === 1 ? 'disabled' : ''}>
+                &larr; Prev
+            </button>
+            ${generateNewsPageNumbers(currentNewsPage, totalPages)}
+            <button class="px-4 py-2 rounded-xl text-sm font-medium transition-all
+                           ${currentNewsPage === totalPages ? 'bg-white/5 text-gray-600 cursor-not-allowed' : 'bg-white/10 text-white hover:bg-white/20'}"
+                    onclick="window.__newsPage(${currentNewsPage + 1})" ${currentNewsPage === totalPages ? 'disabled' : ''}>
+                Next &rarr;
+            </button>
+        </div>
+    ` : '';
+
+    gridContainer.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-on-scroll" data-stagger="true">
+            ${cardsHtml}
+        </div>
+        ${paginationHtml}
+    `;
+
+    // Re-trigger scroll animations
+    import('../utils/animations.js').then(anim => {
+        if (anim && anim.initScrollAnimations) {
+            setTimeout(() => anim.initScrollAnimations(), 50);
+        }
+    });
+}
+
+function generateNewsPageNumbers(current, total) {
+    let pages = [];
+    const maxVisible = 5;
+    let start = Math.max(1, current - Math.floor(maxVisible / 2));
+    let end = Math.min(total, start + maxVisible - 1);
+    if (end - start < maxVisible - 1) start = Math.max(1, end - maxVisible + 1);
+
+    for (let i = start; i <= end; i++) {
+        pages.push(`
+            <button class="w-10 h-10 rounded-xl text-sm font-medium transition-all
+                           ${i === current 
+                             ? 'bg-gradient-to-r from-amber-500 to-yellow-600 text-black font-bold' 
+                             : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'}"
+                    onclick="window.__newsPage(${i})">
+                ${i}
+            </button>
+        `);
+    }
+    return pages.join('');
+}
+
+window.__newsPage = (page) => {
+    const totalPages = Math.ceil(newsItems.length / newsPerPage);
+    if (page < 1 || page > totalPages) return;
+    currentNewsPage = page;
+    renderNewsGrid();
+    
+    const section = document.getElementById('features-section');
+    if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+};
