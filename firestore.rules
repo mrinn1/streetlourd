@@ -81,5 +81,11 @@ service cloud.firestore {
       allow read: if true; // Public read
       allow write: if isAdmin();
     }
+
+    // News collection (Supercell news articles)
+    match /news/{newsId} {
+      allow read: if true; // Public read
+      allow write: if isAdmin();
+    }
   }
 }
