@@ -255,7 +255,7 @@ function renderNewsGrid() {
                             ` : ''}
                         </div>
                         
-                        <span class="text-[10px] text-gray-500 font-medium">Official Supercell</span>
+                        <span class="text-[10px] text-gray-500 font-medium">${item.source || 'Official Supercell'}</span>
                     </div>
                 </div>
             </div>

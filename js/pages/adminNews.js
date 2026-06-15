@@ -100,6 +100,11 @@ function renderManager(container) {
                                     <input type="url" id="news-form-link" class="admin-input" placeholder="https://supercell.com/en/news/...">
                                 </div>
 
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1.5 font-medium">Sumber / Label Berita</label>
+                                    <input type="text" id="news-form-source" class="admin-input" placeholder="Contoh: Official Supercell, Info klan, dll.">
+                                </div>
+
                                 <div class="flex gap-3 pt-2">
                                     <button id="cancel-btn" onclick="window.__cancelEditNews()" type="button" class="hidden flex-1 px-4 py-3 rounded-xl border border-white/10 text-white font-bold hover:bg-white/5 transition-all text-sm">
                                         Batal
@@ -150,6 +155,7 @@ function updateAdminNewsList() {
     }
 
     listContainer.innerHTML = newsList.map(item => {
+        const sourceLabel = item.source || 'Official Supercell';
         const hasVideo = item.videoUrl ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold text-red-400 bg-red-500/10">🎬 Video</span>' : '';
         const hasLink = item.externalLink ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold text-blue-400 bg-blue-500/10">🔗 Article</span>' : '';
 
@@ -161,6 +167,7 @@ function updateAdminNewsList() {
                     <p class="text-white font-medium text-sm truncate">${item.title}</p>
                     <p class="text-gray-400 text-xs mt-1 line-clamp-2">${item.description || ''}</p>
                     <div class="flex flex-wrap items-center gap-2 mt-2">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold text-gray-400 bg-white/5">${sourceLabel}</span>
                         ${hasVideo}
                         ${hasLink}
                     </div>
@@ -195,6 +202,7 @@ function editNewsHandler(id) {
     document.getElementById('news-form-image').value = newsItem.imageUrl || '';
     document.getElementById('news-form-video').value = newsItem.videoUrl || '';
     document.getElementById('news-form-link').value = newsItem.externalLink || '';
+    document.getElementById('news-form-source').value = newsItem.source || 'Official Supercell';
 
     // Scroll form into view
     document.getElementById('form-title').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -214,6 +222,7 @@ function cancelEditNewsHandler() {
     document.getElementById('news-form-image').value = '';
     document.getElementById('news-form-video').value = '';
     document.getElementById('news-form-link').value = '';
+    document.getElementById('news-form-source').value = '';
 }
 
 async function submitNewsFormHandler() {
@@ -222,6 +231,7 @@ async function submitNewsFormHandler() {
     const imageUrl = document.getElementById('news-form-image')?.value.trim();
     const videoUrl = document.getElementById('news-form-video')?.value.trim();
     const externalLink = document.getElementById('news-form-link')?.value.trim();
+    const source = document.getElementById('news-form-source')?.value.trim() || 'Official Supercell';
 
     if (!title || !description || !imageUrl) {
         toast.warning('Mohon lengkapi Judul, Deskripsi, dan Link Gambar.');
@@ -233,7 +243,8 @@ async function submitNewsFormHandler() {
         description,
         imageUrl,
         videoUrl,
-        externalLink
+        externalLink,
+        source
     };
 
     const submitBtn = document.getElementById('submit-btn');
