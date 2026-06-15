@@ -167,9 +167,24 @@ function renderManager(container) {
                     <!-- Right: Current Layouts List -->
                     <div class="lg:col-span-7 space-y-6">
                         <div class="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
-                            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2" style="font-family: 'Lilita One', cursive;">
-                                📜 Daftar Base Aktif
-                            </h2>
+                            <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-6">
+                                <h2 class="text-xl font-bold text-white flex items-center gap-2 mb-0" style="font-family: 'Lilita One', cursive;">
+                                    📜 Daftar Base Aktif
+                                </h2>
+                                <div class="flex flex-wrap gap-2 w-full xl:w-auto">
+                                    <input type="text" id="layout-filter-search" oninput="window.__filterAdminLayouts()" 
+                                           class="admin-input text-xs py-2 px-3 w-full sm:w-[180px]" placeholder="Cari judul base...">
+                                    <select id="layout-filter-category" onchange="window.__onFilterCategoryChange()" class="admin-select text-xs py-2 px-3 w-full sm:w-auto">
+                                        <option value="">Semua Kategori</option>
+                                        <option value="home">Desa Asal (Home)</option>
+                                        <option value="builder">Desa Tukang (Builder)</option>
+                                        <option value="capital">Clan Capital</option>
+                                    </select>
+                                    <select id="layout-filter-level" onchange="window.__filterAdminLayouts()" class="admin-select text-xs py-2 px-3 w-full sm:w-auto" disabled>
+                                        <option value="">Semua Level</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div id="admin-layouts-list" class="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
                                 <!-- Rendered dynamically -->
                             </div>
@@ -188,10 +203,46 @@ function renderManager(container) {
     window.__deleteLayout = (id) => deleteLayoutHandler(id);
     window.__editLayout = (id) => editLayoutHandler(id);
     window.__cancelEdit = cancelEditHandler;
+    window.__onFilterCategoryChange = onFilterCategoryChange;
+    window.__filterAdminLayouts = filterAdminLayouts;
 
     // Populate level options initial load
     onCategoryChange();
     // Render current active bases
+    updateAdminLayoutsList();
+}
+
+function onFilterCategoryChange() {
+    const category = document.getElementById('layout-filter-category')?.value;
+    const levelSelect = document.getElementById('layout-filter-level');
+    if (!levelSelect) return;
+
+    if (!category) {
+        levelSelect.innerHTML = '<option value="">Semua Level</option>';
+        levelSelect.value = '';
+        levelSelect.disabled = true;
+    } else {
+        levelSelect.disabled = false;
+        let maxLvl = 18;
+        let prefix = 'TH';
+        if (category === 'builder') {
+            maxLvl = 11;
+            prefix = 'BH';
+        } else if (category === 'capital') {
+            maxLvl = 10;
+            prefix = 'CH';
+        }
+        
+        let options = '<option value="">Semua Level</option>';
+        for (let i = maxLvl; i >= 1; i--) {
+            options += `<option value="${i}">${prefix} ${i}</option>`;
+        }
+        levelSelect.innerHTML = options;
+    }
+    filterAdminLayouts();
+}
+
+function filterAdminLayouts() {
     updateAdminLayoutsList();
 }
 
@@ -261,6 +312,27 @@ function updateAdminLayoutsList() {
         return;
     }
 
+    const searchVal = document.getElementById('layout-filter-search')?.value.toLowerCase() || '';
+    const categoryVal = document.getElementById('layout-filter-category')?.value || '';
+    const levelVal = document.getElementById('layout-filter-level')?.value || '';
+
+    let filteredLayouts = layouts;
+    
+    if (categoryVal) {
+        filteredLayouts = filteredLayouts.filter(item => item.category === categoryVal);
+    }
+    if (levelVal) {
+        filteredLayouts = filteredLayouts.filter(item => item.townHallLevel === parseInt(levelVal, 10));
+    }
+    if (searchVal) {
+        filteredLayouts = filteredLayouts.filter(item => item.title.toLowerCase().includes(searchVal));
+    }
+
+    if (filteredLayouts.length === 0) {
+        listContainer.innerHTML = `<p class="text-center text-gray-500 text-sm py-8">Tidak ada layout base yang cocok dengan filter.</p>`;
+        return;
+    }
+
     const categoryLabels = { home: 'Desa Asal', builder: 'Desa Tukang', capital: 'Clan Capital' };
     const districtLabels = {
         capital_peak: 'Puncak Ibu Kota',
@@ -289,7 +361,7 @@ function updateAdminLayoutsList() {
     };
     const categoryColors = { home: 'bg-emerald-500/20 text-emerald-400', builder: 'bg-orange-500/20 text-orange-400', capital: 'bg-sky-500/20 text-sky-400' };
 
-    listContainer.innerHTML = layouts.map(item => {
+    listContainer.innerHTML = filteredLayouts.map(item => {
         const ratingStars = '⭐'.repeat(item.rating || 5);
         const catLabel = categoryLabels[item.category || 'home'];
 

@@ -1,38 +1,26 @@
 const fs = require('fs');
-const https = require('https');
 
-const content = fs.readFileSync('C:\\Users\\USER\\.gemini\\antigravity-ide\\brain\\92d080ff-98ef-42b2-8128-a91d170d46a5\\.system_generated\\steps\\1695\\content.md', 'utf8');
-
-const regex = /src="(https:\/\/static\.wikia\.nocookie\.net\/clashofclans\/images\/[^"]+)"/g;
-const urls = [];
-let match;
-while ((match = regex.exec(content)) !== null) {
-    const rawUrl = match[1];
-    const cleanUrl = rawUrl.replace(/\s+/g, '');
-    if (!urls.includes(cleanUrl)) {
-        urls.push(cleanUrl);
+async function checkUrl(url) {
+    try {
+        const res = await fetch(url);
+        if (!res.ok) return { url, hasLink: false, status: res.status };
+        const html = await res.text();
+        const hasLink = html.includes('link.clashofclans.com');
+        return { url, hasLink, status: 200 };
+    } catch (e) {
+        return { url, hasLink: false, status: 'ERROR: ' + e.message };
     }
 }
 
-console.log(`Found ${urls.length} unique URLs. Checking status...`);
-
-function checkUrl(url) {
-    return new Promise((resolve) => {
-        https.request(url, { method: 'HEAD' }, (res) => {
-            resolve({ url, status: res.statusCode });
-        }).on('error', () => {
-            resolve({ url, status: 'ERROR' });
-        }).end();
-    });
-}
-
 async function run() {
-    for (const url of urls) {
-        const result = await checkUrl(url);
-        if (result.status === 200) {
-            console.log(`[200 OK] ${url}`);
-        } else {
-            console.log(`[${result.status}] ${url}`);
+    const files = ['scratch/bh4_urls.txt', 'scratch/bh5_urls.txt', 'scratch/bh6_urls.txt', 'scratch/bh8_urls.txt', 'scratch/bh10_urls.txt'];
+    for (const file of files) {
+        if (!fs.existsSync(file)) continue;
+        const urls = fs.readFileSync(file, 'utf8').split('\n').map(line => line.trim()).filter(line => line.startsWith('http')).slice(0, 3);
+        console.log(`--- Checking first 3 URLs in ${file} ---`);
+        for (const url of urls) {
+            const res = await checkUrl(url);
+            console.log(`   ${res.hasLink ? '✅ HAS LINK' : '❌ NO LINK'} - ${url}`);
         }
     }
 }
