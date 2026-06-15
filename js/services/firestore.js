@@ -535,5 +535,72 @@ function getDemoLayouts() {
     ];
 }
 
+export async function getNews() {
+    if (!isFirebaseConfigured()) return getDemoNews();
+    try {
+        const { collection, getDocs, query, orderBy } = await getFirestore();
+        const q = query(collection(db, 'news'), orderBy('createdAt', 'desc'));
+        const snap = await getDocs(q);
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch (e) {
+        console.error('getNews:', e);
+        try {
+            const { collection, getDocs } = await getFirestore();
+            const snap = await getDocs(collection(db, 'news'));
+            const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            docs.sort((a, b) => {
+                const dateA = a.createdAt ? (a.createdAt.toDate ? a.createdAt.toDate() : new Date(a.createdAt)) : 0;
+                const dateB = b.createdAt ? (b.createdAt.toDate ? b.createdAt.toDate() : new Date(b.createdAt)) : 0;
+                return dateB - dateA;
+            });
+            return docs;
+        } catch (err) {
+            console.error('getNews fallback failed:', err);
+            return getDemoNews();
+        }
+    }
+}
+
+export async function addNews(data) {
+    if (!isFirebaseConfigured()) return;
+    const { collection, addDoc, serverTimestamp } = await getFirestore();
+    return await addDoc(collection(db, 'news'), { ...data, createdAt: serverTimestamp() });
+}
+
+export async function updateNews(id, data) {
+    if (!isFirebaseConfigured()) return;
+    const { doc, updateDoc } = await getFirestore();
+    await updateDoc(doc(db, 'news', id), data);
+}
+
+export async function deleteNews(id) {
+    if (!isFirebaseConfigured()) return;
+    const { doc, deleteDoc } = await getFirestore();
+    await deleteDoc(doc(db, 'news', id));
+}
+
+function getDemoNews() {
+    return [
+        {
+            id: 'demo-news-1',
+            title: 'Clash of Clans Town Hall 18 Update Resmi!',
+            description: 'Ketahui fitur-fitur terbaru, pertahanan baru, dan pasukan baru yang hadir di Town Hall 18!',
+            imageUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=60',
+            videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            externalLink: 'https://supercell.com/en/games/clashofclans/',
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: 'demo-news-2',
+            title: 'Keseimbangan Game (Game Balancing Update)',
+            description: 'Penyesuaian statistik hero equipment, spell, dan kekuatan def dari pertahanan udara.',
+            imageUrl: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&auto=format&fit=crop&q=60',
+            videoUrl: '',
+            externalLink: 'https://supercell.com/en/games/clashofclans/',
+            createdAt: new Date(Date.now() - 86400000).toISOString()
+        }
+    ];
+}
+
 
 

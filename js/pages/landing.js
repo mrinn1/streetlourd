@@ -4,13 +4,14 @@
 
 import { renderFooter } from '../components/footer.js';
 import { rankCard } from '../components/card.js';
-import { getMembers, getLandingSettings, getSettings } from '../services/firestore.js';
+import { getMembers, getLandingSettings, getSettings, getNews } from '../services/firestore.js';
 
 export async function renderLanding() {
-    const [settings, generalSettings, members] = await Promise.all([
+    const [settings, generalSettings, members, news] = await Promise.all([
         getLandingSettings(),
         getSettings(),
-        getMembers()
+        getMembers(),
+        getNews()
     ]);
     
     const clanTag = generalSettings.clanTag || '#P0YVL80U';
@@ -99,24 +100,76 @@ export async function renderLanding() {
             </div>
         </section>
 
-        <!-- Features Section -->
+        <!-- News Section -->
         <section class="relative py-20 px-4" id="features-section">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-16 animate-on-scroll">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4" style="font-family: 'Lilita One', cursive;">
-                        Everything You Need
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 flex items-center justify-center gap-2" style="font-family: 'Lilita One', cursive;">
+                        📰 Berita Terbaru Supercell Resmi
                     </h2>
                     <p class="text-gray-400 max-w-xl mx-auto">
-                        Kelola clan seperti pro player dengan fitur-fitur lengkap
+                        Dapatkan informasi update game, penyeimbangan stats, dan pengumuman resmi Clash of Clans
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-on-scroll" data-stagger="true">
-                    ${featureCard('⚔️', 'War Tracker', 'Input dan pantau hasil war dengan tracking attack, bintang, dan destruction otomatis.', 'from-red-500/20 to-orange-500/10', 'border-red-500/20')}
-                    ${featureCard('📊', 'Point System', 'Sistem poin otomatis dengan reward dan punishment yang transparan untuk semua anggota.', 'from-blue-500/20 to-cyan-500/10', 'border-blue-500/20')}
-                    ${featureCard('🏆', 'Leaderboard', 'Ranking anggota berdasarkan kontribusi dengan efek emas untuk top player.', 'from-amber-500/20 to-yellow-500/10', 'border-amber-500/20')}
-                    ${featureCard('👥', 'Member Profiles', 'Profil detail setiap anggota dengan riwayat war, poin, dan statistik lengkap.', 'from-purple-500/20 to-violet-500/10', 'border-purple-500/20')}
-                </div>
+                ${news.length === 0 ? `
+                    <p class="text-center text-gray-500 text-sm py-12">Belum ada berita terbaru saat ini.</p>
+                ` : `
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-on-scroll" data-stagger="true">
+                        ${news.map((item, index) => {
+                            const delay = index * 100;
+                            const hasVideo = item.videoUrl;
+                            const hasLink = item.externalLink;
+                            
+                            return `
+                                <div class="animate-item group flex flex-col rounded-3xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-amber-500/30 overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-xl cursor-default" style="transition-delay: ${delay}ms;">
+                                    <!-- Thumbnail -->
+                                    <div class="relative h-48 overflow-hidden bg-slate-800">
+                                        <img src="${item.imageUrl}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400'">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-[#0a0e17] via-[#0a0e17]/20 to-transparent"></div>
+                                        
+                                        <!-- Play icon overlay if video is present -->
+                                        ${hasVideo ? `
+                                            <a href="${item.videoUrl}" target="_blank" class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
+                                                <div class="w-12 h-12 rounded-full bg-red-600/90 flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-transform shadow-lg shadow-red-600/40">
+                                                    <svg class="w-6 h-6 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                                </div>
+                                            </a>
+                                        ` : ''}
+                                    </div>
+                                    
+                                    <!-- Body -->
+                                    <div class="p-6 flex-1 flex flex-col justify-between">
+                                        <div>
+                                            <h3 class="text-white font-bold text-lg mb-2 line-clamp-2 hover:text-amber-400 transition-colors" style="font-family: 'Lilita One', cursive;">${item.title}</h3>
+                                            <p class="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">${item.description}</p>
+                                        </div>
+                                        
+                                        <!-- Footer / Action links -->
+                                        <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                                            <div class="flex gap-4">
+                                                ${hasVideo ? `
+                                                    <a href="${item.videoUrl}" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-red-400 hover:text-red-300 font-bold transition-colors">
+                                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                                        Video
+                                                    </a>
+                                                ` : ''}
+                                                ${hasLink ? `
+                                                    <a href="${item.externalLink}" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 font-bold transition-colors">
+                                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                                        Artikel
+                                                    </a>
+                                                ` : ''}
+                                            </div>
+                                            
+                                            <span class="text-[10px] text-gray-500 font-medium">Official Supercell</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `}
             </div>
         </section>
 
@@ -183,16 +236,5 @@ export async function renderLanding() {
         </section>
 
         ${renderFooter()}
-    `;
-}
-
-function featureCard(icon, title, desc, bgGradient, borderColor) {
-    return `
-        <div class="animate-item group rounded-2xl border ${borderColor} bg-gradient-to-br ${bgGradient} 
-                    backdrop-blur-sm p-6 transition-all duration-300 hover:scale-[1.04] hover:shadow-lg cursor-default">
-            <div class="text-4xl mb-4">${icon}</div>
-            <h3 class="text-white font-bold text-lg mb-2" style="font-family: 'Lilita One', cursive;">${title}</h3>
-            <p class="text-gray-400 text-sm leading-relaxed">${desc}</p>
-        </div>
     `;
 }

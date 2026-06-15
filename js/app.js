@@ -18,6 +18,7 @@ import { renderAdminLanding } from './pages/adminLanding.js';
 import { renderAdminSidePoints } from './pages/adminSidePoints.js';
 import { renderBaseLayouts } from './pages/baseLayouts.js';
 import { renderAdminLayouts } from './pages/adminLayouts.js';
+import { renderAdminNews } from './pages/adminNews.js';
 import { initAuthListener, signInWithGoogle, signOut, getCurrentUser, getUserRole } from './services/auth.js';
 import { initScrollAnimations, initParallax, pageTransition } from './utils/animations.js';
 import { toast } from './components/toast.js';
@@ -42,6 +43,7 @@ const routes = {
     '/admin/landing': { render: renderAdminLandingPage, title: 'Landing Settings' },
     '/admin/sidepoints': { render: renderAdminSidePointsPage, title: 'Manage Side Points' },
     '/admin/layouts': { render: renderAdminLayoutsPage, title: 'Manage Base Layouts' },
+    '/admin/news': { render: renderAdminNewsPage, title: 'Manage News' },
     '/login':       { render: renderLoginPage, title: 'Login' },
 };
 
@@ -228,6 +230,11 @@ async function renderBaseLayoutsPage() {
 async function renderAdminLayoutsPage() {
     const pageContent = document.getElementById('page-content');
     await pageTransition(pageContent, () => renderAdminLayouts());
+}
+
+async function renderAdminNewsPage() {
+    const pageContent = document.getElementById('page-content');
+    await pageTransition(pageContent, () => renderAdminNews());
 }
 
 function renderLoginPage() {
