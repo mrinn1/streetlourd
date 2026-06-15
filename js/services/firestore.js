@@ -466,24 +466,48 @@ function getDemoLayouts() {
         },
         {
             id: 'demo-2',
+            title: 'TH16 Hybrid farming layout',
+            townHallLevel: 16,
+            category: 'home',
+            type: 'hybrid',
+            rating: 4,
+            imageUrl: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&auto=format&fit=crop&q=60',
+            link: 'https://link.clashofclans.com/en?action=OpenLayout&id=TH16-Hybrid-Demo',
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: 'demo-3',
             title: 'BH10 Trophy Push Base',
             townHallLevel: 10,
             category: 'builder',
-            type: 'farming',
+            type: '',
             rating: 4,
             imageUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=60',
             link: 'https://link.clashofclans.com/en?action=OpenLayout&id=BH10-Demo',
             createdAt: new Date().toISOString()
         },
         {
-            id: 'demo-3',
-            title: 'Capital Hall 10 Layout',
+            id: 'demo-4',
+            title: 'Capital Peak Level 10 Base',
             townHallLevel: 10,
             category: 'capital',
-            type: 'war',
+            district: 'capital_peak',
+            type: '',
             rating: 5,
-            imageUrl: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&auto=format&fit=crop&q=60',
+            imageUrl: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&auto=format&fit=crop&q=60',
             link: 'https://link.clashofclans.com/en?action=OpenLayout&id=CH10-Demo',
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: 'demo-5',
+            title: 'Barbarian Camp Level 5 Base',
+            townHallLevel: 5,
+            category: 'capital',
+            district: 'barbarian_camp',
+            type: '',
+            rating: 4,
+            imageUrl: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&auto=format&fit=crop&q=60',
+            link: 'https://link.clashofclans.com/en?action=OpenLayout&id=BC5-Demo',
             createdAt: new Date().toISOString()
         }
     ];

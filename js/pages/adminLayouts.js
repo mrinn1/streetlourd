@@ -9,7 +9,7 @@ import { getLayouts, addLayout, updateLayout, deleteLayout } from '../services/f
 import { isAdmin, getCurrentUser } from '../services/auth.js';
 
 let layouts = [];
-let editingLayoutId = null; // Track layout ID currently being edited
+let editingLayoutId = null;
 
 export async function renderAdminLayouts() {
     const container = document.getElementById('page-content');
@@ -78,25 +78,49 @@ function renderManager(container) {
                             <div class="space-y-4">
                                 <div>
                                     <label class="block text-xs text-gray-400 mb-1.5 font-medium">Kategori Base</label>
-                                    <select id="layout-form-category" class="admin-select" onchange="window.__updateLevelOptions()">
+                                    <select id="layout-form-category" class="admin-select" onchange="window.__onCategoryChange()">
                                         <option value="home">Home Village (Desa Asal)</option>
                                         <option value="builder">Builder Base (Desa Tukang)</option>
                                         <option value="capital">Clan Capital</option>
                                     </select>
                                 </div>
+                                
+                                <!-- Capital District Select (only for capital) -->
+                                <div id="district-select-container" class="hidden">
+                                    <label class="block text-xs text-gray-400 mb-1.5 font-medium">Distrik Clan Capital</label>
+                                    <select id="layout-form-district" class="admin-select" onchange="window.__updateLevelOptions()">
+                                        <option value="capital_peak">Puncak Ibu Kota (Capital Peak)</option>
+                                        <option value="barbarian_camp">Perkemahan Barbar (Barbarian Camp)</option>
+                                        <option value="wizard_valley">Lembah Penyihir (Wizard Valley)</option>
+                                        <option value="balloon_lagoon">Laguna Balon (Balloon Lagoon)</option>
+                                        <option value="builders_workshop">Bengkel Tukang (Builder's Workshop)</option>
+                                        <option value="dragon_cliffs">Tebing Naga (Dragon Cliffs)</option>
+                                        <option value="golem_quarry">Tambang Golem (Golem Quarry)</option>
+                                        <option value="skeleton_park">Taman Rangka (Skeleton Park)</option>
+                                        <option value="goblin_mines">Tambang Goblin (Goblin Mines)</option>
+                                    </select>
+                                </div>
+
+                                <!-- Level Select -->
                                 <div>
                                     <label id="level-label" class="block text-xs text-gray-400 mb-1.5 font-medium">Level Town Hall</label>
                                     <select id="layout-form-th" class="admin-select">
                                         <!-- Levels populated dynamically -->
                                     </select>
                                 </div>
-                                <div>
+
+                                <!-- Type Select (only for home) -->
+                                <div id="type-select-container">
                                     <label class="block text-xs text-gray-400 mb-1.5 font-medium">Tipe Base</label>
                                     <select id="layout-form-type" class="admin-select">
                                         <option value="war">War Base</option>
-                                        <option value="farming">Farming / Trophy</option>
+                                        <option value="farming">Trophy / Farming</option>
+                                        <option value="hybrid">Hybrid Base</option>
+                                        <option value="defense">Defense Base</option>
                                     </select>
                                 </div>
+
+                                <!-- Rating Select -->
                                 <div>
                                     <label class="block text-xs text-gray-400 mb-1.5 font-medium">Statistik Rating</label>
                                     <select id="layout-form-rating" class="admin-select">
@@ -107,6 +131,7 @@ function renderManager(container) {
                                         <option value="1">⭐ (1 Bintang)</option>
                                     </select>
                                 </div>
+
                                 <div>
                                     <label class="block text-xs text-gray-400 mb-1.5 font-medium">Judul Base / Deskripsi</label>
                                     <input type="text" id="layout-form-title" class="admin-input" placeholder="Contoh: TH18 War Base Anti 3-Star">
@@ -149,6 +174,7 @@ function renderManager(container) {
     `;
 
     // Bind event handlers
+    window.__onCategoryChange = onCategoryChange;
     window.__updateLevelOptions = updateLevelOptions;
     window.__submitLayoutForm = () => submitLayoutFormHandler(user);
     window.__deleteLayout = (id) => deleteLayoutHandler(id);
@@ -156,13 +182,35 @@ function renderManager(container) {
     window.__cancelEdit = cancelEditHandler;
 
     // Populate level options initial load
-    updateLevelOptions();
+    onCategoryChange();
     // Render current active bases
     updateAdminLayoutsList();
 }
 
+function onCategoryChange() {
+    const category = document.getElementById('layout-form-category')?.value || 'home';
+    const typeSelectContainer = document.getElementById('type-select-container');
+    const districtSelectContainer = document.getElementById('district-select-container');
+
+    if (!typeSelectContainer || !districtSelectContainer) return;
+
+    if (category === 'home') {
+        typeSelectContainer.classList.remove('hidden');
+        districtSelectContainer.classList.add('hidden');
+    } else if (category === 'builder') {
+        typeSelectContainer.classList.add('hidden');
+        districtSelectContainer.classList.add('hidden');
+    } else if (category === 'capital') {
+        typeSelectContainer.classList.add('hidden');
+        districtSelectContainer.classList.remove('hidden');
+    }
+
+    updateLevelOptions();
+}
+
 function updateLevelOptions() {
     const category = document.getElementById('layout-form-category')?.value || 'home';
+    const district = document.getElementById('layout-form-district')?.value || 'capital_peak';
     const thSelect = document.getElementById('layout-form-th');
     const label = document.getElementById('level-label');
 
@@ -180,10 +228,17 @@ function updateLevelOptions() {
             <option value="${bh}">Builder Hall ${bh}</option>
         `).join('');
     } else if (category === 'capital') {
-        label.textContent = 'Level Capital Hall (CH)';
-        options = Array.from({ length: 10 }, (_, i) => 10 - i).map(ch => `
-            <option value="${ch}">Capital Hall ${ch}</option>
-        `).join('');
+        if (district === 'capital_peak') {
+            label.textContent = 'Level Capital Hall (CH)';
+            options = Array.from({ length: 10 }, (_, i) => 10 - i).map(ch => `
+                <option value="${ch}">Capital Hall ${ch}</option>
+            `).join('');
+        } else {
+            label.textContent = 'Level Distrik (1 - 5)';
+            options = Array.from({ length: 5 }, (_, i) => 5 - i).map(ch => `
+                <option value="${ch}">Level ${ch}</option>
+            `).join('');
+        }
     }
 
     thSelect.innerHTML = options;
@@ -198,15 +253,39 @@ function updateAdminLayoutsList() {
         return;
     }
 
-    const categoryLabels = { home: 'Desa Asal', builder: 'Desa Tukang', capital: 'Capital' };
-    const typeLabels = { war: 'War', farming: 'Farming' };
+    const categoryLabels = { home: 'Desa Asal', builder: 'Desa Tukang', capital: 'Clan Capital' };
+    const districtLabels = {
+        capital_peak: 'Puncak Ibu Kota',
+        barbarian_camp: 'Perkemahan Barbar',
+        wizard_valley: 'Lembah Penyihir',
+        balloon_lagoon: 'Laguna Balon',
+        builders_workshop: 'Bengkel Tukang',
+        dragon_cliffs: 'Tebing Naga',
+        golem_quarry: 'Tambang Golem',
+        skeleton_park: 'Taman Rangka',
+        goblin_mines: 'Tambang Goblin'
+    };
+    const typeLabels = {
+        war: 'War',
+        farming: 'Farming',
+        hybrid: 'Hybrid',
+        defense: 'Defense'
+    };
     const categoryColors = { home: 'bg-emerald-500/20 text-emerald-400', builder: 'bg-orange-500/20 text-orange-400', capital: 'bg-sky-500/20 text-sky-400' };
 
     listContainer.innerHTML = layouts.map(item => {
         const ratingStars = '⭐'.repeat(item.rating || 5);
         const catLabel = categoryLabels[item.category || 'home'];
-        const typeLabel = typeLabels[item.type || 'war'];
-        const levelPrefix = item.category === 'builder' ? 'BH' : (item.category === 'capital' ? 'CH' : 'TH');
+        
+        let subLabel = '';
+        if (item.category === 'home') {
+            subLabel = `<span class="px-2 py-0.5 rounded text-[10px] font-bold text-gray-300 bg-white/10">${typeLabels[item.type || 'war'] || 'War'}</span>`;
+        } else if (item.category === 'capital') {
+            const distName = districtLabels[item.district || 'capital_peak'] || 'Ibu Kota';
+            subLabel = `<span class="px-2 py-0.5 rounded text-[10px] font-bold text-sky-400 bg-sky-500/10">${distName}</span>`;
+        }
+
+        const levelPrefix = item.category === 'builder' ? 'BH' : (item.category === 'capital' ? (item.district === 'capital_peak' ? 'CH' : 'Lvl') : 'TH');
 
         return `
             <div class="flex items-center gap-4 p-3 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-200">
@@ -217,7 +296,7 @@ function updateAdminLayoutsList() {
                     <div class="flex flex-wrap items-center gap-2 mt-1.5">
                         <span class="px-2 py-0.5 rounded text-[10px] font-bold ${categoryColors[item.category || 'home']}">${catLabel}</span>
                         <span class="px-2 py-0.5 rounded text-[10px] font-bold text-white bg-blue-500">${levelPrefix} ${item.townHallLevel}</span>
-                        <span class="px-2 py-0.5 rounded text-[10px] font-bold text-gray-300 bg-white/10">${typeLabel}</span>
+                        ${subLabel}
                         <span class="text-[10px] text-yellow-500">${ratingStars}</span>
                     </div>
                 </div>
@@ -250,9 +329,18 @@ function editLayoutHandler(id) {
 
     // Populate inputs
     document.getElementById('layout-form-category').value = layout.category || 'home';
-    updateLevelOptions(); // update TH/BH/CH levels based on category
+    onCategoryChange(); // Update fields and levels
+    
+    if (layout.category === 'capital') {
+        document.getElementById('layout-form-district').value = layout.district || 'capital_peak';
+        updateLevelOptions();
+    }
+    
     document.getElementById('layout-form-th').value = layout.townHallLevel;
-    document.getElementById('layout-form-type').value = layout.type || 'war';
+    if (layout.category === 'home') {
+        document.getElementById('layout-form-type').value = layout.type || 'war';
+    }
+    
     document.getElementById('layout-form-rating').value = layout.rating || '5';
     document.getElementById('layout-form-title').value = layout.title || '';
     document.getElementById('layout-form-link').value = layout.link || '';
@@ -275,13 +363,12 @@ function cancelEditHandler() {
     document.getElementById('layout-form-link').value = '';
     document.getElementById('layout-form-image').value = '';
     document.getElementById('layout-form-category').value = 'home';
-    updateLevelOptions();
+    onCategoryChange();
 }
 
 async function submitLayoutFormHandler(user) {
     const category = document.getElementById('layout-form-category').value;
     const thLevel = parseInt(document.getElementById('layout-form-th').value);
-    const type = document.getElementById('layout-form-type').value;
     const rating = parseInt(document.getElementById('layout-form-rating').value);
     const title = document.getElementById('layout-form-title').value.trim();
     const link = document.getElementById('layout-form-link').value.trim();
@@ -301,21 +388,29 @@ async function submitLayoutFormHandler(user) {
         title,
         townHallLevel: thLevel,
         category,
-        type,
         rating,
         link,
         imageUrl,
         lastUpdatedBy: user?.displayName || 'Admin'
     };
 
+    if (category === 'home') {
+        payload.type = document.getElementById('layout-form-type').value;
+        payload.district = '';
+    } else if (category === 'capital') {
+        payload.type = '';
+        payload.district = document.getElementById('layout-form-district').value;
+    } else {
+        payload.type = '';
+        payload.district = '';
+    }
+
     try {
         if (editingLayoutId) {
-            // Edit Mode
             await updateLayout(editingLayoutId, payload);
             toast.success('Layout base berhasil diperbarui!');
             cancelEditHandler();
         } else {
-            // Add Mode
             await addLayout({
                 ...payload,
                 addedBy: user?.displayName || 'Admin'
@@ -346,12 +441,10 @@ async function deleteLayoutHandler(id) {
                 await deleteLayout(id);
                 toast.success('Layout base berhasil dihapus!');
                 
-                // If the deleted layout was being edited, cancel edit
                 if (editingLayoutId === id) {
                     cancelEditHandler();
                 }
 
-                // Reload layouts and redraw
                 layouts = await getLayouts();
                 updateAdminLayoutsList();
             } catch (e) {

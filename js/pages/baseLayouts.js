@@ -63,30 +63,87 @@ export async function renderBaseLayouts() {
                 </div>
 
                 <!-- Filters Subgrid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 animate-on-scroll">
-                    <!-- Level Filters -->
-                    <div>
-                        <label class="block text-xs text-gray-500 mb-2 font-medium">Filter Level:</label>
-                        <div class="flex flex-wrap gap-2" id="level-filters-container">
-                            <!-- Populated dynamically -->
+                <div class="space-y-6 mb-8 animate-on-scroll bg-white/[0.02] border border-white/5 p-5 rounded-2xl">
+                    <!-- Clan Capital Districts (Only if capital is active) -->
+                    <div id="district-filter-container" class="hidden">
+                        <label class="block text-xs text-gray-500 mb-2 font-medium">Filter Distrik:</label>
+                        <div class="flex flex-wrap gap-2 max-h-[140px] overflow-y-auto pr-2 custom-scrollbar">
+                            <button onclick="window.__setDistrictFilter('all')" id="btn-dist-all"
+                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-black bg-amber-500 transition-all">
+                                Semua Distrik
+                            </button>
+                            <button onclick="window.__setDistrictFilter('capital_peak')" id="btn-dist-capital_peak"
+                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                Puncak Ibu Kota
+                            </button>
+                            <button onclick="window.__setDistrictFilter('barbarian_camp')" id="btn-dist-barbarian_camp"
+                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                Perkemahan Barbar
+                            </button>
+                            <button onclick="window.__setDistrictFilter('wizard_valley')" id="btn-dist-wizard_valley"
+                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                Lembah Penyihir
+                            </button>
+                            <button onclick="window.__setDistrictFilter('balloon_lagoon')" id="btn-dist-balloon_lagoon"
+                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                Laguna Balon
+                            </button>
+                            <button onclick="window.__setDistrictFilter('builders_workshop')" id="btn-dist-builders_workshop"
+                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                Bengkel Tukang
+                            </button>
+                            <button onclick="window.__setDistrictFilter('dragon_cliffs')" id="btn-dist-dragon_cliffs"
+                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                Tebing Naga
+                            </button>
+                            <button onclick="window.__setDistrictFilter('golem_quarry')" id="btn-dist-golem_quarry"
+                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                Tambang Golem
+                            </button>
+                            <button onclick="window.__setDistrictFilter('skeleton_park')" id="btn-dist-skeleton_park"
+                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                Taman Rangka
+                            </button>
+                            <button onclick="window.__setDistrictFilter('goblin_mines')" id="btn-dist-goblin_mines"
+                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                Tambang Goblin
+                            </button>
                         </div>
                     </div>
-                    <!-- Type Filters -->
-                    <div>
-                        <label class="block text-xs text-gray-500 mb-2 font-medium">Filter Tipe:</label>
-                        <div class="flex flex-wrap gap-2" id="type-filters-container">
-                            <button onclick="window.__setTypeFilter('all')" id="btn-type-all"
-                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-black bg-amber-500 transition-all">
-                                Semua Tipe
-                            </button>
-                            <button onclick="window.__setTypeFilter('war')" id="btn-type-war"
-                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
-                                War Base
-                            </button>
-                            <button onclick="window.__setTypeFilter('farming')" id="btn-type-farming"
-                                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
-                                Farming / Trophy
-                            </button>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Level Filters -->
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-2 font-medium">Filter Level:</label>
+                            <div class="flex flex-wrap gap-2" id="level-filters-container">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                        <!-- Type Filters (Only for home village) -->
+                        <div id="type-filter-container">
+                            <label class="block text-xs text-gray-500 mb-2 font-medium">Filter Tipe:</label>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="window.__setTypeFilter('all')" id="btn-type-all"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-black bg-amber-500 transition-all">
+                                    Semua Tipe
+                                </button>
+                                <button onclick="window.__setTypeFilter('war')" id="btn-type-war"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    War Base
+                                </button>
+                                <button onclick="window.__setTypeFilter('farming')" id="btn-type-farming"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    Farming / Trophy
+                                </button>
+                                <button onclick="window.__setTypeFilter('hybrid')" id="btn-type-hybrid"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    Hybrid Base
+                                </button>
+                                <button onclick="window.__setTypeFilter('defense')" id="btn-type-defense"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                                    Defense Base
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -102,6 +159,7 @@ export async function renderBaseLayouts() {
 
     // Filter states
     let selectedCategory = 'home';
+    let selectedDistrict = 'all';
     let selectedLevel = 'all';
     let selectedType = 'all';
 
@@ -114,8 +172,18 @@ export async function renderBaseLayouts() {
             const matchesSearch = item.title.toLowerCase().includes(query);
             const matchesCategory = (item.category || 'home') === selectedCategory;
             const matchesLevel = selectedLevel === 'all' || parseInt(item.townHallLevel) === parseInt(selectedLevel);
-            const matchesType = selectedType === 'all' || (item.type || 'war') === selectedType;
-            return matchesSearch && matchesCategory && matchesLevel && matchesType;
+            
+            let matchesType = true;
+            if (selectedCategory === 'home') {
+                matchesType = selectedType === 'all' || (item.type || 'war') === selectedType;
+            }
+
+            let matchesDistrict = true;
+            if (selectedCategory === 'capital') {
+                matchesDistrict = selectedDistrict === 'all' || (item.district || 'capital_peak') === selectedDistrict;
+            }
+
+            return matchesSearch && matchesCategory && matchesLevel && matchesType && matchesDistrict;
         });
 
         if (filtered.length === 0) {
@@ -128,7 +196,7 @@ export async function renderBaseLayouts() {
         }
 
         grid.innerHTML = filtered.map(item => {
-            const levelPrefix = item.category === 'builder' ? 'BH' : (item.category === 'capital' ? 'CH' : 'TH');
+            const levelPrefix = item.category === 'builder' ? 'BH' : (item.category === 'capital' ? (item.district === 'capital_peak' ? 'CH' : 'Lvl') : 'TH');
             const thColors = {
                 15: 'from-blue-500 to-indigo-600',
                 16: 'from-purple-500 to-indigo-700',
@@ -136,8 +204,42 @@ export async function renderBaseLayouts() {
                 18: 'from-red-500 to-rose-600'
             };
             const badgeBg = thColors[item.townHallLevel] || 'from-gray-600 to-gray-700';
-            const typeLabels = { war: '⚔️ War Base', farming: '🚜 Farming' };
-            const typeLabel = typeLabels[item.type || 'war'];
+            
+            const typeLabels = { 
+                war: '⚔️ War Base', 
+                farming: '🚜 Farming', 
+                hybrid: '🧬 Hybrid', 
+                defense: '🛡️ Defense' 
+            };
+            
+            const districtLabels = {
+                capital_peak: 'Puncak Ibu Kota',
+                barbarian_camp: 'Perkemahan Barbar',
+                wizard_valley: 'Lembah Penyihir',
+                balloon_lagoon: 'Laguna Balon',
+                builders_workshop: 'Bengkel Tukang',
+                dragon_cliffs: 'Tebing Naga',
+                golem_quarry: 'Tambang Golem',
+                skeleton_park: 'Taman Rangka',
+                goblin_mines: 'Tambang Goblin'
+            };
+
+            let typeBadge = '';
+            if (item.category === 'home') {
+                typeBadge = `
+                    <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold text-white bg-black/60 backdrop-blur-sm shadow-md">
+                        ${typeLabels[item.type || 'war'] || 'War Base'}
+                    </span>
+                `;
+            } else if (item.category === 'capital') {
+                const distName = districtLabels[item.district || 'capital_peak'] || 'Ibu Kota';
+                typeBadge = `
+                    <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold text-sky-400 bg-black/60 backdrop-blur-sm shadow-md border border-sky-500/20">
+                        ${distName}
+                    </span>
+                `;
+            }
+
             const ratingStars = '⭐'.repeat(item.rating || 5);
 
             return `
@@ -152,9 +254,7 @@ export async function renderBaseLayouts() {
                         <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r ${badgeBg} shadow-md">
                             ${levelPrefix} ${item.townHallLevel}
                         </span>
-                        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold text-white bg-black/60 backdrop-blur-sm shadow-md">
-                            ${typeLabel}
-                        </span>
+                        ${typeBadge}
                     </div>
 
                     <!-- Details -->
@@ -195,6 +295,8 @@ export async function renderBaseLayouts() {
     window.__setCategoryFilter = (cat) => {
         selectedCategory = cat;
         selectedLevel = 'all';
+        selectedDistrict = 'all';
+        selectedType = 'all';
 
         // Update category tabs active classes
         const tabs = ['home', 'builder', 'capital'];
@@ -208,6 +310,26 @@ export async function renderBaseLayouts() {
                 }
             }
         });
+
+        // Hide/Show Filter containers based on category
+        const typeFilterContainer = document.getElementById('type-filter-container');
+        const districtFilterContainer = document.getElementById('district-filter-container');
+
+        if (cat === 'home') {
+            typeFilterContainer?.classList.remove('hidden');
+            districtFilterContainer?.classList.add('hidden');
+        } else if (cat === 'builder') {
+            typeFilterContainer?.classList.add('hidden');
+            districtFilterContainer?.classList.add('hidden');
+        } else if (cat === 'capital') {
+            typeFilterContainer?.classList.add('hidden');
+            districtFilterContainer?.classList.remove('hidden');
+        }
+
+        // Reset type buttons
+        window.__setTypeFilter('all');
+        // Reset district buttons
+        window.__setDistrictFilter('all');
 
         // Update level buttons filter list
         updateLevelFilters();
@@ -236,7 +358,7 @@ export async function renderBaseLayouts() {
         selectedType = type;
 
         // Update active class on buttons
-        const types = ['all', 'war', 'farming'];
+        const types = ['all', 'war', 'farming', 'hybrid', 'defense'];
         types.forEach(t => {
             const btn = document.getElementById(`btn-type-${t}`);
             if (btn) {
@@ -251,15 +373,49 @@ export async function renderBaseLayouts() {
         window.__filterLayouts();
     };
 
+    window.__setDistrictFilter = (dist) => {
+        selectedDistrict = dist;
+        selectedLevel = 'all';
+
+        // Update active class on buttons
+        const districts = ['all', 'capital_peak', 'barbarian_camp', 'wizard_valley', 'balloon_lagoon', 'builders_workshop', 'dragon_cliffs', 'golem_quarry', 'skeleton_park', 'goblin_mines'];
+        districts.forEach(d => {
+            const btn = document.getElementById(`btn-dist-${d}`);
+            if (btn) {
+                if (d === dist) {
+                    btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-black bg-amber-500 transition-all shadow-md';
+                } else {
+                    btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 bg-white/5 border border-white/10 hover:bg-white/10 transition-all';
+                }
+            }
+        });
+
+        // Update levels list depending on selected district
+        updateLevelFilters();
+
+        window.__filterLayouts();
+    };
+
     function updateLevelFilters() {
         const filterContainer = document.getElementById('level-filters-container');
         if (!filterContainer) return;
 
-        // Find levels that exist in current layouts for this category
-        const currentCategoryLayouts = layouts.filter(l => (l.category || 'home') === selectedCategory);
+        // Find levels that exist in current layouts for this category/district
+        const currentCategoryLayouts = layouts.filter(l => {
+            const matchesCat = (l.category || 'home') === selectedCategory;
+            let matchesDist = true;
+            if (selectedCategory === 'capital') {
+                matchesDist = selectedDistrict === 'all' || (l.district || 'capital_peak') === selectedDistrict;
+            }
+            return matchesCat && matchesDist;
+        });
+        
         const levels = Array.from(new Set(currentCategoryLayouts.map(l => parseInt(l.townHallLevel)))).sort((a, b) => b - a);
-
-        const levelPrefix = selectedCategory === 'builder' ? 'BH' : (selectedCategory === 'capital' ? 'CH' : 'TH');
+        const levelPrefix = selectedCategory === 'builder' 
+            ? 'BH' 
+            : (selectedCategory === 'capital' 
+                ? (selectedDistrict === 'capital_peak' ? 'CH' : (selectedDistrict === 'all' ? 'Lvl/CH' : 'Lvl')) 
+                : 'TH');
 
         let levelButtons = `
             <button onclick="window.__setLevelFilter('all')" data-lvl="all"
