@@ -112,11 +112,6 @@ function renderEditor(container) {
                             </div>
 
                             <div class="text-center relative z-10">
-                                <!-- Badge -->
-                                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-6 scale-90">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
-                                    <span class="text-xs text-gray-300">Clan Management System</span>
-                                </div>
 
                                 <!-- Dynamic Preview Title -->
                                 <h1 id="preview-title" class="text-3xl md:text-4xl font-bold mb-4 leading-tight" style="font-family: 'Lilita One', cursive;">

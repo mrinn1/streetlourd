@@ -11,7 +11,7 @@ import { PROMOTION_THRESHOLDS } from '../utils/constants.js';
 
 export async function renderDashboard() {
     const container = document.getElementById('page-content');
-    
+
     // Show skeleton loading
     container.innerHTML = `
         <div class="pt-24 pb-8 px-4">
@@ -90,21 +90,21 @@ export async function renderDashboard() {
                 <!-- Stat Cards Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 animate-on-scroll" data-stagger="true">
                     ${statCard({ icon: '👥', label: 'Total Members', value: formatNumber(totalMembers), color: 'blue' })}
-                    ${statCard({ 
-                        icon: '🎁', label: 'Top Donator', 
-                        value: topDonator?.name || '-', color: 'purple',
-                        subtitle: `${formatNumber(topDonator?.donations || 0)} donated`
-                    })}
-                    ${statCard({ 
-                        icon: '🏆', label: 'Top Player', 
-                        value: topPlayer?.name || '-', color: 'gold', glow: true,
-                        subtitle: `${formatNumber(topPlayer?.trophies || 0)} trophies`
-                    })}
-                    ${statCard({ 
-                        icon: '🔥', label: 'Most Active', 
-                        value: mostActive?.name || '-', color: 'red',
-                        subtitle: `${mostActive?.threeStarCount || 0} 3-star attacks`
-                    })}
+                    ${statCard({
+        icon: '🎁', label: 'Top Donator',
+        value: topDonator?.name || '-', color: 'purple',
+        subtitle: `${formatNumber(topDonator?.donations || 0)} donated`
+    })}
+                    ${statCard({
+        icon: '🏆', label: 'Top Player',
+        value: topPlayer?.name || '-', color: 'gold', glow: true,
+        subtitle: `${formatNumber(topPlayer?.trophies || 0)} trophies`
+    })}
+                    ${statCard({
+        icon: '🔥', label: 'Most Active',
+        value: mostActive?.name || '-', color: 'red',
+        subtitle: `${mostActive?.threeStarCount || 0} 3-star attacks`
+    })}
                 </div>
 
                 <!-- Recent Wars -->

@@ -19,7 +19,7 @@ const DEFAULT_GENERAL_RULES = [
 
 export async function renderClanRules() {
     const customRules = await getRules();
-    
+
     const rewards = customRules && customRules.rewards ? customRules.rewards : DEFAULT_REWARDS;
     const punishments = customRules && customRules.punishments ? customRules.punishments : DEFAULT_PUNISHMENTS;
     const generalRules = customRules && customRules.generalRules ? customRules.generalRules : DEFAULT_GENERAL_RULES;

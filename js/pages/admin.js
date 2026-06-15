@@ -171,7 +171,7 @@ export async function renderAdmin() {
                                 <div>
                                     <label class="block text-xs text-gray-400 mb-1.5">War Size</label>
                                     <select id="war-size" class="admin-select">
-                                        ${[5,10,15,20,25,30,40,50].map(s => `<option value="${s}">${s}v${s}</option>`).join('')}
+                                        ${[5, 10, 15, 20, 25, 30, 40, 50].map(s => `<option value="${s}">${s}v${s}</option>`).join('')}
                                     </select>
                                 </div>
                                 <div>
@@ -337,9 +337,9 @@ function updateMemberLists() {
     const leftContainer = document.getElementById('point-members-container');
     const rightContainer = document.getElementById('point-selected-container');
     const countSpan = document.getElementById('selected-count');
-    
+
     if (!leftContainer || !rightContainer) return;
-    
+
     const query = document.getElementById('point-member-search')?.value.toLowerCase() || '';
 
     // Left List: Unselected
@@ -362,7 +362,7 @@ function updateMemberLists() {
             </label>
         `;
     }).join('');
-    
+
     if (unselected.length === 0) {
         leftContainer.innerHTML = `<p class="text-center text-gray-500 text-xs py-8">Semua anggota terpilih</p>`;
     }
@@ -384,11 +384,11 @@ function updateMemberLists() {
             </label>
         `;
     }).join('');
-    
+
     if (selected.length === 0) {
         rightContainer.innerHTML = `<p class="text-center text-gray-500 text-xs py-8">Belum ada yang dipilih</p>`;
     }
-    
+
     if (countSpan) {
         countSpan.textContent = selected.length;
     }
@@ -440,7 +440,7 @@ function resetSelectedMembers() {
 function updateWarNoAttackList() {
     const container = document.getElementById('war-no-attack-container');
     if (!container) return;
-    
+
     const query = document.getElementById('war-no-attack-search')?.value.toLowerCase() || '';
 
     container.innerHTML = members.map(m => {
@@ -501,7 +501,7 @@ function fillPointPreset() {
 
 async function submitPoints(user) {
     const target = document.querySelector('input[name="point-target"]:checked')?.value || 'selected';
-    
+
     let targetTags = [];
     if (target === 'selected') {
         targetTags = Array.from(selectedMemberTags);
@@ -686,30 +686,30 @@ async function submitRole(user) {
 async function loadAdminPointLogs(user) {
     const logsContainer = document.getElementById('admin-point-logs');
     if (!logsContainer) return;
-    
+
     try {
         const logs = await getAllPointHistory();
         if (logs.length === 0) {
             logsContainer.innerHTML = `<p class="text-center text-gray-500 text-sm py-6">Belum ada riwayat perubahan poin.</p>`;
             return;
         }
-        
+
         logsContainer.innerHTML = logs.map(l => {
             const dateStr = formatDateTime(parseTimestamp(l.date));
             const isPositive = (l.amount || 0) >= 0;
             let badgeClass = '';
             let labelSuffix = ' Poin';
             if (l.category === 'side_point') {
-                badgeClass = isPositive 
+                badgeClass = isPositive
                     ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
                     : 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30';
                 labelSuffix = ' Side Point';
             } else {
-                badgeClass = isPositive 
-                    ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                badgeClass = isPositive
+                    ? 'bg-green-500/20 text-green-400 border border-green-500/30'
                     : 'bg-red-500/20 text-red-400 border border-red-500/30';
             }
-                
+
             return `
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-200">
                     <div class="flex-1 min-w-0">

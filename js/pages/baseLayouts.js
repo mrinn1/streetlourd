@@ -9,7 +9,7 @@ import { toast } from '../components/toast.js';
 
 export async function renderBaseLayouts() {
     const container = document.getElementById('page-content');
-    
+
     // Show skeleton loading
     container.innerHTML = `
         <div class="pt-24 pb-8 px-4">
@@ -233,7 +233,7 @@ export async function renderBaseLayouts() {
             const matchesSearch = item.title.toLowerCase().includes(query);
             const matchesCategory = (item.category || 'home') === selectedCategory;
             const matchesLevel = selectedLevel === 'all' || parseInt(item.townHallLevel) === parseInt(selectedLevel);
-            
+
             let matchesType = true;
             if (selectedCategory === 'home') {
                 matchesType = selectedType === 'all' || (item.type || 'war') === selectedType;
@@ -278,12 +278,12 @@ export async function renderBaseLayouts() {
                 18: 'from-red-500 to-rose-600'
             };
             const badgeBg = thColors[item.townHallLevel] || 'from-gray-600 to-gray-700';
-            
-            const typeLabels = { 
-                war: '⚔️ War Base', 
-                farming: '🚜 Farming Base', 
-                trophy: '🏆 Trophy Base', 
-                hybrid: '🧬 Hybrid Base', 
+
+            const typeLabels = {
+                war: '⚔️ War Base',
+                farming: '🚜 Farming Base',
+                trophy: '🏆 Trophy Base',
+                hybrid: '🧬 Hybrid Base',
                 defense: '🛡️ Defense Base',
                 anti_2: '🛡️ Anti 2 Stars Base',
                 anti_3: '🛡️ Anti 3 Stars Base',
@@ -293,7 +293,7 @@ export async function renderBaseLayouts() {
                 progress: '📈 Progress Base',
                 troll: '😜 Troll Base'
             };
-            
+
             const districtLabels = {
                 capital_peak: 'Puncak Ibu Kota',
                 barbarian_camp: 'Perkemahan Barbar',
@@ -371,7 +371,7 @@ export async function renderBaseLayouts() {
                 paginationContainer.innerHTML = '';
             } else {
                 let buttonsHtml = '';
-                
+
                 // Prev button
                 buttonsHtml += `
                     <button onclick="window.__setPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} 
@@ -405,11 +405,10 @@ export async function renderBaseLayouts() {
                     const isActive = i === currentPage;
                     buttonsHtml += `
                         <button onclick="window.__setPage(${i})" 
-                                class="w-9 h-9 rounded-xl text-xs font-bold transition-all ${
-                                    isActive 
-                                        ? 'bg-amber-500 text-black shadow-md shadow-amber-500/20' 
-                                        : 'border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
-                                }">
+                                class="w-9 h-9 rounded-xl text-xs font-bold transition-all ${isActive
+                            ? 'bg-amber-500 text-black shadow-md shadow-amber-500/20'
+                            : 'border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
+                        }">
                             ${i}
                         </button>
                     `;
@@ -591,12 +590,12 @@ export async function renderBaseLayouts() {
             }
             return matchesCat && matchesDist;
         });
-        
+
         const levels = Array.from(new Set(currentCategoryLayouts.map(l => parseInt(l.townHallLevel)))).sort((a, b) => b - a);
-        const levelPrefix = selectedCategory === 'builder' 
-            ? 'BH' 
-            : (selectedCategory === 'capital' 
-                ? (selectedDistrict === 'capital_peak' ? 'CH' : (selectedDistrict === 'all' ? 'Lvl/CH' : 'Lvl')) 
+        const levelPrefix = selectedCategory === 'builder'
+            ? 'BH'
+            : (selectedCategory === 'capital'
+                ? (selectedDistrict === 'capital_peak' ? 'CH' : (selectedDistrict === 'all' ? 'Lvl/CH' : 'Lvl'))
                 : 'TH');
 
         let levelButtons = `

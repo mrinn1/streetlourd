@@ -42,11 +42,7 @@ export async function renderLanding() {
             <!-- Hero Content -->
             <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
                 <div class="animate-on-scroll">
-                    <!-- Badge -->
-                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8">
-                        <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                        <span class="text-sm text-gray-300">Clan Management System</span>
-                    </div>
+
 
                     <!-- Title -->
                     <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight" 

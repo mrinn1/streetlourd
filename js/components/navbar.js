@@ -35,9 +35,9 @@ export function renderNavbar(currentHash = '#/', user = null, userRole = null) {
                             ${navLinks.map(link => `
                                 <a href="${link.hash}" 
                                    class="nav-link px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200
-                                          ${currentHash === link.hash 
-                                            ? 'text-amber-400 bg-amber-500/10' 
-                                            : 'text-gray-300 hover:text-white hover:bg-white/10'}">
+                                          ${currentHash === link.hash
+            ? 'text-amber-400 bg-amber-500/10'
+            : 'text-gray-300 hover:text-white hover:bg-white/10'}">
                                     <span class="mr-1.5">${link.icon}</span>${link.label}
                                 </a>
                             `).join('')}
@@ -52,9 +52,9 @@ export function renderNavbar(currentHash = '#/', user = null, userRole = null) {
                                         <p class="text-[10px] text-amber-400 uppercase">${userRole || 'member'}</p>
                                     </div>
                                     <button id="user-menu-btn" class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center text-white font-bold text-sm overflow-hidden border-2 border-white/20 hover:border-white/40 transition-colors">
-                                        ${user.photoURL 
-                                            ? `<img src="${user.photoURL}" alt="" class="w-full h-full object-cover">` 
-                                            : (user.displayName || 'U').charAt(0).toUpperCase()}
+                                        ${user.photoURL
+                ? `<img src="${user.photoURL}" alt="" class="w-full h-full object-cover">`
+                : (user.displayName || 'U').charAt(0).toUpperCase()}
                                     </button>
                                     <button id="logout-btn" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-gray-400 hover:text-white hover:bg-white/10 transition-all" title="Logout">
                                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
@@ -99,9 +99,9 @@ export function renderNavbar(currentHash = '#/', user = null, userRole = null) {
                             ${navLinks.map(link => `
                                 <a href="${link.hash}" 
                                    class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all
-                                          ${currentHash === link.hash 
-                                            ? 'text-amber-400 bg-amber-500/10' 
-                                            : 'text-gray-300 hover:text-white hover:bg-white/10'}">
+                                          ${currentHash === link.hash
+                        ? 'text-amber-400 bg-amber-500/10'
+                        : 'text-gray-300 hover:text-white hover:bg-white/10'}">
                                     <span class="text-lg">${link.icon}</span>${link.label}
                                 </a>
                             `).join('')}

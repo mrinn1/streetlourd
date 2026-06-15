@@ -7,30 +7,30 @@
  */
 export function statCard({ icon, label, value, color = 'blue', subtitle = '', glow = false }) {
     const gradients = {
-        gold:   'from-amber-500/20 to-yellow-600/10 border-amber-500/30',
+        gold: 'from-amber-500/20 to-yellow-600/10 border-amber-500/30',
         purple: 'from-purple-500/20 to-violet-600/10 border-purple-500/30',
-        blue:   'from-blue-500/20 to-cyan-600/10 border-blue-500/30',
-        green:  'from-green-500/20 to-emerald-600/10 border-green-500/30',
-        red:    'from-red-500/20 to-rose-600/10 border-red-500/30',
-        cyan:   'from-cyan-500/20 to-teal-600/10 border-cyan-500/30',
+        blue: 'from-blue-500/20 to-cyan-600/10 border-blue-500/30',
+        green: 'from-green-500/20 to-emerald-600/10 border-green-500/30',
+        red: 'from-red-500/20 to-rose-600/10 border-red-500/30',
+        cyan: 'from-cyan-500/20 to-teal-600/10 border-cyan-500/30',
     };
 
     const glowColors = {
-        gold:   'shadow-amber-500/20',
+        gold: 'shadow-amber-500/20',
         purple: 'shadow-purple-500/20',
-        blue:   'shadow-blue-500/20',
-        green:  'shadow-green-500/20',
-        red:    'shadow-red-500/20',
-        cyan:   'shadow-cyan-500/20',
+        blue: 'shadow-blue-500/20',
+        green: 'shadow-green-500/20',
+        red: 'shadow-red-500/20',
+        cyan: 'shadow-cyan-500/20',
     };
 
     const iconBgs = {
-        gold:   'from-amber-500 to-yellow-600',
+        gold: 'from-amber-500 to-yellow-600',
         purple: 'from-purple-500 to-violet-600',
-        blue:   'from-blue-500 to-cyan-600',
-        green:  'from-green-500 to-emerald-600',
-        red:    'from-red-500 to-rose-600',
-        cyan:   'from-cyan-500 to-teal-600',
+        blue: 'from-blue-500 to-cyan-600',
+        green: 'from-green-500 to-emerald-600',
+        red: 'from-red-500 to-rose-600',
+        cyan: 'from-cyan-500 to-teal-600',
     };
 
     return `
@@ -58,16 +58,16 @@ export function statCard({ icon, label, value, color = 'blue', subtitle = '', gl
  */
 export function memberCard({ name, tag, role, townHallLevel, trophies, donations, clanCapital, totalPoints, sidePoints, onClick }) {
     const roleColors = {
-        leader:   'from-amber-500 to-yellow-600',
+        leader: 'from-amber-500 to-yellow-600',
         coLeader: 'from-purple-500 to-violet-600',
-        admin:    'from-blue-500 to-cyan-600',
-        member:   'from-gray-500 to-gray-600',
+        admin: 'from-blue-500 to-cyan-600',
+        member: 'from-gray-500 to-gray-600',
     };
     const roleLabels = { leader: 'Leader', coLeader: 'Co-Leader', admin: 'Elder', member: 'Member' };
     const thColors = {
-        1:'#8B7355',2:'#CD853F',3:'#DAA520',4:'#B8860B',5:'#4169E1',6:'#FFD700',7:'#9370DB',
-        8:'#DC143C',9:'#4B0082',10:'#FF4500',11:'#00CED1',12:'#1E90FF',13:'#228B22',14:'#32CD32',
-        15:'#4169E1',16:'#8B008B',17:'#FFD700'
+        1: '#8B7355', 2: '#CD853F', 3: '#DAA520', 4: '#B8860B', 5: '#4169E1', 6: '#FFD700', 7: '#9370DB',
+        8: '#DC143C', 9: '#4B0082', 10: '#FF4500', 11: '#00CED1', 12: '#1E90FF', 13: '#228B22', 14: '#32CD32',
+        15: '#4169E1', 16: '#8B008B', 17: '#FFD700'
     };
     const thColor = thColors[townHallLevel] || '#6b7280';
 
@@ -118,7 +118,7 @@ export function memberCard({ name, tag, role, townHallLevel, trophies, donations
  */
 export function warCard({ date, opponent, warSize, result, clanStars, opponentStars, clanDestruction, opponentDestruction, noAttackMembers, onClick }) {
     const resultStyles = {
-        win:  { label: 'VICTORY', bg: 'from-green-500/20 to-emerald-600/10', border: 'border-green-500/30', badge: 'from-green-500 to-emerald-600' },
+        win: { label: 'VICTORY', bg: 'from-green-500/20 to-emerald-600/10', border: 'border-green-500/30', badge: 'from-green-500 to-emerald-600' },
         loss: { label: 'DEFEAT', bg: 'from-red-500/20 to-rose-600/10', border: 'border-red-500/30', badge: 'from-red-500 to-rose-600' },
         draw: { label: 'DRAW', bg: 'from-gray-500/20 to-gray-600/10', border: 'border-gray-500/30', badge: 'from-gray-500 to-gray-600' },
     };
