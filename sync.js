@@ -233,7 +233,11 @@ async function sync() {
             // Jika player sudah terdaftar di Firestore, pertahankan datanya
             if (docSnap.exists) {
                 const existing = docSnap.data();
-                totalPoints = existing.totalPoints !== undefined ? existing.totalPoints : totalPoints;
+                if (existing.role && existing.role !== mappedRole) {
+                    console.log(`   🔄 Perubahan jabatan terdeteksi untuk ${member.name} (${existing.role} -> ${mappedRole}). Menyesuaikan poin ke poin dasar jabatan baru: ${totalPoints}.`);
+                } else {
+                    totalPoints = existing.totalPoints !== undefined ? existing.totalPoints : totalPoints;
+                }
                 totalWars = existing.totalWars || 0;
                 totalStars = existing.totalStars || 0;
                 avgDestruction = existing.avgDestruction || 0;
