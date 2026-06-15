@@ -116,7 +116,7 @@ export function memberCard({ name, tag, role, townHallLevel, trophies, donations
 /**
  * War card for war history
  */
-export function warCard({ date, opponent, warSize, result, clanStars, opponentStars, clanDestruction, opponentDestruction, onClick }) {
+export function warCard({ date, opponent, warSize, result, clanStars, opponentStars, clanDestruction, opponentDestruction, noAttackMembers, onClick }) {
     const resultStyles = {
         win:  { label: 'VICTORY', bg: 'from-green-500/20 to-emerald-600/10', border: 'border-green-500/30', badge: 'from-green-500 to-emerald-600' },
         loss: { label: 'DEFEAT', bg: 'from-red-500/20 to-rose-600/10', border: 'border-red-500/30', badge: 'from-red-500 to-rose-600' },
@@ -150,6 +150,11 @@ export function warCard({ date, opponent, warSize, result, clanStars, opponentSt
                     <p class="text-xs text-gray-500">${(opponentDestruction || 0).toFixed(1)}%</p>
                 </div>
             </div>
+            ${(noAttackMembers && noAttackMembers.length > 0) ? `
+                <div class="mt-4 pt-3 border-t border-white/10 text-xs text-red-400">
+                    ⚠️ <strong>No Attack:</strong> ${noAttackMembers.map(m => m.name).join(', ')}
+                </div>
+            ` : ''}
         </div>
     `;
 }

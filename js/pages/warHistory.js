@@ -97,6 +97,7 @@ export async function renderWarHistory() {
                                             opponentStars: w.opponentStars,
                                             clanDestruction: w.clanDestruction,
                                             opponentDestruction: w.opponentDestruction,
+                                            noAttackMembers: w.noAttackMembers,
                                         })}
                                     </div>
                                 </div>

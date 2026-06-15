@@ -1,0 +1,1 @@
+node scratch/import_bulk_urls.js scratch/urls.txt

@@ -13,6 +13,7 @@ import { formatNumber, formatDateTime, parseTimestamp } from '../utils/helpers.j
 let members = [];
 let activeRules = null;
 let selectedMemberTags = new Set();
+let selectedWarNoAttackTags = new Set();
 
 export async function renderAdmin() {
     const container = document.getElementById('page-content');
@@ -35,6 +36,7 @@ export async function renderAdmin() {
     members = await getMembers();
     activeRules = await getRules();
     selectedMemberTags.clear();
+    selectedWarNoAttackTags.clear();
     const rewards = activeRules && activeRules.rewards ? activeRules.rewards : POINT_REWARDS;
     const user = getCurrentUser();
 
@@ -205,6 +207,14 @@ export async function renderAdmin() {
                                     <input type="number" id="war-enemy-dest" class="admin-input" placeholder="0" step="0.1">
                                 </div>
                             </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1.5 font-medium">Anggota Tidak Attack (No Attack)</label>
+                                <input type="text" id="war-no-attack-search" oninput="window.__filterWarNoAttackMembers()" 
+                                       class="admin-input text-xs py-2 px-3 mb-2" placeholder="Cari nama anggota atau tag...">
+                                <div id="war-no-attack-container" class="max-h-[150px] overflow-y-auto border border-white/5 rounded-xl bg-white/[0.02] p-2 space-y-1">
+                                    <!-- Rendered dynamically -->
+                                </div>
+                            </div>
                             <button onclick="window.__submitWar()" class="w-full py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-400 hover:to-rose-500 transition-all shadow-lg shadow-red-500/20">
                                 Save War
                             </button>
@@ -308,11 +318,14 @@ export async function renderAdmin() {
     window.__selectAllPointMembers = selectAllPointMembers;
     window.__toggleMemberSelection = toggleMemberSelection;
     window.__resetSelectedMembers = resetSelectedMembers;
+    window.__filterWarNoAttackMembers = filterWarNoAttackMembers;
+    window.__toggleWarNoAttackMember = toggleWarNoAttackMember;
 
     // Initial load of logs & member lists
     setTimeout(() => {
         loadAdminPointLogs(user);
         updateMemberLists();
+        updateWarNoAttackList();
     }, 100);
 }
 
@@ -424,6 +437,40 @@ function resetSelectedMembers() {
     updateMemberLists();
 }
 
+function updateWarNoAttackList() {
+    const container = document.getElementById('war-no-attack-container');
+    if (!container) return;
+    
+    const query = document.getElementById('war-no-attack-search')?.value.toLowerCase() || '';
+
+    container.innerHTML = members.map(m => {
+        const matches = m.name.toLowerCase().includes(query) || m.tag.toLowerCase().includes(query);
+        const displayStyle = matches ? 'flex' : 'none';
+        const isChecked = selectedWarNoAttackTags.has(m.tag) ? 'checked' : '';
+        return `
+            <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors" style="display: ${displayStyle};">
+                <input type="checkbox" value="${m.tag}" ${isChecked} onchange="window.__toggleWarNoAttackMember('${m.tag}')" class="w-4 h-4 rounded border-white/10 bg-white/5 text-red-500 focus:ring-red-500/50">
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs text-white font-medium truncate">${m.name}</p>
+                    <p class="text-[10px] text-gray-500">${m.tag}</p>
+                </div>
+            </label>
+        `;
+    }).join('');
+}
+
+function filterWarNoAttackMembers() {
+    updateWarNoAttackList();
+}
+
+function toggleWarNoAttackMember(tag) {
+    if (selectedWarNoAttackTags.has(tag)) {
+        selectedWarNoAttackTags.delete(tag);
+    } else {
+        selectedWarNoAttackTags.add(tag);
+    }
+}
+
 function updatePointPresets() {
     const type = document.getElementById('point-type')?.value;
     const presetContainer = document.getElementById('point-preset-container');
@@ -533,6 +580,11 @@ async function submitWar(user) {
         return;
     }
 
+    const noAttackMembers = Array.from(selectedWarNoAttackTags).map(tag => {
+        const member = members.find(m => m.tag === tag);
+        return member ? { tag: member.tag, name: member.name } : null;
+    }).filter(Boolean);
+
     try {
         await saveWar({
             date: new Date().toISOString(),
@@ -543,6 +595,7 @@ async function submitWar(user) {
             opponentStars,
             clanDestruction: clanDest,
             opponentDestruction: opponentDest,
+            noAttackMembers,
             addedBy: user?.displayName || 'Admin',
         });
         toast.success('Data war berhasil disimpan!');
@@ -551,6 +604,10 @@ async function submitWar(user) {
         document.getElementById('war-enemy-stars').value = '';
         document.getElementById('war-our-dest').value = '';
         document.getElementById('war-enemy-dest').value = '';
+        const searchInput = document.getElementById('war-no-attack-search');
+        if (searchInput) searchInput.value = '';
+        selectedWarNoAttackTags.clear();
+        updateWarNoAttackList();
     } catch (e) {
         toast.error('Gagal menyimpan data war.');
         console.error(e);
