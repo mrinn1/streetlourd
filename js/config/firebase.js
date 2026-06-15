@@ -4,7 +4,7 @@
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js';
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js';
+import { initializeFirestore } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js';
 import { getStorage } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-storage.js';
 
 // ===================================================
@@ -25,9 +25,11 @@ let app, auth, db, storage;
 try {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
-    db = getFirestore(app);
+    db = initializeFirestore(app, {
+        experimentalForceLongPolling: true
+    });
     storage = getStorage(app);
-    console.log('✅ Firebase initialized successfully');
+    console.log('✅ Firebase initialized successfully with long polling enabled');
 } catch (error) {
     console.warn('⚠️ Firebase initialization failed:', error.message);
     console.warn('Please configure your Firebase project in js/config/firebase.js');
