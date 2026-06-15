@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 * * * *' # Berjalan otomatis setiap jam
+    - cron: '*/5 * * * *' # Berjalan otomatis setiap 5 menit
   workflow_dispatch: # Memungkinkan tombol 'Run workflow' manual di tab Actions GitHub
 
 jobs:
