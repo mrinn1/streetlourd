@@ -358,7 +358,47 @@ function getDemoPointHistory() {
     }));
 }
 
+
+// ==================== CWL LINEUPS ====================
+
+export async function getCwlLineup(dayNum) {
+    if (!isFirebaseConfigured()) return getDemoCwlLineup(dayNum);
+    try {
+        const { doc, getDoc } = await getFirestore();
+        const snap = await getDoc(doc(db, 'settings', `cwl_day_${dayNum}`));
+        return snap.exists() ? snap.data() : { tags: [], updatedAt: null };
+    } catch (e) {
+        console.error(`getCwlLineup for day ${dayNum}:`, e);
+        return { tags: [], updatedAt: null };
+    }
+}
+
+export async function saveCwlLineup(dayNum, data) {
+    if (!isFirebaseConfigured()) return;
+    const { doc, setDoc, serverTimestamp } = await getFirestore();
+    await setDoc(doc(db, 'settings', `cwl_day_${dayNum}`), {
+        ...data,
+        updatedAt: serverTimestamp()
+    });
+}
+
+function getDemoCwlLineup(dayNum) {
+    const demoMembers = getDemoMembers();
+    const shuffled = [...demoMembers].sort((a, b) => b.trophies - a.trophies);
+    const offset = (dayNum - 1) % 5;
+    const tags = [];
+    for (let i = 0; i < 15; i++) {
+        const index = (i + offset) % shuffled.length;
+        tags.push(shuffled[index].tag);
+    }
+    return {
+        tags,
+        updatedAt: new Date(Date.now() - (8 - dayNum) * 3600000).toISOString()
+    };
+}
+
 // ==================== RULES & CONFIGURATION ====================
+
 
 export async function getRules() {
     if (!isFirebaseConfigured()) return null;

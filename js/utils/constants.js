@@ -72,6 +72,7 @@ export const NAV_LINKS = [
     { label: 'Members', hash: '#/members', icon: '👥' },
     { label: 'Leaderboard', hash: '#/leaderboard', icon: '🏆' },
     { label: 'War History', hash: '#/wars', icon: '⚔️' },
+    { label: 'CWL Lineup', hash: '#/cwl', icon: '🏆' },
     { label: 'Statistics', hash: '#/statistics', icon: '📊' },
     { label: 'Base Layouts', hash: '#/layouts', icon: '🗺️' },
     { label: 'Clan Rules', hash: '#/rules', icon: '📜' },

@@ -19,6 +19,8 @@ import { renderAdminSidePoints } from './pages/adminSidePoints.js';
 import { renderBaseLayouts } from './pages/baseLayouts.js';
 import { renderAdminLayouts } from './pages/adminLayouts.js';
 import { renderAdminNews } from './pages/adminNews.js';
+import { renderCwl } from './pages/cwl.js';
+import { renderAdminCwl } from './pages/adminCwl.js';
 import { initAuthListener, signInWithGoogle, signOut, getCurrentUser, getUserRole } from './services/auth.js';
 import { initScrollAnimations, initParallax, pageTransition } from './utils/animations.js';
 import { toast } from './components/toast.js';
@@ -44,6 +46,8 @@ const routes = {
     '/admin/sidepoints': { render: renderAdminSidePointsPage, title: 'Manage Side Points' },
     '/admin/layouts': { render: renderAdminLayoutsPage, title: 'Manage Base Layouts' },
     '/admin/news': { render: renderAdminNewsPage, title: 'Manage News' },
+    '/cwl':         { render: renderCwlPage, title: 'CWL Lineup' },
+    '/admin/cwl':   { render: renderAdminCwlPage, title: 'Manage CWL Lineup' },
     '/login':       { render: renderLoginPage, title: 'Login' },
 };
 
@@ -235,6 +239,16 @@ async function renderAdminLayoutsPage() {
 async function renderAdminNewsPage() {
     const pageContent = document.getElementById('page-content');
     await pageTransition(pageContent, () => renderAdminNews());
+}
+
+async function renderCwlPage() {
+    const pageContent = document.getElementById('page-content');
+    await pageTransition(pageContent, () => renderCwl());
+}
+
+async function renderAdminCwlPage() {
+    const pageContent = document.getElementById('page-content');
+    await pageTransition(pageContent, () => renderAdminCwl());
 }
 
 function renderLoginPage() {
